@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AB6C616-2C7A-4D0D-97F1-36B22E42B77A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoonyC</RootNamespace>
+    <AssemblyName>LoonyC</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compiler\Assembly\Assembler.cs" />
+    <Compile Include="Compiler\Assembly\AssemblerContext.cs" />
+    <Compile Include="Compiler\Assembly\ImmediateOperand.cs" />
+    <Compile Include="Compiler\Assembly\Instruction.cs" />
+    <Compile Include="Compiler\Assembly\LabelOperand.cs" />
+    <Compile Include="Compiler\Assembly\Operand.cs" />
+    <Compile Include="Compiler\Assembly\RegisterOperand.cs" />
+    <Compile Include="Compiler\CodeGenerator\ExpressionCompileVisitor.cs" />
+    <Compile Include="Compiler\CodeGenerator\Frame.cs" />
+    <Compile Include="Compiler\CodeGenerator\FrameResource.cs" />
+    <Compile Include="Compiler\CompilerError.cs" />
+    <Compile Include="Compiler\CompilerException.cs" />
+    <Compile Include="Compiler\ExpressionPrintVisitor.cs" />
+    <Compile Include="Compiler\Expressions\BinaryOperatorExpression.cs" />
+    <Compile Include="Compiler\Expressions\FuncExpression.cs" />
+    <Compile Include="Compiler\Expressions\IDeclarationExpression.cs" />
+    <Compile Include="Compiler\Expressions\NumberExpression.cs" />
+    <Compile Include="Compiler\Expressions\StructExpression.cs" />
+    <Compile Include="Compiler\ExpressionVisitor.cs" />
+    <Compile Include="Compiler\LoonyParser.cs" />
+    <Compile Include="Compiler\Parselets\BinaryOperatorParselet.cs" />
+    <Compile Include="Compiler\Parselets\GroupParselet.cs" />
+    <Compile Include="Compiler\Parselets\NumberParselet.cs" />
+    <Compile Include="Compiler\CodeGenerator\Scope.cs" />
+    <Compile Include="Compiler\Types\AnyType.cs" />
+    <Compile Include="Compiler\Types\ArrayType.cs" />
+    <Compile Include="Compiler\Types\PointerType.cs" />
+    <Compile Include="Compiler\Types\PrimitiveType.cs" />
+    <Compile Include="Compiler\Types\StructType.cs" />
+    <Compile Include="Compiler\Types\TypeBase.cs" />
+    <Compile Include="Compiler\Types\TypeModifier.cs" />
+    <Compile Include="CoreAnnotations.cs" />
+    <Compile Include="Compiler\Expressions\Expression.cs" />
+    <Compile Include="Compiler\Expressions\IBlockExpression.cs" />
+    <Compile Include="Compiler\Expressions\IStatementExpression.cs" />
+    <Compile Include="Compiler\Expressions\Statements\BlockExpression.cs" />
+    <Compile Include="IndentTextWriter.cs" />
+    <Compile Include="Compiler\Lexer.cs" />
+    <Compile Include="Compiler\Lexer.Static.cs" />
+    <Compile Include="Compiler\Parselets\IInfixParselet.cs" />
+    <Compile Include="Compiler\Parselets\IPrefixParselet.cs" />
+    <Compile Include="Compiler\Parselets\Statements\IStatementParselet.cs" />
+    <Compile Include="Compiler\Parser.cs" />
+    <Compile Include="Compiler\LoonyParser.Static.cs" />
+    <Compile Include="Compiler\Precedence.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Compiler\Token.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
