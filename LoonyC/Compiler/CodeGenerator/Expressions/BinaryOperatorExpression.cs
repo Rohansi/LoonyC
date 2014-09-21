@@ -17,7 +17,7 @@ namespace LoonyC.Compiler.Expressions
             Right = right;
         }
 
-        public override T Accept<T>(ExpressionVisitor<T> visitor)
+        public override T Accept<T>(IExpressionVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

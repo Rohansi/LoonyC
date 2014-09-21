@@ -3,7 +3,7 @@ using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
-    abstract class ExpressionVisitor<T>
+    abstract class ExpressionVisitor<T> : IExpressionVisitor<T>
     {
         public virtual T Visit(FuncExpression expression)
         {

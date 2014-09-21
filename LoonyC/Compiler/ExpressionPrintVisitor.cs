@@ -5,7 +5,7 @@ using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
-    class ExpressionPrintVisitor : ExpressionVisitor<object>
+    class ExpressionPrintVisitor : IExpressionVisitor<object>
     {
         private readonly IndentTextWriter _writer;
 
@@ -14,12 +14,12 @@ namespace LoonyC.Compiler
             _writer = new IndentTextWriter(writer);
         }
 
-        public override object Visit(FuncExpression expression)
+        public object Visit(FuncExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override object Visit(BinaryOperatorExpression expression)
+        public object Visit(BinaryOperatorExpression expression)
         {
             _writer.WriteIndent();
             _writer.WriteLine("Operator {0}", expression.Operation);
@@ -32,7 +32,7 @@ namespace LoonyC.Compiler
             return null;
         }
 
-        public override object Visit(BlockExpression expression)
+        public object Visit(BlockExpression expression)
         {
             foreach (var statement in expression.Statements)
             {
@@ -42,7 +42,7 @@ namespace LoonyC.Compiler
             return null;
         }
 
-        public override object Visit(NumberExpression expression)
+        public object Visit(NumberExpression expression)
         {
             _writer.WriteIndent();
             _writer.WriteLine("number: {0}", expression.Value);
@@ -50,7 +50,7 @@ namespace LoonyC.Compiler
             return null;
         }
 
-        public override object Visit(StructExpression expression)
+        public object Visit(StructExpression expression)
         {
             throw new NotImplementedException();
         }

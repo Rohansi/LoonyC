@@ -13,7 +13,7 @@
             Line = line;
         }
 
-        public abstract T Accept<T>(ExpressionVisitor<T> visitor);
+        public abstract T Accept<T>(IExpressionVisitor<T> visitor);
 
         public abstract Expression Simplify();
 

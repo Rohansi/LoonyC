@@ -152,6 +152,29 @@ namespace LoonyC.Compiler
                 return new AnyType();
             }
 
+            if (MatchAndTake(TokenType.Func))
+            {
+                var parameterTypes = new List<TypeBase>();
+                TypeBase returnType = null;
+
+                Take(TokenType.LeftParen);
+
+                if (!MatchAndTake(TokenType.RightParen))
+                {
+                    do
+                    {
+                        parameterTypes.Add(ParseType());
+                    } while (MatchAndTake(TokenType.Comma));
+
+                    Take(TokenType.RightParen);
+                }
+
+                if (MatchAndTake(TokenType.Colon))
+                    returnType = ParseType();
+
+                return new FuncType(parameterTypes, returnType);
+            }
+
             if (MatchAndTake(TokenType.Int))
                 return new PrimitiveType(Primitive.Int);
 

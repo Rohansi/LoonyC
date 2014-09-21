@@ -35,11 +35,7 @@ namespace LoonyC.Compiler.Types
             if (depth > 0 && other is AnyType)
                 return true;
 
-            var otherStruct = other as StructType;
-            if (otherStruct == null)
-                return false;
-
-            return Name == otherStruct.Name;
+            return Equals(other);
         }
 
         public override int CompareTo(TypeBase other)
@@ -50,11 +46,7 @@ namespace LoonyC.Compiler.Types
             if (other is AnyType)
                 return 1;
 
-            var otherStruct = other as StructType;
-            if (otherStruct == null)
-                return 0;
-
-            return Name == otherStruct.Name ? 10 : 0;
+            return Equals(other) ? 10 : 0;
         }
 
         public override string ToString()

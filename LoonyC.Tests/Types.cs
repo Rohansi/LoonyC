@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LoonyC.Compiler;
 using LoonyC.Compiler.Types;
 using NUnit.Framework;
@@ -34,6 +35,14 @@ namespace LoonyC.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => new ArrayType(new PrimitiveType(Primitive.Char), 0));
 
             Assert.Throws<ArgumentOutOfRangeException>(() => new ArrayType(new PrimitiveType(Primitive.Char), -1));
+        }
+
+        [Test]
+        public void ConstraintsFunc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new FuncType(null, null));
+
+            Assert.Throws<ArgumentNullException>(() => new FuncType(new List<TypeBase> { null }, null));
         }
 
         #endregion
@@ -130,6 +139,25 @@ namespace LoonyC.Tests
                            new PrimitiveType(Primitive.Char));
         }
 
+        [Test]
+        public void EqualityFunc()
+        {
+            AssertEqual(new FuncType(new List<TypeBase>(), null),
+                        new FuncType(new List<TypeBase>(), null));
+
+            AssertEqual(new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, null),
+                        new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, null));
+
+            AssertEqual(new FuncType(new List<TypeBase>(), new PrimitiveType(Primitive.Int)),
+                        new FuncType(new List<TypeBase>(), new PrimitiveType(Primitive.Int)));
+
+            AssertNotEqual(new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, null),
+                           new FuncType(new List<TypeBase>(), null));
+
+            AssertNotEqual(new FuncType(new List<TypeBase>(), new PrimitiveType(Primitive.Int)),
+                           new FuncType(new List<TypeBase>(), null));
+        }
+
         private static void AssertNotEqual(TypeBase typeA, TypeBase typeB, string message = null)
         {
             Assert.Throws<AssertionException>(() => AssertEqual(typeA, typeB), message);
@@ -196,6 +224,20 @@ namespace LoonyC.Tests
             Assert.Throws<CompilerException>(() => Parse("any"));
 
             Assert.Throws<CompilerException>(() => Parse("[10]any"));
+        }
+
+        [Test]
+        public void ParseFunc()
+        {
+            AssertParseEqual("func()", new FuncType(new List<TypeBase>(), null));
+
+            AssertParseEqual("func(int)", new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, null));
+
+            AssertParseEqual("func(int,int)", new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int), new PrimitiveType(Primitive.Int) }, null));
+
+            AssertParseEqual("func():int", new FuncType(new List<TypeBase>(), new PrimitiveType(Primitive.Int)));
+
+            AssertParseEqual("func(int):int", new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, new PrimitiveType(Primitive.Int)));
         }
 
         private static void AssertParseEqual(string typeStr, TypeBase type)
@@ -278,6 +320,23 @@ namespace LoonyC.Tests
             AssertNotAssignable("**char", "*any");
         }
 
+        [Test]
+        public void AssignableFunc()
+        {
+            AssertAssignable("func()", "func()");
+            AssertAssignable("func(int)", "func(int)");
+            AssertAssignable("func(int,int)", "func(int,int)");
+
+            AssertAssignable("func(int):int", "func(int):int");
+
+            AssertNotAssignable("func(short)", "func(int)");
+            AssertNotAssignable("func():short", "func():int");
+
+            AssertNotAssignable("func(int)", "func(int,int)");
+
+            AssertNotAssignable("func():int", "func()");
+        }
+
         private static void AssertNotAssignable(string typeA, string typeB)
         {
             Assert.Throws<AssertionException>(() => AssertAssignable(typeA, typeB));
@@ -321,6 +380,16 @@ namespace LoonyC.Tests
         public void SimilarityAny()
         {
             AssertBetterMatch("*any", "*int", "*any");
+        }
+
+        [Test]
+        public void SimilarityFunc()
+        {
+            AssertBetterMatch("func(int)", "func()", "func(int)");
+
+            AssertBetterMatch("func(int)", "func(int,int)", "func(int)");
+
+            AssertBetterMatch("func()", "func():int", "func()");
         }
 
         /// <summary>
@@ -368,6 +437,15 @@ namespace LoonyC.Tests
 
             AssertToString("*any");
             AssertToString("**any");
+
+            AssertToString("func()");
+            AssertToString("func():int");
+            AssertToString("func(int)");
+            AssertToString("func(int):int");
+            AssertToString("func(int,int)");
+            AssertToString("func(int,int):int");
+            AssertToString("func(*int,*int):*int");
+            AssertToString("func(*int,*int):*int");
         }
 
         private static void AssertToString(string type)
