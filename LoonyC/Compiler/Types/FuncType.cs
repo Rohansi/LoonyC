@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LoonyC.Compiler.Types
 {
-    internal class FuncType : TypeBase
+    class FuncType : TypeBase
     {
         public override int Size { get { return 4; } }
 

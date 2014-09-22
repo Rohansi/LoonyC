@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LoonyC.Compiler.Expressions
+namespace LoonyC.Compiler.CodeGenerator.Expressions
 {
     class BinaryOperatorExpression : Expression
     {
@@ -58,7 +58,7 @@ namespace LoonyC.Compiler.Expressions
             Left.SetParent(this);
             Right.SetParent(this);
         }
-        
+
         private static Dictionary<TokenType, TokenType> _assignMap;
         private static Dictionary<TokenType, Func<int, int, int>> _simplifyMap;
 
@@ -72,11 +72,11 @@ namespace LoonyC.Compiler.Expressions
                 { TokenType.DivideAssign, TokenType.Divide },
                 { TokenType.RemainderAssign, TokenType.Remainder },
 
-                { TokenType.AndAssign, TokenType.And },
-                { TokenType.OrAssign, TokenType.Or },
-                { TokenType.XorAssign, TokenType.Xor },
-                { TokenType.ShiftLeftAssign, TokenType.ShiftLeft },
-                { TokenType.ShiftRightAssign, TokenType.ShiftRight },
+                { TokenType.BitwiseAndAssign, TokenType.BitwiseAnd },
+                { TokenType.BitwiseOrAssign, TokenType.BitwiseOr },
+                { TokenType.BitwiseXorAssign, TokenType.BitwiseXor },
+                { TokenType.BitwiseShiftLeftAssign, TokenType.BitwiseShiftLeft },
+                { TokenType.BitwiseShiftRightAssign, TokenType.BitwiseShiftRight },
             };
 
             _simplifyMap = new Dictionary<TokenType, Func<int, int, int>>
@@ -87,11 +87,11 @@ namespace LoonyC.Compiler.Expressions
                 { TokenType.Divide, (x, y) => x / y },
                 { TokenType.Remainder, (x, y) => x % y },
 
-                { TokenType.And, (x, y) => x & y },
-                { TokenType.Or, (x, y) => x | y },
-                { TokenType.Xor, (x, y) => x ^ y },
-                { TokenType.ShiftLeft, (x, y) => x << y },
-                { TokenType.ShiftRight, (x, y) => x >> y },
+                { TokenType.BitwiseAnd, (x, y) => x & y },
+                { TokenType.BitwiseOr, (x, y) => x | y },
+                { TokenType.BitwiseXor, (x, y) => x ^ y },
+                { TokenType.BitwiseShiftLeft, (x, y) => x << y },
+                { TokenType.BitwiseShiftRight, (x, y) => x >> y },
             };
         }
     }

@@ -2,7 +2,7 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal abstract class TypeModifier : TypeBase
+    abstract class TypeModifier : TypeBase
     {
         public TypeBase InnerType { get; protected set; }
 

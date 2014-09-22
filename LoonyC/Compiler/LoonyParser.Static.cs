@@ -4,7 +4,7 @@ using LoonyC.Compiler.Parselets.Statements;
 
 namespace LoonyC.Compiler
 {
-    internal partial class LoonyParser
+    partial class LoonyParser
     {
         private static Dictionary<TokenType, IPrefixParselet> _prefixParselets;
         private static Dictionary<TokenType, IInfixParselet> _infixParselets;
@@ -27,11 +27,11 @@ namespace LoonyC.Compiler
             RegisterInfix(TokenType.Remainder, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
 
             // bitwise
-            RegisterInfix(TokenType.And, new BinaryOperatorParselet((int)Precedence.BitwiseAnd, false));
-            RegisterInfix(TokenType.Or, new BinaryOperatorParselet((int)Precedence.BitwiseOr, false));
-            RegisterInfix(TokenType.Xor, new BinaryOperatorParselet((int)Precedence.BitwiseXor, false));
-            RegisterInfix(TokenType.ShiftLeft, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
-            RegisterInfix(TokenType.ShiftRight, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
+            RegisterInfix(TokenType.BitwiseAnd, new BinaryOperatorParselet((int)Precedence.BitwiseAnd, false));
+            RegisterInfix(TokenType.BitwiseOr, new BinaryOperatorParselet((int)Precedence.BitwiseOr, false));
+            RegisterInfix(TokenType.BitwiseXor, new BinaryOperatorParselet((int)Precedence.BitwiseXor, false));
+            RegisterInfix(TokenType.BitwiseShiftLeft, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
+            RegisterInfix(TokenType.BitwiseShiftRight, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
 
             // other expression stuff
             RegisterPrefix(TokenType.LeftParen, new GroupParselet());

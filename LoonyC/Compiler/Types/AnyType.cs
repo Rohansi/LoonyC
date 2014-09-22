@@ -1,6 +1,6 @@
 ﻿namespace LoonyC.Compiler.Types
 {
-    internal class AnyType : TypeBase
+    class AnyType : TypeBase
     {
         public override int Size { get { return 1; } }
 

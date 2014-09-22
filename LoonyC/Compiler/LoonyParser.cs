@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LoonyC.Compiler.Expressions;
-using LoonyC.Compiler.Expressions.Statements;
+using LoonyC.Compiler.CodeGenerator.Expressions;
+using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
 using LoonyC.Compiler.Parselets;
 using LoonyC.Compiler.Parselets.Statements;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler
 {
-    internal partial class LoonyParser : Parser
+    partial class LoonyParser : Parser
     {
         public LoonyParser(IEnumerable<Token> tokens)
             : base(tokens)
@@ -185,7 +185,7 @@ namespace LoonyC.Compiler
                 return new PrimitiveType(Primitive.Char);
 
             var name = Take(TokenType.Identifier).Contents;
-            return new StructType(name);
+            return new NamedType(name);
         }
 
         private int GetPrecedence()

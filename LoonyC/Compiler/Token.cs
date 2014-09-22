@@ -17,9 +17,6 @@
         Short,
         Char,
 
-        Func,
-        Struct,
-        Static,
         Var,
         Return,
         If,
@@ -29,6 +26,13 @@
         Do,
         Break,
         Continue,
+
+        Const,
+        Static,
+        Func,
+        Struct,
+        Union,
+        Extern,
 
         Semicolon,
         Comma,
@@ -60,27 +64,28 @@
         Increment,
         Decrement,
 
-        And,
-        AndAssign,
-        Or,
-        OrAssign,
-        Xor,
-        XorAssign,
-        ShiftLeft,
-        ShiftLeftAssign,
-        ShiftRight,
-        ShiftRightAssign,
-        Not,
-
         EqualTo,
         NotEqualTo,
         GreaterThan,
         GreaterThanOrEqual,
         LessThan,
         LessThanOrEqual,
-        ConditionalAnd,
-        ConditionalOr,
-        ConditionalNot,
+
+        LogicalAnd,
+        LogicalOr,
+        LogicalNot,
+
+        BitwiseNot,
+        BitwiseAnd,
+        BitwiseAndAssign,
+        BitwiseOr,
+        BitwiseOrAssign,
+        BitwiseXor,
+        BitwiseXorAssign,
+        BitwiseShiftLeft,
+        BitwiseShiftLeftAssign,
+        BitwiseShiftRight,
+        BitwiseShiftRightAssign,
 
         Eof
     }

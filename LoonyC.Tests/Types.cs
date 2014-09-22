@@ -12,13 +12,13 @@ namespace LoonyC.Tests
         #region Constraints
 
         [Test]
-        public void ConstraintsStruct()
+        public void ConstraintsNamed()
         {
-            Assert.Throws<ArgumentNullException>(() => new StructType(null));
+            Assert.Throws<ArgumentNullException>(() => new NamedType(null));
 
-            Assert.Throws<ArgumentNullException>(() => new StructType(""));
+            Assert.Throws<ArgumentNullException>(() => new NamedType(""));
 
-            Assert.Throws<ArgumentNullException>(() => new StructType(" "));
+            Assert.Throws<ArgumentNullException>(() => new NamedType(" "));
         }
 
         [Test]
@@ -82,19 +82,19 @@ namespace LoonyC.Tests
         }
 
         [Test]
-        public void EqualityStruct()
+        public void EqualityNamed()
         {
-            AssertEqual(new StructType("Test"),
-                        new StructType("Test"));
+            AssertEqual(new NamedType("Test"),
+                        new NamedType("Test"));
 
-            AssertNotEqual(new StructType("Test"),
-                           new StructType("Test2"));
+            AssertNotEqual(new NamedType("Test"),
+                           new NamedType("Test2"));
 
-            AssertNotEqual(new StructType("Test"),
+            AssertNotEqual(new NamedType("Test"),
                            new PrimitiveType(Primitive.Char));
 
             AssertNotEqual(new PrimitiveType(Primitive.Char),
-                           new StructType("Test"));
+                           new NamedType("Test"));
         }
 
         [Test]
@@ -187,9 +187,9 @@ namespace LoonyC.Tests
         }
 
         [Test]
-        public void ParseStruct()
+        public void ParseNamed()
         {
-            AssertParseEqual("Test", new StructType("Test"));
+            AssertParseEqual("Test", new NamedType("Test"));
         }
 
         [Test]
@@ -266,7 +266,7 @@ namespace LoonyC.Tests
         }
 
         [Test]
-        public void AssignableStruct()
+        public void AssignableNamed()
         {
             AssertAssignable("Test", "Test");
             AssertNotAssignable("Test", "Test2");
@@ -358,7 +358,7 @@ namespace LoonyC.Tests
         }
 
         [Test]
-        public void SimilarityStruct()
+        public void SimilarityNamed()
         {
             AssertBetterMatch("Test", "Test2", "Test");
         }

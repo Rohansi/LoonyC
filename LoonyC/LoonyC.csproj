@@ -67,7 +67,7 @@
     <Compile Include="Compiler\Types\FuncType.cs" />
     <Compile Include="Compiler\Types\PointerType.cs" />
     <Compile Include="Compiler\Types\PrimitiveType.cs" />
-    <Compile Include="Compiler\Types\StructType.cs" />
+    <Compile Include="Compiler\Types\NamedType.cs" />
     <Compile Include="Compiler\Types\TypeBase.cs" />
     <Compile Include="Compiler\Types\TypeModifier.cs" />
     <Compile Include="CoreAnnotations.cs" />
@@ -75,6 +75,7 @@
     <Compile Include="Compiler\CodeGenerator\Expressions\IBlockExpression.cs" />
     <Compile Include="Compiler\CodeGenerator\Expressions\IStatementExpression.cs" />
     <Compile Include="Compiler\CodeGenerator\Expressions\Statements\BlockExpression.cs" />
+    <Compile Include="GenericComparer.cs" />
     <Compile Include="IndentTextWriter.cs" />
     <Compile Include="Compiler\Lexer.cs" />
     <Compile Include="Compiler\Lexer.Static.cs" />

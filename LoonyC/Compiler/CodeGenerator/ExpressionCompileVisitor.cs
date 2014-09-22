@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using LoonyC.Compiler.Assembly;
-using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.CodeGenerator.Expressions;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.CodeGenerator
@@ -63,11 +63,11 @@ namespace LoonyC.Compiler.CodeGenerator
             { TokenType.Divide, Opcode.Div },
             { TokenType.Remainder, Opcode.Rem },
 
-            { TokenType.And, Opcode.And },
-            { TokenType.Or, Opcode.Or },
-            { TokenType.Xor, Opcode.Xor },
-            { TokenType.ShiftLeft, Opcode.Shl },
-            { TokenType.ShiftRight, Opcode.Shr },
+            { TokenType.BitwiseAnd, Opcode.And },
+            { TokenType.BitwiseOr, Opcode.Or },
+            { TokenType.BitwiseXor, Opcode.Xor },
+            { TokenType.BitwiseShiftLeft, Opcode.Shl },
+            { TokenType.BitwiseShiftRight, Opcode.Shr },
         };
 
         private static HashSet<TokenType> _reverseBinOps = new HashSet<TokenType>

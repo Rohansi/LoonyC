@@ -2,7 +2,7 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal class ArrayType : TypeModifier
+    class ArrayType : TypeModifier
     {
         public override int Size { get { return Count * InnerType.Size; } }
         public readonly int Count;

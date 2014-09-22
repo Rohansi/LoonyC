@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LoonyC.Compiler.Expressions
+namespace LoonyC.Compiler.CodeGenerator.Expressions
 {
     class StructExpression : Expression, IDeclarationExpression
     {

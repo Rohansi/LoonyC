@@ -2,7 +2,7 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal class PointerType : TypeModifier
+    class PointerType : TypeModifier
     {
         public override int Size { get { return 4; } }
 

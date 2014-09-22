@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace LoonyC.Compiler
 {
-    internal partial class Lexer : IEnumerable<Token>
+    partial class Lexer : IEnumerable<Token>
     {
         private readonly IEnumerator<char> _source;
         private int _length;
@@ -88,9 +88,10 @@ namespace LoonyC.Compiler
                 var ch = PeekChar();
 
                 // operators
-                if (_punctuation.Contains(ch))
+                var opList = _operators.Lookup(ch);
+                if (opList != null)
                 {
-                    var op = _operators.FirstOrDefault(o => TakeIfNext(o.Item1));
+                    var op = opList.FirstOrDefault(o => TakeIfNext(o.Item1));
 
                     if (op != null)
                     {
@@ -188,14 +189,43 @@ namespace LoonyC.Compiler
                 // number
                 if (char.IsDigit(ch))
                 {
-                    // TODO: hex, binary, digit separator?
-                    var numberContents = TakeWhile(char.IsDigit);
+                    var format = NumberFormat.Decimal;
+
+                    if (ch == '0')
+                    {
+                        var nextChar = PeekChar(1);
+
+                        if (nextChar == 'x' || nextChar == 'X')
+                            format = NumberFormat.Hexadecimal;
+
+                        if (nextChar == 'b' || nextChar == 'B')
+                            format = NumberFormat.Binary;
+
+                        if (format != NumberFormat.Decimal)
+                        {
+                            TakeChar(); // '0'
+                            TakeChar(); // 'x' or 'b'
+                        }
+                    }
+
+                    Func<char, bool> isDigit = c => char.IsDigit(c) || (format == NumberFormat.Hexadecimal && _hexChars.Contains(c));
+
+                    var numberContents = TakeWhile(c =>
+                    {
+                        if (c == '_' && isDigit(PeekChar(1)))
+                        {
+                            TakeChar();
+                            return true;
+                        }
+
+                        return isDigit(c);
+                    });
 
                     int number;
-                    if (!int.TryParse(numberContents, NumberStyles.AllowDecimalPoint, null, out number))
-                        throw new CompilerException(_fileName, _currentLine, CompilerError.InvalidNumber);
+                    if (!TryParseNumber(numberContents, format, out number))
+                        throw new CompilerException(_fileName, _currentLine, CompilerError.InvalidNumber, format.ToString().ToLower(), numberContents);
 
-                    yield return new Token(_fileName, _currentLine, TokenType.Number, numberContents);
+                    yield return new Token(_fileName, _currentLine, TokenType.Number, number.ToString("G", CultureInfo.InvariantCulture));
                     continue;
                 }
 
@@ -328,6 +358,55 @@ namespace LoonyC.Compiler
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        enum NumberFormat
+        {
+            Decimal, Hexadecimal, Binary
+        }
+
+        private bool TryParseNumber(string value, NumberFormat format, out int result)
+        {
+            switch (format)
+            {
+                case NumberFormat.Decimal:
+                    if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result))
+                        return true;
+
+                    break;
+
+                case NumberFormat.Hexadecimal:
+                    if (TryParseBase(value, 16, out result))
+                        return true;
+
+                    break;
+
+                case NumberFormat.Binary:
+                    if (TryParseBase(value, 2, out result))
+                        return true;
+
+                    break;
+
+                default:
+                    throw new CompilerException(_fileName, _currentLine, "Unsupported NumberFormat");
+            }
+
+            result = 0;
+            return false;
+        }
+
+        private static bool TryParseBase(string value, int fromBase, out int result)
+        {
+            try
+            {
+                result = Convert.ToInt32(value, fromBase);
+                return true;
+            }
+            catch
+            {
+                result = 0;
+                return false;
+            }
         }
     }
 }

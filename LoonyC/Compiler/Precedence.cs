@@ -3,9 +3,9 @@
     enum Precedence
     {
         Assignment,
-        Conditional,
-        ConditionalOr,
-        ConditionalAnd,
+        Ternary,
+        LogicalOr,
+        LogicalAnd,
         BitwiseOr,
         BitwiseXor,
         BitwiseAnd,
@@ -14,7 +14,7 @@
         BitwiseShift,
         Additive,
         Multiplicative,
-        Unary,
-        Primary
+        Prefix,
+        Suffix
     }
 }

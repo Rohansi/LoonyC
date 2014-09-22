@@ -1,5 +1,5 @@
-﻿using LoonyC.Compiler.Expressions;
-using LoonyC.Compiler.Expressions.Statements;
+﻿using LoonyC.Compiler.CodeGenerator.Expressions;
+using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {

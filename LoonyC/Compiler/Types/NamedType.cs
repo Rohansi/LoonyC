@@ -2,12 +2,12 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal class StructType : TypeBase
+    class NamedType : TypeBase
     {
         public override int Size { get { throw new NotImplementedException(); } } // TODO
         public readonly string Name;
 
-        public StructType(string name)
+        public NamedType(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException("name");
@@ -20,11 +20,11 @@ namespace LoonyC.Compiler.Types
             if (!base.Equals(other))
                 return false;
 
-            var otherStruct = other as StructType;
-            if (otherStruct == null)
+            var otherNamed = other as NamedType;
+            if (otherNamed == null)
                 return false;
 
-            return Name == otherStruct.Name;
+            return Name == otherNamed.Name;
         }
 
         public override bool IsAssignableTo(TypeBase other, int depth = 0)

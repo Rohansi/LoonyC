@@ -2,12 +2,12 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal enum Primitive
+    enum Primitive
     {
         Char, Short, Int
     }
 
-    internal class PrimitiveType : TypeBase
+    class PrimitiveType : TypeBase
     {
         public override int Size
         {

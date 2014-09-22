@@ -2,7 +2,7 @@
 
 namespace LoonyC.Compiler.Types
 {
-    internal abstract class TypeBase : IEquatable<TypeBase>
+    abstract class TypeBase : IEquatable<TypeBase>
     {
         public abstract int Size { get; }
 

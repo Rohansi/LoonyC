@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace LoonyC.Compiler.Expressions.Statements
+namespace LoonyC.Compiler.CodeGenerator.Expressions.Statements
 {
     class BlockExpression : Expression, IBlockExpression, IStatementExpression
     {
