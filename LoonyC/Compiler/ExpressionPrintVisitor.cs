@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using LoonyC.Compiler.CodeGenerator.Expressions;
-using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
+using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {

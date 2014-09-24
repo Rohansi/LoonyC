@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using LoonyC.Compiler.Assembly;
-using LoonyC.Compiler.CodeGenerator.Expressions;
+using LoonyC.Compiler.Expressions;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.CodeGenerator

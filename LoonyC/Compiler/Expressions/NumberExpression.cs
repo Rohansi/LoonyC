@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace LoonyC.Compiler.CodeGenerator.Expressions
+﻿namespace LoonyC.Compiler.Expressions
 {
-    class StructExpression : Expression, IDeclarationExpression
+    class NumberExpression : Expression
     {
-        public StructExpression(Token token)
+        public int Value { get; private set; }
+
+        public NumberExpression(Token token, int value)
             : base(token.FileName, token.Line)
         {
-
+            Value = value;
         }
 
         public override T Accept<T>(IExpressionVisitor<T> visitor)
@@ -17,7 +17,7 @@ namespace LoonyC.Compiler.CodeGenerator.Expressions
 
         public override Expression Simplify()
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }

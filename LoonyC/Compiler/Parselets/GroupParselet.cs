@@ -1,4 +1,4 @@
-﻿using LoonyC.Compiler.CodeGenerator.Expressions;
+﻿using LoonyC.Compiler.Expressions;
 
 namespace LoonyC.Compiler.Parselets
 {

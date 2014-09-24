@@ -1,4 +1,4 @@
-﻿namespace LoonyC.Compiler.CodeGenerator.Expressions
+﻿namespace LoonyC.Compiler.Expressions
 {
     interface IBlockExpression
     {

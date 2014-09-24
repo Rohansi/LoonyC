@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LoonyC.Compiler.CodeGenerator.Expressions
+namespace LoonyC.Compiler.Expressions
 {
     class BinaryOperatorExpression : Expression
     {

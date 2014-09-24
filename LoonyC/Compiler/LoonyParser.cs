@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using LoonyC.Compiler.Parselets;
 using LoonyC.Compiler.Parselets.Statements;
 using LoonyC.Compiler.Types;
-using LoonyC.Compiler.CodeGenerator.Expressions;
-using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
+using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
