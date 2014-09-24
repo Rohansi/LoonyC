@@ -7,15 +7,12 @@ namespace LoonyC.Compiler.Types
         public override int Size { get { return Count * InnerType.Size; } }
         public readonly int Count;
 
-        public ArrayType(TypeBase innerType, int count)
+        public ArrayType(TypeBase innerType, int count, bool constant = false)
+            : base(innerType, constant)
         {
-            if (innerType == null)
-                throw new ArgumentNullException("innerType");
-
             if (count <= 0)
                 throw new ArgumentOutOfRangeException("count");
 
-            InnerType = innerType;
             Count = count;
         }
 
@@ -28,12 +25,12 @@ namespace LoonyC.Compiler.Types
             if (otherArray == null)
                 return false;
 
-            return Count == otherArray.Count;
+            return IsConstant == other.IsConstant && Count == otherArray.Count;
         }
 
-        public override bool IsAssignableTo(TypeBase other, int depth = 0)
+        public override bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (!base.IsAssignableTo(other, depth))
+            if (!base.IsAssignableTo(other, depth, checkConst))
                 return false;
 
             if (other is PointerType)
@@ -48,14 +45,11 @@ namespace LoonyC.Compiler.Types
 
         public override int CompareTo(TypeBase other)
         {
-            if (ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
                 return 0;
 
             var otherArray = other as ArrayType;
-            if (otherArray == null)
-                return 0;
-
-            if (Count < otherArray.Count)
+            if (otherArray == null || Count < otherArray.Count)
                 return 0;
 
             return (Count == otherArray.Count ? 10 : 5) + InnerType.CompareTo(otherArray.InnerType);

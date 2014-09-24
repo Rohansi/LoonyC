@@ -89,7 +89,7 @@ namespace LoonyC.Compiler
                 { "break", TokenType.Break },
                 { "continue", TokenType.Continue },
                 
-                { "const", TokenType.Static },
+                { "const", TokenType.Const },
                 { "static", TokenType.Static },
                 { "func", TokenType.Func },
                 { "struct", TokenType.Struct },

@@ -4,6 +4,13 @@ namespace LoonyC.Compiler.Types
 {
     abstract class TypeBase : IEquatable<TypeBase>
     {
+        public bool IsConstant { get; private set; }
+
+        protected TypeBase(bool constant)
+        {
+            IsConstant = constant;
+        }
+
         public abstract int Size { get; }
 
         public virtual bool Equals(TypeBase other)
@@ -17,9 +24,9 @@ namespace LoonyC.Compiler.Types
         /// <summary>
         /// Check if the type can be assigned to another type.
         /// </summary>
-        public virtual bool IsAssignableTo(TypeBase other, int depth = 0)
+        public virtual bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null) || (checkConst && !ConstAssignableTo(other)))
                 return false;
 
             return true;
@@ -64,6 +71,20 @@ namespace LoonyC.Compiler.Types
         public static bool operator !=(TypeBase a, TypeBase b)
         {
             return !(a == b);
+        }
+
+        /// <summary>
+        /// Checks if the const value of this type is compatible with another type.
+        /// </summary>
+        protected static bool ConstAssignableTo(TypeBase other)
+        {
+            // this -> other = 
+            //  0       0      1
+            //  0       1      0
+            //  1       0      1
+            //  1       1      0
+
+            return !other.IsConstant;
         }
     }
 }

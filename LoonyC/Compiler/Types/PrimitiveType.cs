@@ -29,7 +29,7 @@ namespace LoonyC.Compiler.Types
 
         public readonly Primitive Type;
 
-        public PrimitiveType(Primitive type)
+        public PrimitiveType(Primitive type, bool constant = false) : base(constant)
         {
             Type = type;
         }
@@ -43,12 +43,12 @@ namespace LoonyC.Compiler.Types
             if (otherPrim == null)
                 return false;
 
-            return Type == otherPrim.Type;
+            return IsConstant == other.IsConstant && Type == otherPrim.Type;
         }
 
-        public override bool IsAssignableTo(TypeBase other, int depth = 0)
+        public override bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (!base.IsAssignableTo(other, depth))
+            if (!base.IsAssignableTo(other, depth, checkConst))
                 return false;
 
             if (depth > 0 && other is AnyType)
@@ -63,7 +63,7 @@ namespace LoonyC.Compiler.Types
 
         public override int CompareTo(TypeBase other)
         {
-            if (ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
                 return 0;
 
             if (other is AnyType)

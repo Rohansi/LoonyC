@@ -45,6 +45,12 @@ namespace LoonyC.Tests
             Assert.Throws<ArgumentNullException>(() => new FuncType(new List<TypeBase> { null }, null));
         }
 
+        [Test]
+        public void ConstraintsAny()
+        {
+            Assert.Throws<ArgumentException>(() => new AnyType(true));
+        }
+
         #endregion
 
         #region Equality
@@ -158,6 +164,46 @@ namespace LoonyC.Tests
                            new FuncType(new List<TypeBase>(), null));
         }
 
+        [Test]
+        public void EqualityConst()
+        {
+            AssertEqual(new PrimitiveType(Primitive.Int, true),
+                        new PrimitiveType(Primitive.Int, true));
+
+            AssertNotEqual(new PrimitiveType(Primitive.Int, true),
+                           new PrimitiveType(Primitive.Int));
+
+            AssertEqual(new NamedType("Test", true),
+                        new NamedType("Test", true));
+
+            AssertNotEqual(new NamedType("Test", true),
+                           new NamedType("Test"));
+
+            AssertEqual(new PointerType(new PrimitiveType(Primitive.Int), true),
+                        new PointerType(new PrimitiveType(Primitive.Int), true));
+
+            AssertNotEqual(new PointerType(new PrimitiveType(Primitive.Int), true),
+                           new PointerType(new PrimitiveType(Primitive.Int)));
+
+            AssertEqual(new ArrayType(new PrimitiveType(Primitive.Int), 10, true),
+                        new ArrayType(new PrimitiveType(Primitive.Int), 10, true));
+
+            AssertNotEqual(new ArrayType(new PrimitiveType(Primitive.Int), 10, true),
+                           new ArrayType(new PrimitiveType(Primitive.Int), 10));
+
+            AssertEqual(new PointerType(new AnyType(), true),
+                        new PointerType(new AnyType(), true));
+
+            AssertNotEqual(new PointerType(new AnyType(), true),
+                           new PointerType(new AnyType()));
+
+            AssertEqual(new FuncType(new List<TypeBase>(), null, true),
+                        new FuncType(new List<TypeBase>(), null, true));
+
+            AssertNotEqual(new FuncType(new List<TypeBase>(), null, true),
+                           new FuncType(new List<TypeBase>(), null));
+        }
+
         private static void AssertNotEqual(TypeBase typeA, TypeBase typeB, string message = null)
         {
             Assert.Throws<AssertionException>(() => AssertEqual(typeA, typeB), message);
@@ -240,6 +286,18 @@ namespace LoonyC.Tests
             AssertParseEqual("func(int):int", new FuncType(new List<TypeBase> { new PrimitiveType(Primitive.Int) }, new PrimitiveType(Primitive.Int)));
         }
 
+        [Test]
+        public void ParseConst()
+        {
+            AssertParseEqual("const int", new PrimitiveType(Primitive.Int, true));
+            AssertParseEqual("const Test", new NamedType("Test", true));
+            AssertParseEqual("const *int", new PointerType(new PrimitiveType(Primitive.Int), true));
+            AssertParseEqual("const [10]int", new ArrayType(new PrimitiveType(Primitive.Int), 10, true));
+            AssertParseEqual("const *any", new PointerType(new AnyType(), true));
+
+            Assert.Throws<CompilerException>(() => AssertParseEqual("const const int", null));
+        }
+
         private static void AssertParseEqual(string typeStr, TypeBase type)
         {
             AssertEqual(Parse(typeStr), type, typeStr);
@@ -316,7 +374,7 @@ namespace LoonyC.Tests
             AssertAssignable("[10]char", "*any");
             AssertNotAssignable("*any", "[10]char");
 
-            AssertNotAssignable("*any", "**char");
+            AssertAssignable("*any", "**char");
             AssertNotAssignable("**char", "*any");
         }
 
@@ -335,6 +393,14 @@ namespace LoonyC.Tests
             AssertNotAssignable("func(int)", "func(int,int)");
 
             AssertNotAssignable("func():int", "func()");
+        }
+
+        [Test]
+        public void AssignableConst()
+        {
+            AssertAssignable("const int", "int");
+            AssertNotAssignable("int", "const int");
+            AssertNotAssignable("const int", "const int");
         }
 
         private static void AssertNotAssignable(string typeA, string typeB)
@@ -390,6 +456,28 @@ namespace LoonyC.Tests
             AssertBetterMatch("func(int)", "func(int,int)", "func(int)");
 
             AssertBetterMatch("func()", "func():int", "func()");
+        }
+
+        [Test]
+        public void SimilarityConst()
+        {
+            AssertBetterMatch("int", "const int", "int");
+            AssertBetterMatch("const int", "int", "const int");
+
+            AssertBetterMatch("Test", "const Test", "Test");
+            AssertBetterMatch("const Test", "Test", "const Test");
+
+            AssertBetterMatch("*int", "const *int", "*int");
+            AssertBetterMatch("const *int", "*int", "const *int");
+
+            AssertBetterMatch("[10]int", "const [10]int", "[10]int");
+            AssertBetterMatch("const [10]int", "[10]int", "const [10]int");
+
+            AssertBetterMatch("func()", "const func()", "func()");
+            AssertBetterMatch("const func()", "func()", "const func()");
+
+            AssertBetterMatch("*any", "const *any", "*any");
+            AssertBetterMatch("const *any", "*any", "const *any");
         }
 
         /// <summary>

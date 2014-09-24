@@ -1,17 +1,12 @@
-﻿using System;
-
-namespace LoonyC.Compiler.Types
+﻿namespace LoonyC.Compiler.Types
 {
     class PointerType : TypeModifier
     {
         public override int Size { get { return 4; } }
 
-        public PointerType(TypeBase innerType)
+        public PointerType(TypeBase innerType, bool constant = false) : base(innerType, constant)
         {
-            if (innerType == null)
-                throw new ArgumentNullException("innerType");
 
-            InnerType = innerType;
         }
 
         public override bool Equals(TypeBase other)
@@ -19,12 +14,12 @@ namespace LoonyC.Compiler.Types
             if (!base.Equals(other))
                 return false;
 
-            return other is PointerType;
+            return IsConstant == other.IsConstant && other is PointerType;
         }
 
-        public override bool IsAssignableTo(TypeBase other, int depth = 0)
+        public override bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (!base.IsAssignableTo(other, depth))
+            if (!base.IsAssignableTo(other, depth, checkConst))
                 return false;
 
             return other is PointerType;
@@ -32,7 +27,7 @@ namespace LoonyC.Compiler.Types
 
         public override int CompareTo(TypeBase other)
         {
-            if (ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
                 return 0;
 
             var otherPointer = other as PointerType;

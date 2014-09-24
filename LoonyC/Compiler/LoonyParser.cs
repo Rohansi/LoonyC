@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LoonyC.Compiler.CodeGenerator.Expressions;
-using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
 using LoonyC.Compiler.Parselets;
 using LoonyC.Compiler.Parselets.Statements;
 using LoonyC.Compiler.Types;
+using LoonyC.Compiler.CodeGenerator.Expressions;
+using LoonyC.Compiler.CodeGenerator.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
@@ -126,8 +126,10 @@ namespace LoonyC.Compiler
         /// </summary>
         public TypeBase ParseType(bool canUseAny = false)
         {
+            bool isConstant = MatchAndTake(TokenType.Const);
+
             if (MatchAndTake(TokenType.Multiply))
-                return new PointerType(ParseType(true));
+                return new PointerType(ParseType(true), isConstant);
 
             if (MatchAndTake(TokenType.LeftSquare))
             {
@@ -139,17 +141,17 @@ namespace LoonyC.Compiler
 
                 MatchAndTake(TokenType.RightSquare);
 
-                return new ArrayType(ParseType(), count);
+                return new ArrayType(ParseType(), count, isConstant);
             }
 
             if (Match(TokenType.Any))
             {
-                var token = Take(TokenType.Any);
+                var anyToken = Take(TokenType.Any);
 
                 if (!canUseAny)
-                    throw new CompilerException(token.FileName, token.Line, "'any' type must be a pointer"); // TODO
+                    throw new CompilerException(anyToken.FileName, anyToken.Line, "'any' type must be a pointer"); // TODO
 
-                return new AnyType();
+                return new AnyType(isConstant);
             }
 
             if (MatchAndTake(TokenType.Func))
@@ -172,20 +174,26 @@ namespace LoonyC.Compiler
                 if (MatchAndTake(TokenType.Colon))
                     returnType = ParseType();
 
-                return new FuncType(parameterTypes, returnType);
+                return new FuncType(parameterTypes, returnType, isConstant);
             }
 
             if (MatchAndTake(TokenType.Int))
-                return new PrimitiveType(Primitive.Int);
+                return new PrimitiveType(Primitive.Int, isConstant);
 
             if (MatchAndTake(TokenType.Short))
-                return new PrimitiveType(Primitive.Short);
+                return new PrimitiveType(Primitive.Short, isConstant);
 
             if (MatchAndTake(TokenType.Char))
-                return new PrimitiveType(Primitive.Char);
+                return new PrimitiveType(Primitive.Char, isConstant);
 
-            var name = Take(TokenType.Identifier).Contents;
-            return new NamedType(name);
+            if (Match(TokenType.Identifier))
+            {
+                var nameToken = Take(TokenType.Identifier);
+                return new NamedType(nameToken.Contents, isConstant);
+            }
+
+            var errToken = Take();
+            throw new CompilerException(errToken.FileName, errToken.Line, "expected type"); // TODO
         }
 
         private int GetPrecedence()

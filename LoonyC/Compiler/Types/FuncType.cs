@@ -13,7 +13,7 @@ namespace LoonyC.Compiler.Types
         public ReadOnlyCollection<TypeBase> ParameterTypes { get; private set; }
         public TypeBase ReturnType { get; private set; }
 
-        public FuncType(IList<TypeBase> parameterTypes, TypeBase returnType)
+        public FuncType(IList<TypeBase> parameterTypes, TypeBase returnType, bool constant = false) : base(constant)
         {
             if (parameterTypes == null)
                 throw new ArgumentNullException("parameterTypes");
@@ -34,12 +34,14 @@ namespace LoonyC.Compiler.Types
             if (otherFunc == null)
                 return false;
 
-            return ParameterTypes.SequenceEqual(otherFunc.ParameterTypes) && ReturnType == otherFunc.ReturnType;
+            return IsConstant == other.IsConstant &&
+                   ParameterTypes.SequenceEqual(otherFunc.ParameterTypes) &&
+                   ReturnType == otherFunc.ReturnType;
         }
 
-        public override bool IsAssignableTo(TypeBase other, int depth = 0)
+        public override bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (!base.IsAssignableTo(other, depth))
+            if (!base.IsAssignableTo(other, depth, checkConst))
                 return false;
 
             if (depth > 0 && other is AnyType)
@@ -50,7 +52,7 @@ namespace LoonyC.Compiler.Types
 
         public override int CompareTo(TypeBase other)
         {
-            if (ReferenceEquals(other, null))
+            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
                 return 0;
 
             if (other is AnyType)

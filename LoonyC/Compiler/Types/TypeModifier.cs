@@ -4,7 +4,15 @@ namespace LoonyC.Compiler.Types
 {
     abstract class TypeModifier : TypeBase
     {
-        public TypeBase InnerType { get; protected set; }
+        public TypeBase InnerType { get; private set; }
+
+        protected TypeModifier(TypeBase innerType, bool constant = false) : base(constant)
+        {
+            if (innerType == null)
+                throw new ArgumentNullException("innerType");
+
+            InnerType = innerType;
+        }
 
         public override bool Equals(TypeBase other)
         {
@@ -18,9 +26,9 @@ namespace LoonyC.Compiler.Types
             return InnerType.Equals(otherMod.InnerType);
         }
 
-        public override bool IsAssignableTo(TypeBase other, int depth = 0)
+        public override bool IsAssignableTo(TypeBase other, int depth = 0, bool checkConst = true)
         {
-            if (!base.IsAssignableTo(other, depth))
+            if (!base.IsAssignableTo(other, depth, checkConst))
                 return false;
 
             var otherMod = other as TypeModifier;
