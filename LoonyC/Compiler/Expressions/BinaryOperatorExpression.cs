@@ -10,7 +10,7 @@ namespace LoonyC.Compiler.Expressions
         public Expression Right { get; private set; }
 
         public BinaryOperatorExpression(Token token, Expression left, Expression right)
-            : base(token.FileName, token.Line)
+            : base(token)
         {
             Operation = token.Type;
             Left = left;
@@ -38,12 +38,12 @@ namespace LoonyC.Compiler.Expressions
                     try
                     {
                         var result = simplifyOp(leftNum.Value, rigthNum.Value);
-                        var token = new Token(FileName, Line, TokenType.Number, null);
+                        var token = new Token(Start, TokenType.Number, null);
                         return new NumberExpression(token, result);
                     }
                     catch (DivideByZeroException)
                     {
-                        throw new CompilerException(FileName, Line, CompilerError.DivisionByZero);
+                        throw new CompilerException(Start, CompilerError.DivisionByZero);
                     }
                 }
             }

@@ -1,16 +1,21 @@
-﻿namespace LoonyC.Compiler.Expressions
+﻿using System;
+
+namespace LoonyC.Compiler.Expressions
 {
     abstract class Expression
     {
-        public readonly string FileName;
-        public readonly int Line;
+        public readonly Token Start;
+        public readonly Token End;
 
         public Expression Parent { get; private set; }
 
-        protected Expression(string fileName, int line)
+        protected Expression(Token start, Token end = null)
         {
-            FileName = fileName;
-            Line = line;
+            if (start == null)
+                throw new ArgumentNullException("start");
+
+            Start = start;
+            End = end ?? start;
         }
 
         public abstract T Accept<T>(IExpressionVisitor<T> visitor);

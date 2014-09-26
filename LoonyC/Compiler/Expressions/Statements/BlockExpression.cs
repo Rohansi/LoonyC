@@ -8,16 +8,10 @@ namespace LoonyC.Compiler.Expressions.Statements
     {
         public ReadOnlyCollection<Expression> Statements { get; private set; }
 
-        public BlockExpression(Token token, IList<Expression> statements)
-            : base(token.FileName, token.Line)
+        public BlockExpression(Token start, Token end, IList<Expression> statements)
+            : base(start, end)
         {
             Statements = new ReadOnlyCollection<Expression>(statements);
-        }
-
-        public BlockExpression(IList<Expression> statements)
-            : this(new Token(null, -1, TokenType.Eof, null), statements)
-        {
-
         }
 
         public override T Accept<T>(IExpressionVisitor<T> visitor)

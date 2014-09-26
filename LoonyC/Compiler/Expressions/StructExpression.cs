@@ -4,8 +4,8 @@ namespace LoonyC.Compiler.Expressions
 {
     class StructExpression : Expression, IDeclarationExpression
     {
-        public StructExpression(Token token)
-            : base(token.FileName, token.Line)
+        public StructExpression(Token start, Token end)
+            : base(start, end)
         {
 
         }

@@ -4,8 +4,8 @@ namespace LoonyC.Compiler.Expressions
 {
     class FuncExpression : Expression, IDeclarationExpression
     {
-        public FuncExpression(Token token)
-            : base(token.FileName, token.Line)
+        public FuncExpression(Token start, Token end)
+            : base(start, end)
         {
 
         }

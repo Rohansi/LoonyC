@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace LoonyC.Compiler
 {
@@ -17,8 +18,10 @@ namespace LoonyC.Compiler
         private List<char> _read;
 
         private int _index;
-        private int _currentLine;
+        private int _line;
+        private int _column;
         private int _startLine;
+        private int _startColumn;
 
         public Lexer(IEnumerable<char> source, string fileName = null)
         {
@@ -36,7 +39,8 @@ namespace LoonyC.Compiler
             _read = new List<char>(16);
 
             _index = 0;
-            _currentLine = 1;
+            _line = 1;
+            _column = 1;
 
             while (_index < _length)
             {
@@ -48,7 +52,8 @@ namespace LoonyC.Compiler
                 if (_index >= _length)
                     break;
 
-                _startLine = _currentLine;
+                _startLine = _line;
+                _startColumn = _column;
 
                 var ch = PeekChar();
                 Token token;
@@ -58,14 +63,14 @@ namespace LoonyC.Compiler
                     !TryLexWord(ch, out token) &&
                     !TryLexNumber(ch, out token))
                 {
-                    throw new CompilerException(_fileName, _currentLine, CompilerError.UnexpectedCharacter, ch);
+                    throw Error(CompilerError.UnexpectedCharacter, ch);
                 }
 
                 yield return token;
             }
 
             while (true)
-                yield return new Token(_fileName, _currentLine, TokenType.Eof, null);
+                yield return Token(TokenType.Eof, null);
         }
 
         private bool TryLexOperator(char ch, out Token token)
@@ -77,7 +82,7 @@ namespace LoonyC.Compiler
 
                 if (op != null)
                 {
-                    token = new Token(_fileName, _currentLine, op.Item2, op.Item1);
+                    token = Token(op.Item2, op.Item1);
                     return true;
                 }
             }
@@ -98,7 +103,7 @@ namespace LoonyC.Compiler
                 while (true)
                 {
                     if (_index >= _length)
-                        throw new CompilerException(_fileName, _startLine, CompilerError.UnterminatedString);
+                        throw Error(CompilerError.UnterminatedString);
 
                     ch = TakeChar();
 
@@ -115,7 +120,7 @@ namespace LoonyC.Compiler
                     ch = TakeChar();
 
                     if (_index >= _length)
-                        throw new CompilerException(_fileName, _currentLine, CompilerError.UnexpectedEofString);
+                        throw Error(CompilerError.UnexpectedEofString);
 
                     switch (ch)
                     {
@@ -142,7 +147,7 @@ namespace LoonyC.Compiler
                         // TODO: more escape sequences
 
                         default:
-                            throw new CompilerException(_fileName, _currentLine, CompilerError.InvalidEscapeSequence, ch);
+                            throw Error(CompilerError.InvalidEscapeSequence, ch);
                     }
                 }
 
@@ -151,13 +156,13 @@ namespace LoonyC.Compiler
                 if (stringTerminator == '\'')
                 {
                     if (stringContents.Length != 1)
-                        throw new CompilerException(_fileName, _currentLine, CompilerError.CharLiteralLength);
+                        throw Error(CompilerError.CharLiteralLength);
 
-                    token = new Token(_fileName, _currentLine, TokenType.SingleString, stringContents);
+                    token = Token(TokenType.SingleString, stringContents);
                     return true;
                 }
 
-                token = new Token(_fileName, _currentLine, TokenType.String, stringContents);
+                token = Token(TokenType.String, stringContents);
                 return true;
             }
 
@@ -173,7 +178,7 @@ namespace LoonyC.Compiler
                 TokenType keywordType;
                 var isKeyword = _keywords.TryGetValue(wordContents, out keywordType);
 
-                token = new Token(_fileName, _currentLine, isKeyword ? keywordType : TokenType.Identifier, wordContents);
+                token = Token(isKeyword ? keywordType : TokenType.Identifier, wordContents);
                 return true;
             }
 
@@ -219,9 +224,9 @@ namespace LoonyC.Compiler
 
                 int number;
                 if (!TryParseNumber(numberContents, format, out number))
-                    throw new CompilerException(_fileName, _currentLine, CompilerError.InvalidNumber, format.ToString().ToLower(), numberContents);
+                    throw Error(CompilerError.InvalidNumber, format.ToString().ToLower(), numberContents);
 
-                token = new Token(_fileName, _currentLine, TokenType.Number, number.ToString("G", CultureInfo.InvariantCulture));
+                token = Token(TokenType.Number, number.ToString("G", CultureInfo.InvariantCulture));
                 return true;
             }
 
@@ -324,15 +329,21 @@ namespace LoonyC.Compiler
             var result = TakeCharImpl();
 
             if (result == '\n')
-                _currentLine++;
+            {
+                _line++;
+                _column = 0;
+            }
 
             if (result == '\r')
             {
                 if (PeekChar() == '\n')
                     TakeCharImpl();
 
-                _currentLine++;
+                _line++;
+                _column = 0;
             }
+
+            _column++;
 
             return result;
         }
@@ -413,7 +424,7 @@ namespace LoonyC.Compiler
                     break;
 
                 default:
-                    throw new CompilerException(_fileName, _currentLine, "Unsupported NumberFormat");
+                    throw Error("Unsupported NumberFormat");
             }
 
             result = 0;
@@ -432,6 +443,23 @@ namespace LoonyC.Compiler
                 result = 0;
                 return false;
             }
+        }
+
+        private Token Token(TokenType type, string contents)
+        {
+            return new Token(_fileName, _startLine, _startColumn, _line, _column - 1, type, contents);
+        }
+
+        [StringFormatMethod("format")]
+        private Exception Error(string format, params object[] args)
+        {
+            return new LexerException(_fileName, new SourcePosition(_line, _column), format, args);
+        }
+
+        [StringFormatMethod("format")]
+        private Exception ErrorStart(string format, params object[] args)
+        {
+            return new LexerException(_fileName, new SourcePosition(_startLine, _startColumn), format, args);
         }
     }
 }

@@ -5,7 +5,7 @@
         public int Value { get; private set; }
 
         public NumberExpression(Token token, int value)
-            : base(token.FileName, token.Line)
+            : base(token)
         {
             Value = value;
         }

@@ -15,6 +15,11 @@ namespace LoonyC.Compiler
         }
 
         /// <summary>
+        /// Returns the token that was most recently taken.
+        /// </summary>
+        public Token Previous { get; private set; }
+
+        /// <summary>
         /// Check if the next token matches the given type. If they match, take the token.
         /// </summary>
         public bool MatchAndTake(TokenType type)
@@ -42,7 +47,7 @@ namespace LoonyC.Compiler
             var token = Take();
 
             if (token.Type != type)
-                throw new CompilerException(token.FileName, token.Line, CompilerError.ExpectedButFound, type, token.Type);
+                throw new CompilerException(token, CompilerError.ExpectedButFound, type, token);
 
             return token;
         }
@@ -56,6 +61,9 @@ namespace LoonyC.Compiler
 
             var result = _read[0];
             _read.RemoveAt(0);
+
+            Previous = result;
+
             return result;
         }
 

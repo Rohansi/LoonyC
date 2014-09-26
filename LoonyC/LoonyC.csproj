@@ -62,6 +62,7 @@
     <Compile Include="Compiler\Parselets\GroupParselet.cs" />
     <Compile Include="Compiler\Parselets\NumberParselet.cs" />
     <Compile Include="Compiler\CodeGenerator\Scope.cs" />
+    <Compile Include="Compiler\SourcePosition.cs" />
     <Compile Include="Compiler\Types\AnyType.cs" />
     <Compile Include="Compiler\Types\ArrayType.cs" />
     <Compile Include="Compiler\Types\FuncType.cs" />

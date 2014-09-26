@@ -28,7 +28,7 @@ namespace LoonyC.Compiler
             _prefixParselets.TryGetValue(token.Type, out prefixParselet);
 
             if (prefixParselet == null)
-                throw new CompilerException(token.FileName, token.Line, CompilerError.ExpectedButFound, "Expression", token.Type);
+                throw new CompilerException(token, CompilerError.ExpectedButFound, "Expression", token);
 
             var left = prefixParselet.Parse(this, token);
 
@@ -87,23 +87,31 @@ namespace LoonyC.Compiler
         /// </summary>
         public BlockExpression ParseBlock(bool allowSingle = true)
         {
+            Token start;
+            Token end;
             var statements = new List<Expression>();
 
             if (allowSingle && !Match(TokenType.LeftBrace))
             {
+                start = Peek();
+
                 statements.Add(ParseStatement());
-                return new BlockExpression(statements);
+
+                end = Previous;
+
+                return new BlockExpression(start, end, statements);
             }
 
-            Take(TokenType.LeftBrace);
+            start = Take(TokenType.LeftBrace);
 
             while (!Match(TokenType.RightBrace))
             {
                 statements.Add(ParseStatement());
             }
 
-            Take(TokenType.RightBrace);
-            return new BlockExpression(statements);
+            end = Take(TokenType.RightBrace);
+
+            return new BlockExpression(start, end, statements);
         }
 
         /// <summary>
@@ -137,7 +145,7 @@ namespace LoonyC.Compiler
                 var count = int.Parse(countToken.Contents);
 
                 if (count <= 0)
-                    throw new CompilerException(countToken.FileName, countToken.Line, "array length must be above 0"); // TODO
+                    throw new CompilerException(countToken, "array length must be above 0"); // TODO
 
                 MatchAndTake(TokenType.RightSquare);
 
@@ -149,7 +157,7 @@ namespace LoonyC.Compiler
                 var anyToken = Take(TokenType.Any);
 
                 if (!canUseAny)
-                    throw new CompilerException(anyToken.FileName, anyToken.Line, "'any' type must be a pointer"); // TODO
+                    throw new CompilerException(anyToken, "'any' type must be a pointer"); // TODO
 
                 return new AnyType(isConstant);
             }
@@ -193,7 +201,7 @@ namespace LoonyC.Compiler
             }
 
             var errToken = Take();
-            throw new CompilerException(errToken.FileName, errToken.Line, "expected type"); // TODO
+            throw new CompilerException(errToken, "expected type"); // TODO
         }
 
         private int GetPrecedence()

@@ -8,6 +8,7 @@
         public const string CharLiteralLength = "Character literals must be one byte long";
         public const string InvalidNumber = "Invalid {0} number '{1}'";
         public const string UnexpectedCharacter = "Unexpected character '{0}'";
+
         public const string ExpectedButFound = "Expected {0} but found {1}";
 
         public const string DivisionByZero = "Division by zero";
