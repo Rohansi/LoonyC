@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.Expressions.Declarations;
 using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
-    class ExpressionPrintVisitor : IExpressionVisitor<object>
+    class ExpressionPrintVisitor : ExpressionVisitor<int>
     {
         private readonly IndentTextWriter _writer;
 
@@ -14,45 +15,84 @@ namespace LoonyC.Compiler
             _writer = new IndentTextWriter(writer);
         }
 
-        public object Visit(FuncExpression expression)
+        public override int Visit(FuncExpression expression)
+        {
+            _writer.Write("func ");
+            _writer.Write(expression.Name.Contents);
+            _writer.Write('(');
+
+            var sep = "";
+            foreach (var param in expression.Parameters)
+            {
+                _writer.Write(sep);
+                sep = ", ";
+
+                _writer.Write(param.Name.Contents);
+                _writer.Write(": ");
+                _writer.Write(param.Type);
+            }
+
+            _writer.Write(')');
+
+            if (expression.ReturnType != null)
+            {
+                _writer.Write(": ");
+                _writer.Write(expression.ReturnType);
+            }
+
+            _writer.WriteLine();
+
+            expression.Body.Accept(this);
+
+            return 0;
+        }
+
+        public override int Visit(StructExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public object Visit(BinaryOperatorExpression expression)
+        public override int Visit(BlockExpression expression)
         {
-            _writer.WriteIndent();
-            _writer.WriteLine("Operator {0}", expression.Operation);
-
+            _writer.WriteLine('{');
             _writer.Indent++;
-            expression.Left.Accept(this);
-            expression.Right.Accept(this);
-            _writer.Indent--;
 
-            return null;
-        }
-
-        public object Visit(BlockExpression expression)
-        {
             foreach (var statement in expression.Statements)
             {
                 statement.Accept(this);
+
+                if (!(statement is IStatementExpression))
+                    _writer.Write(';');
+
+                _writer.WriteLine();
             }
 
-            return null;
+            _writer.Indent--;
+            _writer.WriteLine('}');
+
+            return 0;
         }
 
-        public object Visit(NumberExpression expression)
+        public override int Visit(BinaryOperatorExpression expression)
         {
-            _writer.WriteIndent();
-            _writer.WriteLine("number: {0}", expression.Value);
+            _writer.Write('(');
+            expression.Left.Accept(this);
 
-            return null;
+            _writer.Write(' ');
+            _writer.Write(expression.Start.Contents);
+            _writer.Write(' ');
+
+            expression.Right.Accept(this);
+            _writer.Write(')');
+
+            return 0;
         }
 
-        public object Visit(StructExpression expression)
+        public override int Visit(NumberExpression expression)
         {
-            throw new NotImplementedException();
+            _writer.Write(expression.Value);
+
+            return 0;
         }
     }
 }

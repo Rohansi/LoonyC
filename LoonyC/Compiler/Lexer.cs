@@ -103,7 +103,7 @@ namespace LoonyC.Compiler
                 while (true)
                 {
                     if (_index >= _length)
-                        throw Error(CompilerError.UnterminatedString);
+                        throw ErrorStart(CompilerError.UnterminatedString);
 
                     ch = TakeChar();
 

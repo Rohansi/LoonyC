@@ -9,7 +9,7 @@ namespace LoonyC
     {
         static void Main(string[] args)
         {
-            const string source = "10 + (20 * 30 ^ 40 * 50)";
+            const string source = "func main() { 10 + (20 * 30 ^ 40 * 50); }";
 
             Console.WriteLine("-- Source --");
             Console.WriteLine(source);
@@ -18,11 +18,12 @@ namespace LoonyC
             var lexer = new Lexer(source);
             var parser = new LoonyParser(lexer);
 
-            var expr = parser.ParseExpession();//.Simplify();
+            var expr = parser.ParseAll();//.Simplify();
 
             Console.WriteLine("-- AST --");
             var printer = new ExpressionPrintVisitor(Console.Out);
             expr.Accept(printer);
+            Console.WriteLine();
             Console.WriteLine();
 
             Console.WriteLine("-- Assembly --");

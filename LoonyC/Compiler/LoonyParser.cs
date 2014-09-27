@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using LoonyC.Compiler.Expressions.Declarations;
 using LoonyC.Compiler.Parselets;
+using LoonyC.Compiler.Parselets.Declarations;
 using LoonyC.Compiler.Parselets.Statements;
 using LoonyC.Compiler.Types;
 using LoonyC.Compiler.Expressions;
@@ -117,16 +118,26 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Parses declarations until there are no more tokens available.
         /// </summary>
-        public ReadOnlyCollection<Expression> ParseAll()
+        public DocumentExpression ParseAll()
         {
-            var statements = new List<Expression>();
+            var start = Peek();
+
+            var declarations = new List<IDeclarationExpression>();
 
             while (!Match(TokenType.Eof))
             {
-                statements.Add(ParseStatement()); // TODO: parse declaration (struct, func, var)
+                var token = Take();
+
+                IDeclarationParselet declarationParselet;
+                if (!_declarationParselets.TryGetValue(token.Type, out declarationParselet))
+                    throw new CompilerException(token, "expected declaration"); // TODO
+
+                declarations.Add(declarationParselet.Parse(this, token));
             }
 
-            return statements.AsReadOnly();
+            var end = Previous;
+
+            return new DocumentExpression(start, end, declarations);
         }
 
         /// <summary>

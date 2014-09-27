@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace LoonyC.Compiler.Expressions
+namespace LoonyC.Compiler.Expressions.Declarations
 {
-    class FuncExpression : Expression, IDeclarationExpression
+    class StructExpression : Expression, IDeclarationExpression
     {
-        public FuncExpression(Token start, Token end)
+        public StructExpression(Token start, Token end)
             : base(start, end)
         {
 
@@ -18,11 +18,6 @@ namespace LoonyC.Compiler.Expressions
         public override Expression Simplify()
         {
             throw new NotImplementedException();
-        }
-
-        public override void SetParent(Expression parent)
-        {
-            base.SetParent(parent);
         }
     }
 }
