@@ -14,10 +14,5 @@ namespace LoonyC.Compiler.Expressions.Declarations
         {
             return visitor.Visit(this);
         }
-
-        public override Expression Simplify()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

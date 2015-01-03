@@ -20,8 +20,6 @@ namespace LoonyC.Compiler.Expressions
 
         public abstract T Accept<T>(IExpressionVisitor<T> visitor);
 
-        public abstract Expression Simplify();
-
         public virtual void SetParent(Expression parent)
         {
             Parent = parent;

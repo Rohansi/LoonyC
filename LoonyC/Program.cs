@@ -2,6 +2,8 @@
 using LoonyC.Compiler;
 using LoonyC.Compiler.Assembly;
 using LoonyC.Compiler.CodeGenerator;
+using LoonyC.Compiler.CodeGenerator.Transforms;
+using LoonyC.Compiler.Expressions;
 
 namespace LoonyC
 {
@@ -9,7 +11,14 @@ namespace LoonyC
     {
         static void Main(string[] args)
         {
-            const string source = "func main() { 10 + (20 * 30 ^ 40 * 50); }";
+            /*const string source = @"
+                func main(argc: int, argv: **char): int
+                {
+                    10 + (20 * 30 ^ 40 * 50);
+                }
+            ";*/
+
+            const string source = @"10 + (20 * 30 ^ 40 * 50);";
 
             Console.WriteLine("-- Source --");
             Console.WriteLine(source);
@@ -18,10 +27,18 @@ namespace LoonyC
             var lexer = new Lexer(source);
             var parser = new LoonyParser(lexer);
 
-            var expr = parser.ParseAll();//.Simplify();
+            var expr = parser.ParseExpession();
 
             Console.WriteLine("-- AST --");
             var printer = new ExpressionPrintVisitor(Console.Out);
+            expr.Accept(printer);
+            Console.WriteLine();
+            Console.WriteLine();
+
+            var simplify = new ExpressionSimplifyTransform();
+            expr = simplify.Visit((BinaryOperatorExpression)expr);
+
+            Console.WriteLine("-- Simplified AST --");
             expr.Accept(printer);
             Console.WriteLine();
             Console.WriteLine();

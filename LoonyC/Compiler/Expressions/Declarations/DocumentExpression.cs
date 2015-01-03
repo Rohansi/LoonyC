@@ -21,15 +21,5 @@ namespace LoonyC.Compiler.Expressions.Declarations
         {
             return visitor.Visit(this);
         }
-
-        public override Expression Simplify()
-        {
-            Declarations = Declarations
-                .Select(s => s.Simplify())
-                .ToList()
-                .AsReadOnly();
-
-            return this;
-        }
     }
 }

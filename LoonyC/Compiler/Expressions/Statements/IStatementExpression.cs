@@ -1,4 +1,4 @@
-﻿namespace LoonyC.Compiler.Expressions
+﻿namespace LoonyC.Compiler.Expressions.Statements
 {
     interface IStatementExpression
     {

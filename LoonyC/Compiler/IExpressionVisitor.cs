@@ -8,11 +8,11 @@ namespace LoonyC.Compiler
     {
         T Visit(DocumentExpression expression);
 
-        T Visit(BlockExpression expression);
-
         T Visit(StructExpression expression);
 
         T Visit(FuncExpression expression);
+
+        T Visit(BlockExpression expression);
 
         T Visit(BinaryOperatorExpression expression);
 

@@ -45,6 +45,8 @@
     <Compile Include="Compiler\Assembly\Operand.cs" />
     <Compile Include="Compiler\Assembly\RegisterOperand.cs" />
     <Compile Include="Compiler\CodeGenerator\ExpressionCompileVisitor.cs" />
+    <Compile Include="Compiler\CodeGenerator\Transforms\ExpressionSimplifyTransform.cs" />
+    <Compile Include="Compiler\CodeGenerator\Transforms\ExpressionTransformVisitor.cs" />
     <Compile Include="Compiler\CodeGenerator\Frame.cs" />
     <Compile Include="Compiler\CodeGenerator\FrameResource.cs" />
     <Compile Include="Compiler\CompilerError.cs" />
@@ -77,7 +79,7 @@
     <Compile Include="CoreAnnotations.cs" />
     <Compile Include="Compiler\Expressions\Expression.cs" />
     <Compile Include="Compiler\Expressions\Statements\IBlockExpression.cs" />
-    <Compile Include="Compiler\Expressions\IStatementExpression.cs" />
+    <Compile Include="Compiler\Expressions\Statements\IStatementExpression.cs" />
     <Compile Include="Compiler\Expressions\Statements\BlockExpression.cs" />
     <Compile Include="GenericComparer.cs" />
     <Compile Include="IndentTextWriter.cs" />

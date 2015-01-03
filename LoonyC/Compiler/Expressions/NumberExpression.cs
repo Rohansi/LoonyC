@@ -14,10 +14,5 @@
         {
             return visitor.Visit(this);
         }
-
-        public override Expression Simplify()
-        {
-            return this;
-        }
     }
 }

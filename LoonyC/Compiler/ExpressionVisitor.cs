@@ -16,16 +16,6 @@ namespace LoonyC.Compiler
             return default(T);
         }
 
-        public virtual T Visit(BlockExpression expression)
-        {
-            foreach (var e in expression.Statements)
-            {
-                e.Accept(this);
-            }
-
-            return default(T);
-        }
-
         public virtual T Visit(StructExpression expression)
         {
             return default(T);
@@ -33,7 +23,16 @@ namespace LoonyC.Compiler
 
         public virtual T Visit(FuncExpression expression)
         {
-            // TODO
+            return default(T);
+        }
+
+        public virtual T Visit(BlockExpression expression)
+        {
+            foreach (var e in expression.Statements)
+            {
+                e.Accept(this);
+            }
+
             return default(T);
         }
 
