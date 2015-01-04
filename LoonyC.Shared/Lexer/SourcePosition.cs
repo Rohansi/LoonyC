@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using JetBrains.Annotations;
 
-namespace LoonyC.Compiler
+namespace LoonyC.Shared.Lexer
 {
-    struct SourcePosition
+    public struct SourcePosition
     {
         public readonly int Line;
         public readonly int Column;

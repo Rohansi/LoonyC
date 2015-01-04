@@ -12,7 +12,7 @@ namespace LoonyC.Compiler
 {
     partial class LoonyParser : Parser
     {
-        public LoonyParser(IEnumerable<Token> tokens)
+        public LoonyParser(IEnumerable<LoonyToken> tokens)
             : base(tokens)
         {
 
@@ -66,7 +66,7 @@ namespace LoonyC.Compiler
                 result = ParseExpession();
 
                 if (takeTrailingSemicolon)
-                    Take(TokenType.Semicolon);
+                    Take(LoonyTokenType.Semicolon);
 
                 return result;
             }
@@ -77,7 +77,7 @@ namespace LoonyC.Compiler
             result = statementParselet.Parse(this, token, out hasTrailingSemicolon);
 
             if (takeTrailingSemicolon && hasTrailingSemicolon)
-                Take(TokenType.Semicolon);
+                Take(LoonyTokenType.Semicolon);
 
             return result;
         }
@@ -88,11 +88,11 @@ namespace LoonyC.Compiler
         /// </summary>
         public BlockExpression ParseBlock(bool allowSingle = true)
         {
-            Token start;
-            Token end;
+            LoonyToken start;
+            LoonyToken end;
             var statements = new List<Expression>();
 
-            if (allowSingle && !Match(TokenType.LeftBrace))
+            if (allowSingle && !Match(LoonyTokenType.LeftBrace))
             {
                 start = Peek();
 
@@ -103,14 +103,14 @@ namespace LoonyC.Compiler
                 return new BlockExpression(start, end, statements);
             }
 
-            start = Take(TokenType.LeftBrace);
+            start = Take(LoonyTokenType.LeftBrace);
 
-            while (!Match(TokenType.RightBrace))
+            while (!Match(LoonyTokenType.RightBrace))
             {
                 statements.Add(ParseStatement());
             }
 
-            end = Take(TokenType.RightBrace);
+            end = Take(LoonyTokenType.RightBrace);
 
             return new BlockExpression(start, end, statements);
         }
@@ -124,7 +124,7 @@ namespace LoonyC.Compiler
 
             var declarations = new List<IDeclarationExpression>();
 
-            while (!Match(TokenType.Eof))
+            while (!Match(LoonyTokenType.Eof))
             {
                 var token = Take();
 
@@ -145,27 +145,27 @@ namespace LoonyC.Compiler
         /// </summary>
         public TypeBase ParseType(bool canUseAny = false)
         {
-            bool isConstant = MatchAndTake(TokenType.Const);
+            bool isConstant = MatchAndTake(LoonyTokenType.Const);
 
-            if (MatchAndTake(TokenType.Multiply))
+            if (MatchAndTake(LoonyTokenType.Multiply))
                 return new PointerType(ParseType(true), isConstant);
 
-            if (MatchAndTake(TokenType.LeftSquare))
+            if (MatchAndTake(LoonyTokenType.LeftSquare))
             {
-                var countToken = Take(TokenType.Number);
+                var countToken = Take(LoonyTokenType.Number);
                 var count = int.Parse(countToken.Contents);
 
                 if (count <= 0)
                     throw new CompilerException(countToken, "array length must be above 0"); // TODO
 
-                MatchAndTake(TokenType.RightSquare);
+                MatchAndTake(LoonyTokenType.RightSquare);
 
                 return new ArrayType(ParseType(), count, isConstant);
             }
 
-            if (Match(TokenType.Any))
+            if (Match(LoonyTokenType.Any))
             {
-                var anyToken = Take(TokenType.Any);
+                var anyToken = Take(LoonyTokenType.Any);
 
                 if (!canUseAny)
                     throw new CompilerException(anyToken, "'any' type must be a pointer"); // TODO
@@ -173,41 +173,41 @@ namespace LoonyC.Compiler
                 return new AnyType(isConstant);
             }
 
-            if (MatchAndTake(TokenType.Func))
+            if (MatchAndTake(LoonyTokenType.Func))
             {
                 var parameterTypes = new List<TypeBase>();
                 TypeBase returnType = null;
 
-                Take(TokenType.LeftParen);
+                Take(LoonyTokenType.LeftParen);
 
-                if (!MatchAndTake(TokenType.RightParen))
+                if (!MatchAndTake(LoonyTokenType.RightParen))
                 {
                     do
                     {
                         parameterTypes.Add(ParseType());
-                    } while (MatchAndTake(TokenType.Comma));
+                    } while (MatchAndTake(LoonyTokenType.Comma));
 
-                    Take(TokenType.RightParen);
+                    Take(LoonyTokenType.RightParen);
                 }
 
-                if (MatchAndTake(TokenType.Colon))
+                if (MatchAndTake(LoonyTokenType.Colon))
                     returnType = ParseType();
 
                 return new FuncType(parameterTypes, returnType, isConstant);
             }
 
-            if (MatchAndTake(TokenType.Int))
+            if (MatchAndTake(LoonyTokenType.Int))
                 return new PrimitiveType(Primitive.Int, isConstant);
 
-            if (MatchAndTake(TokenType.Short))
+            if (MatchAndTake(LoonyTokenType.Short))
                 return new PrimitiveType(Primitive.Short, isConstant);
 
-            if (MatchAndTake(TokenType.Char))
+            if (MatchAndTake(LoonyTokenType.Char))
                 return new PrimitiveType(Primitive.Char, isConstant);
 
-            if (Match(TokenType.Identifier))
+            if (Match(LoonyTokenType.Identifier))
             {
-                var nameToken = Take(TokenType.Identifier);
+                var nameToken = Take(LoonyTokenType.Identifier);
                 return new NamedType(nameToken.Contents, isConstant);
             }
 

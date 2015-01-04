@@ -4,6 +4,6 @@ namespace LoonyC.Compiler.Parselets.Declarations
 {
     interface IDeclarationParselet
     {
-        IDeclarationExpression Parse(LoonyParser parser, Token token);
+        IDeclarationExpression Parse(LoonyParser parser, LoonyToken token);
     }
 }

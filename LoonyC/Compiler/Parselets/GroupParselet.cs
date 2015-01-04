@@ -4,10 +4,10 @@ namespace LoonyC.Compiler.Parselets
 {
     class GroupParselet : IPrefixParselet
     {
-        public Expression Parse(LoonyParser parser, Token token)
+        public Expression Parse(LoonyParser parser, LoonyToken token)
         {
             var expression = parser.ParseExpession();
-            parser.Take(TokenType.RightParen);
+            parser.Take(LoonyTokenType.RightParen);
             return expression;
         }
     }

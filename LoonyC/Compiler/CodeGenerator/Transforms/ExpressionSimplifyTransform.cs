@@ -8,20 +8,20 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
     {
         #region BinaryOperator
 
-        private static Dictionary<TokenType, Func<int, int, int>> _simplifyMap =
-            new Dictionary<TokenType, Func<int, int, int>>
+        private static Dictionary<LoonyTokenType, Func<int, int, int>> _simplifyMap =
+            new Dictionary<LoonyTokenType, Func<int, int, int>>
             {
-                { TokenType.Add, (x, y) => x + y },
-                { TokenType.Subtract, (x, y) => x - y },
-                { TokenType.Multiply, (x, y) => x * y },
-                { TokenType.Divide, (x, y) => x / y },
-                { TokenType.Remainder, (x, y) => x % y },
+                { LoonyTokenType.Add, (x, y) => x + y },
+                { LoonyTokenType.Subtract, (x, y) => x - y },
+                { LoonyTokenType.Multiply, (x, y) => x * y },
+                { LoonyTokenType.Divide, (x, y) => x / y },
+                { LoonyTokenType.Remainder, (x, y) => x % y },
 
-                { TokenType.BitwiseAnd, (x, y) => x & y },
-                { TokenType.BitwiseOr, (x, y) => x | y },
-                { TokenType.BitwiseXor, (x, y) => x ^ y },
-                { TokenType.BitwiseShiftLeft, (x, y) => x << y },
-                { TokenType.BitwiseShiftRight, (x, y) => x >> y },
+                { LoonyTokenType.BitwiseAnd, (x, y) => x & y },
+                { LoonyTokenType.BitwiseOr, (x, y) => x | y },
+                { LoonyTokenType.BitwiseXor, (x, y) => x ^ y },
+                { LoonyTokenType.BitwiseShiftLeft, (x, y) => x << y },
+                { LoonyTokenType.BitwiseShiftRight, (x, y) => x >> y },
             };
 
 
@@ -45,7 +45,7 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
                 try
                 {
                     var result = simplifyOp(leftNum.Value, rightNum.Value);
-                    var token = new Token(expression.Start, TokenType.Number, null);
+                    var token = new LoonyToken(expression.Start, LoonyTokenType.Number, null);
                     return new NumberExpression(token, result);
                 }
                 catch (DivideByZeroException)
@@ -55,7 +55,7 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
             }
 
             // 0 * e || e * 0
-            if (expression.Operation == TokenType.Multiply)
+            if (expression.Operation == LoonyTokenType.Multiply)
             {
                 if ((leftNum != null && leftNum.Value == 0) ||
                     (rightNum != null && rightNum.Value == 0))
@@ -65,7 +65,7 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
             }
 
             // 0 + e || e + 0
-            if (expression.Operation == TokenType.Add)
+            if (expression.Operation == LoonyTokenType.Add)
             {
                 if (leftNum != null && leftNum.Value == 0)
                     return right;

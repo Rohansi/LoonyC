@@ -4,6 +4,6 @@ namespace LoonyC.Compiler.Parselets.Statements
 {
     interface IStatementParselet
     {
-        Expression Parse(LoonyParser parser, Token token, out bool trailingSemicolon);
+        Expression Parse(LoonyParser parser, LoonyToken token, out bool trailingSemicolon);
     }
 }

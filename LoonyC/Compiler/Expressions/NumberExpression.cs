@@ -4,7 +4,7 @@
     {
         public int Value { get; private set; }
 
-        public NumberExpression(Token token, int value)
+        public NumberExpression(LoonyToken token, int value)
             : base(token)
         {
             Value = value;

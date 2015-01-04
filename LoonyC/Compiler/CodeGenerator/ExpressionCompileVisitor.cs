@@ -55,24 +55,24 @@ namespace LoonyC.Compiler.CodeGenerator
             return leftRes;
         }
 
-        private static Dictionary<TokenType, Opcode> _binOps = new Dictionary<TokenType, Opcode>
+        private static Dictionary<LoonyTokenType, Opcode> _binOps = new Dictionary<LoonyTokenType, Opcode>
         {
-            { TokenType.Add, Opcode.Add },
-            { TokenType.Subtract, Opcode.Sub },
-            { TokenType.Multiply, Opcode.Mul },
-            { TokenType.Divide, Opcode.Div },
-            { TokenType.Remainder, Opcode.Rem },
+            { LoonyTokenType.Add, Opcode.Add },
+            { LoonyTokenType.Subtract, Opcode.Sub },
+            { LoonyTokenType.Multiply, Opcode.Mul },
+            { LoonyTokenType.Divide, Opcode.Div },
+            { LoonyTokenType.Remainder, Opcode.Rem },
 
-            { TokenType.BitwiseAnd, Opcode.And },
-            { TokenType.BitwiseOr, Opcode.Or },
-            { TokenType.BitwiseXor, Opcode.Xor },
-            { TokenType.BitwiseShiftLeft, Opcode.Shl },
-            { TokenType.BitwiseShiftRight, Opcode.Shr },
+            { LoonyTokenType.BitwiseAnd, Opcode.And },
+            { LoonyTokenType.BitwiseOr, Opcode.Or },
+            { LoonyTokenType.BitwiseXor, Opcode.Xor },
+            { LoonyTokenType.BitwiseShiftLeft, Opcode.Shl },
+            { LoonyTokenType.BitwiseShiftRight, Opcode.Shr },
         };
 
-        private static HashSet<TokenType> _reverseBinOps = new HashSet<TokenType>
+        private static HashSet<LoonyTokenType> _reverseBinOps = new HashSet<LoonyTokenType>
         {
-            TokenType.Add, TokenType.Multiply
+            LoonyTokenType.Add, LoonyTokenType.Multiply
         }; 
     }
 }

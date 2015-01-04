@@ -4,12 +4,12 @@ namespace LoonyC.Compiler.Expressions
 {
     abstract class Expression
     {
-        public readonly Token Start;
-        public readonly Token End;
+        public readonly LoonyToken Start;
+        public readonly LoonyToken End;
 
         public Expression Parent { get; private set; }
 
-        protected Expression(Token start, Token end = null)
+        protected Expression(LoonyToken start, LoonyToken end = null)
         {
             if (start == null)
                 throw new ArgumentNullException("start");

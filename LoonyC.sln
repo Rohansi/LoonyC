@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoonyC", "LoonyC\LoonyC.csproj", "{2AB6C616-2C7A-4D0D-97F1-36B22E42B77A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoonyC.Tests", "LoonyC.Tests\LoonyC.Tests.csproj", "{D0B5B9B3-4454-42BC-8A13-9F8A15C88ED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoonyC.Assembler", "LoonyC.Assembler\LoonyC.Assembler.csproj", "{777916F2-D8AF-40F8-9C49-5EE06424413A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoonyC.Shared", "LoonyC.Shared\LoonyC.Shared.csproj", "{B66B5820-F22D-49EE-89AC-2032B3883DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D0B5B9B3-4454-42BC-8A13-9F8A15C88ED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B5B9B3-4454-42BC-8A13-9F8A15C88ED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B5B9B3-4454-42BC-8A13-9F8A15C88ED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777916F2-D8AF-40F8-9C49-5EE06424413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777916F2-D8AF-40F8-9C49-5EE06424413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777916F2-D8AF-40F8-9C49-5EE06424413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777916F2-D8AF-40F8-9C49-5EE06424413A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66B5820-F22D-49EE-89AC-2032B3883DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66B5820-F22D-49EE-89AC-2032B3883DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66B5820-F22D-49EE-89AC-2032B3883DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66B5820-F22D-49EE-89AC-2032B3883DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,57 +7,57 @@ namespace LoonyC.Compiler
 {
     partial class LoonyParser
     {
-        private static Dictionary<TokenType, IDeclarationParselet> _declarationParselets;
-        private static Dictionary<TokenType, IStatementParselet> _statementParselets;
-        private static Dictionary<TokenType, IPrefixParselet> _prefixParselets;
-        private static Dictionary<TokenType, IInfixParselet> _infixParselets;
+        private static Dictionary<LoonyTokenType, IDeclarationParselet> _declarationParselets;
+        private static Dictionary<LoonyTokenType, IStatementParselet> _statementParselets;
+        private static Dictionary<LoonyTokenType, IPrefixParselet> _prefixParselets;
+        private static Dictionary<LoonyTokenType, IInfixParselet> _infixParselets;
 
         static LoonyParser()
         {
-            _declarationParselets = new Dictionary<TokenType, IDeclarationParselet>();
-            _statementParselets = new Dictionary<TokenType, IStatementParselet>();
-            _prefixParselets = new Dictionary<TokenType, IPrefixParselet>();
-            _infixParselets = new Dictionary<TokenType, IInfixParselet>();
+            _declarationParselets = new Dictionary<LoonyTokenType, IDeclarationParselet>();
+            _statementParselets = new Dictionary<LoonyTokenType, IStatementParselet>();
+            _prefixParselets = new Dictionary<LoonyTokenType, IPrefixParselet>();
+            _infixParselets = new Dictionary<LoonyTokenType, IInfixParselet>();
 
-            RegisterDeclaration(TokenType.Func, new FuncParselet());
+            RegisterDeclaration(LoonyTokenType.Func, new FuncParselet());
 
             // leaves
-            RegisterPrefix(TokenType.Number, new NumberParselet());
+            RegisterPrefix(LoonyTokenType.Number, new NumberParselet());
 
             // math
-            RegisterInfix(TokenType.Add, new BinaryOperatorParselet((int)Precedence.Additive, false));
-            RegisterInfix(TokenType.Subtract, new BinaryOperatorParselet((int)Precedence.Additive, false));
-            RegisterInfix(TokenType.Multiply, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
-            RegisterInfix(TokenType.Divide, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
-            RegisterInfix(TokenType.Remainder, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
+            RegisterInfix(LoonyTokenType.Add, new BinaryOperatorParselet((int)Precedence.Additive, false));
+            RegisterInfix(LoonyTokenType.Subtract, new BinaryOperatorParselet((int)Precedence.Additive, false));
+            RegisterInfix(LoonyTokenType.Multiply, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
+            RegisterInfix(LoonyTokenType.Divide, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
+            RegisterInfix(LoonyTokenType.Remainder, new BinaryOperatorParselet((int)Precedence.Multiplicative, false));
 
             // bitwise
-            RegisterInfix(TokenType.BitwiseAnd, new BinaryOperatorParselet((int)Precedence.BitwiseAnd, false));
-            RegisterInfix(TokenType.BitwiseOr, new BinaryOperatorParselet((int)Precedence.BitwiseOr, false));
-            RegisterInfix(TokenType.BitwiseXor, new BinaryOperatorParselet((int)Precedence.BitwiseXor, false));
-            RegisterInfix(TokenType.BitwiseShiftLeft, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
-            RegisterInfix(TokenType.BitwiseShiftRight, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
+            RegisterInfix(LoonyTokenType.BitwiseAnd, new BinaryOperatorParselet((int)Precedence.BitwiseAnd, false));
+            RegisterInfix(LoonyTokenType.BitwiseOr, new BinaryOperatorParselet((int)Precedence.BitwiseOr, false));
+            RegisterInfix(LoonyTokenType.BitwiseXor, new BinaryOperatorParselet((int)Precedence.BitwiseXor, false));
+            RegisterInfix(LoonyTokenType.BitwiseShiftLeft, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
+            RegisterInfix(LoonyTokenType.BitwiseShiftRight, new BinaryOperatorParselet((int)Precedence.BitwiseShift, false));
 
             // other expression stuff
-            RegisterPrefix(TokenType.LeftParen, new GroupParselet());
+            RegisterPrefix(LoonyTokenType.LeftParen, new GroupParselet());
         }
 
-        static void RegisterDeclaration(TokenType type, IDeclarationParselet parselet)
+        static void RegisterDeclaration(LoonyTokenType type, IDeclarationParselet parselet)
         {
             _declarationParselets.Add(type, parselet);
         }
 
-        static void RegisterStatement(TokenType type, IStatementParselet parselet)
+        static void RegisterStatement(LoonyTokenType type, IStatementParselet parselet)
         {
             _statementParselets.Add(type, parselet);
         }
 
-        static void RegisterPrefix(TokenType type, IPrefixParselet parselet)
+        static void RegisterPrefix(LoonyTokenType type, IPrefixParselet parselet)
         {
             _prefixParselets.Add(type, parselet);
         }
 
-        static void RegisterInfix(TokenType type, IInfixParselet parselet)
+        static void RegisterInfix(LoonyTokenType type, IInfixParselet parselet)
         {
             _infixParselets.Add(type, parselet);
         }

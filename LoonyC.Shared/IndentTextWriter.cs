@@ -3,9 +3,9 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace LoonyC
+namespace LoonyC.Shared
 {
-    class IndentTextWriter : TextWriter
+    public class IndentTextWriter : TextWriter
     {
         private readonly TextWriter _writer;
         private readonly string _indentStr;

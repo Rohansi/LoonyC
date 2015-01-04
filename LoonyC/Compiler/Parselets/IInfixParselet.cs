@@ -6,6 +6,6 @@ namespace LoonyC.Compiler.Parselets
     {
         int Precedence { get; }
 
-        Expression Parse(LoonyParser parser, Expression left, Token token);
+        Expression Parse(LoonyParser parser, Expression left, LoonyToken token);
     }
 }

@@ -67,7 +67,6 @@
     <Compile Include="Compiler\Parselets\Declarations\IDeclarationParselet.cs" />
     <Compile Include="Compiler\Parselets\NumberParselet.cs" />
     <Compile Include="Compiler\CodeGenerator\Scope.cs" />
-    <Compile Include="Compiler\SourcePosition.cs" />
     <Compile Include="Compiler\Types\AnyType.cs" />
     <Compile Include="Compiler\Types\ArrayType.cs" />
     <Compile Include="Compiler\Types\FuncType.cs" />
@@ -76,15 +75,12 @@
     <Compile Include="Compiler\Types\NamedType.cs" />
     <Compile Include="Compiler\Types\TypeBase.cs" />
     <Compile Include="Compiler\Types\TypeModifier.cs" />
-    <Compile Include="CoreAnnotations.cs" />
     <Compile Include="Compiler\Expressions\Expression.cs" />
     <Compile Include="Compiler\Expressions\Statements\IBlockExpression.cs" />
     <Compile Include="Compiler\Expressions\Statements\IStatementExpression.cs" />
     <Compile Include="Compiler\Expressions\Statements\BlockExpression.cs" />
-    <Compile Include="GenericComparer.cs" />
-    <Compile Include="IndentTextWriter.cs" />
-    <Compile Include="Compiler\Lexer.cs" />
-    <Compile Include="Compiler\Lexer.Static.cs" />
+    <Compile Include="Compiler\LoonyLexer.cs" />
+    <Compile Include="Compiler\LoonyLexer.Static.cs" />
     <Compile Include="Compiler\Parselets\IInfixParselet.cs" />
     <Compile Include="Compiler\Parselets\IPrefixParselet.cs" />
     <Compile Include="Compiler\Parselets\Statements\IStatementParselet.cs" />
@@ -93,12 +89,14 @@
     <Compile Include="Compiler\Precedence.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Compiler\Token.cs" />
+    <Compile Include="Compiler\LoonyToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\LoonyC.Shared\LoonyC.Shared.csproj">
+      <Project>{b66b5820-f22d-49ee-89ac-2032b3883dbd}</Project>
+      <Name>LoonyC.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

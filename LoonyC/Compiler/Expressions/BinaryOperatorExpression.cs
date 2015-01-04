@@ -5,11 +5,11 @@ namespace LoonyC.Compiler.Expressions
 {
     class BinaryOperatorExpression : Expression
     {
-        public TokenType Operation { get; private set; }
+        public LoonyTokenType Operation { get; private set; }
         public Expression Left { get; private set; }
         public Expression Right { get; private set; }
 
-        public BinaryOperatorExpression(Token token, Expression left, Expression right)
+        public BinaryOperatorExpression(LoonyToken token, Expression left, Expression right)
             : base(token)
         {
             Operation = token.Type;
@@ -30,23 +30,23 @@ namespace LoonyC.Compiler.Expressions
             Right.SetParent(this);
         }
 
-        private static Dictionary<TokenType, TokenType> _assignMap;
+        private static Dictionary<LoonyTokenType, LoonyTokenType> _assignMap;
 
         static BinaryOperatorExpression()
         {
-            _assignMap = new Dictionary<TokenType, TokenType>
+            _assignMap = new Dictionary<LoonyTokenType, LoonyTokenType>
             {
-                { TokenType.AddAssign, TokenType.Add },
-                { TokenType.SubtractAssign, TokenType.Subtract },
-                { TokenType.MultiplyAssign, TokenType.Multiply },
-                { TokenType.DivideAssign, TokenType.Divide },
-                { TokenType.RemainderAssign, TokenType.Remainder },
+                { LoonyTokenType.AddAssign, LoonyTokenType.Add },
+                { LoonyTokenType.SubtractAssign, LoonyTokenType.Subtract },
+                { LoonyTokenType.MultiplyAssign, LoonyTokenType.Multiply },
+                { LoonyTokenType.DivideAssign, LoonyTokenType.Divide },
+                { LoonyTokenType.RemainderAssign, LoonyTokenType.Remainder },
 
-                { TokenType.BitwiseAndAssign, TokenType.BitwiseAnd },
-                { TokenType.BitwiseOrAssign, TokenType.BitwiseOr },
-                { TokenType.BitwiseXorAssign, TokenType.BitwiseXor },
-                { TokenType.BitwiseShiftLeftAssign, TokenType.BitwiseShiftLeft },
-                { TokenType.BitwiseShiftRightAssign, TokenType.BitwiseShiftRight },
+                { LoonyTokenType.BitwiseAndAssign, LoonyTokenType.BitwiseAnd },
+                { LoonyTokenType.BitwiseOrAssign, LoonyTokenType.BitwiseOr },
+                { LoonyTokenType.BitwiseXorAssign, LoonyTokenType.BitwiseXor },
+                { LoonyTokenType.BitwiseShiftLeftAssign, LoonyTokenType.BitwiseShiftLeft },
+                { LoonyTokenType.BitwiseShiftRightAssign, LoonyTokenType.BitwiseShiftRight },
             };
         }
     }

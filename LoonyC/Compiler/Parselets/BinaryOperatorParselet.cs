@@ -15,7 +15,7 @@ namespace LoonyC.Compiler.Parselets
             _isRight = isRight;
         }
 
-        public Expression Parse(LoonyParser parser, Expression left, Token token)
+        public Expression Parse(LoonyParser parser, Expression left, LoonyToken token)
         {
             var right = parser.ParseExpession(Precedence - (_isRight ? 1 : 0));
             return new BinaryOperatorExpression(token, left, right);

@@ -24,7 +24,7 @@ namespace LoonyC
             Console.WriteLine(source);
             Console.WriteLine();
 
-            var lexer = new Lexer(source);
+            var lexer = new LoonyLexer(source);
             var parser = new LoonyParser(lexer);
 
             var expr = parser.ParseExpession();

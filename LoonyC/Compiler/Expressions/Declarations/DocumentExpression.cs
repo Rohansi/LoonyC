@@ -8,7 +8,7 @@ namespace LoonyC.Compiler.Expressions.Declarations
     {
         public ReadOnlyCollection<Expression> Declarations { get; private set; }
 
-        public DocumentExpression(Token start, Token end, IEnumerable<IDeclarationExpression> declarations)
+        public DocumentExpression(LoonyToken start, LoonyToken end, IEnumerable<IDeclarationExpression> declarations)
             : base(start, end)
         {
             Declarations = declarations

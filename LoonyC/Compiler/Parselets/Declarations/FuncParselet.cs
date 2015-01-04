@@ -6,31 +6,31 @@ namespace LoonyC.Compiler.Parselets.Declarations
 {
     class FuncParselet : IDeclarationParselet
     {
-        public IDeclarationExpression Parse(LoonyParser parser, Token token)
+        public IDeclarationExpression Parse(LoonyParser parser, LoonyToken token)
         {
             var start = token;
 
-            var name = parser.Take(TokenType.Identifier);
+            var name = parser.Take(LoonyTokenType.Identifier);
             var parameters = new List<FuncExpression.Parameter>();
             TypeBase returnType = null;
 
-            parser.Take(TokenType.LeftParen);
+            parser.Take(LoonyTokenType.LeftParen);
 
-            if (!parser.MatchAndTake(TokenType.RightParen))
+            if (!parser.MatchAndTake(LoonyTokenType.RightParen))
             {
                 do
                 {
-                    var paramName = parser.Take(TokenType.Identifier);
-                    parser.Take(TokenType.Colon);
+                    var paramName = parser.Take(LoonyTokenType.Identifier);
+                    parser.Take(LoonyTokenType.Colon);
                     var paramType = parser.ParseType();
 
                     parameters.Add(new FuncExpression.Parameter(paramName, paramType));
-                } while (parser.MatchAndTake(TokenType.Comma));
+                } while (parser.MatchAndTake(LoonyTokenType.Comma));
 
-                parser.Take(TokenType.RightParen);
+                parser.Take(LoonyTokenType.RightParen);
             }
 
-            if (parser.MatchAndTake(TokenType.Colon))
+            if (parser.MatchAndTake(LoonyTokenType.Colon))
                 returnType = parser.ParseType();
 
             var body = parser.ParseBlock(false);

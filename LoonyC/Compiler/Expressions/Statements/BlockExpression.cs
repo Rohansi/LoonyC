@@ -9,7 +9,7 @@ namespace LoonyC.Compiler.Expressions.Statements
     {
         public ReadOnlyCollection<Expression> Statements { get; private set; }
 
-        public BlockExpression(Token start, Token end, IEnumerable<Expression> statements)
+        public BlockExpression(LoonyToken start, LoonyToken end, IEnumerable<Expression> statements)
             : base(start, end)
         {
             if (statements == null)

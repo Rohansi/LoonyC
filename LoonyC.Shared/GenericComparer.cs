@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LoonyC
+namespace LoonyC.Shared
 {
-    class GenericComparer<T> : IComparer<T>
+    public class GenericComparer<T> : IComparer<T>
     {
         private Func<T, T, int> _comparer;
 

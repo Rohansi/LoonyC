@@ -4,6 +4,6 @@ namespace LoonyC.Compiler.Parselets
 {
     interface IPrefixParselet
     {
-        Expression Parse(LoonyParser parser, Token token);
+        Expression Parse(LoonyParser parser, LoonyToken token);
     }
 }

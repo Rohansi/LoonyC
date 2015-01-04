@@ -545,7 +545,7 @@ namespace LoonyC.Tests
 
         private static TypeBase Parse(string type)
         {
-            var lexer = new Lexer(type);
+            var lexer = new LoonyLexer(type);
             var parser = new LoonyParser(lexer);
             return parser.ParseType();
         }

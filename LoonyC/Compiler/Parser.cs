@@ -5,24 +5,24 @@ namespace LoonyC.Compiler
 {
     abstract class Parser
     {
-        private IEnumerator<Token> _tokens;
-        private List<Token> _read;
+        private IEnumerator<LoonyToken> _tokens;
+        private List<LoonyToken> _read;
 
-        protected Parser(IEnumerable<Token> tokens)
+        protected Parser(IEnumerable<LoonyToken> tokens)
         {
             _tokens = tokens.GetEnumerator();
-            _read = new List<Token>(8);
+            _read = new List<LoonyToken>(8);
         }
 
         /// <summary>
         /// Returns the token that was most recently taken.
         /// </summary>
-        public Token Previous { get; private set; }
+        public LoonyToken Previous { get; private set; }
 
         /// <summary>
         /// Check if the next token matches the given type. If they match, take the token.
         /// </summary>
-        public bool MatchAndTake(TokenType type)
+        public bool MatchAndTake(LoonyTokenType type)
         {
             var isMatch = Match(type);
             if (isMatch)
@@ -34,7 +34,7 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Check if the next token matches the given type.
         /// </summary>
-        public bool Match(TokenType type, int distance = 0)
+        public bool Match(LoonyTokenType type, int distance = 0)
         {
             return Peek(distance).Type == type;
         }
@@ -42,7 +42,7 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Take a token from the stream. Throws an exception if the given type does not match the token type.
         /// </summary>
-        public Token Take(TokenType type)
+        public LoonyToken Take(LoonyTokenType type)
         {
             var token = Take();
 
@@ -55,7 +55,7 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Take a token from the stream.
         /// </summary>
-        public Token Take()
+        public LoonyToken Take()
         {
             Peek();
 
@@ -70,7 +70,7 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Peek at future tokens in the stream. Distance is the number of tokens from the current one.
         /// </summary>
-        public Token Peek(int distance = 0)
+        public LoonyToken Peek(int distance = 0)
         {
             if (distance < 0)
                 throw new ArgumentOutOfRangeException("distance", "distance can't be negative");

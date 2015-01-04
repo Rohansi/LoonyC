@@ -3,6 +3,7 @@ using System.IO;
 using LoonyC.Compiler.Expressions;
 using LoonyC.Compiler.Expressions.Declarations;
 using LoonyC.Compiler.Expressions.Statements;
+using LoonyC.Shared;
 
 namespace LoonyC.Compiler
 {
