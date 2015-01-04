@@ -36,7 +36,7 @@ namespace LoonyC
             Console.WriteLine();
 
             var simplify = new ExpressionSimplifyTransform();
-            expr = simplify.Visit((BinaryOperatorExpression)expr);
+            expr = expr.Accept(simplify);
 
             Console.WriteLine("-- Simplified AST --");
             expr.Accept(printer);

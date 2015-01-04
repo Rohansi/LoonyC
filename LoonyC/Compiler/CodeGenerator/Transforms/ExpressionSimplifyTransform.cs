@@ -33,6 +33,9 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
             var leftNum = left as NumberExpression;
             var rightNum = right as NumberExpression;
 
+            if (leftNum == null && rightNum == null)
+                return new BinaryOperatorExpression(expression.Start, left, right);
+
             // n <op> n
             Func<int, int, int> simplifyOp;
             if (_simplifyMap.TryGetValue(expression.Operation, out simplifyOp) &&
@@ -52,10 +55,23 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
             }
 
             // 0 * e || e * 0
-            if ((leftNum != null && leftNum.Value == 0) ||
-                (rightNum != null && rightNum.Value == 0))
+            if (expression.Operation == TokenType.Multiply)
             {
-                return new NumberExpression(expression.Start, 0);
+                if ((leftNum != null && leftNum.Value == 0) ||
+                    (rightNum != null && rightNum.Value == 0))
+                {
+                    return new NumberExpression(expression.Start, 0);
+                }
+            }
+
+            // 0 + e || e + 0
+            if (expression.Operation == TokenType.Add)
+            {
+                if (leftNum != null && leftNum.Value == 0)
+                    return right;
+
+                if (rightNum != null && rightNum.Value == 0)
+                    return left;
             }
 
             return new BinaryOperatorExpression(expression.Start, left, right);
