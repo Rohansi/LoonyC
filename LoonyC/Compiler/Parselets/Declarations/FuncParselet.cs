@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using LoonyC.Compiler.Expressions.Declarations;
+using LoonyC.Compiler.Ast.Declarations;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.Parselets.Declarations
 {
     class FuncParselet : IDeclarationParselet
     {
-        public IDeclarationExpression Parse(LoonyParser parser, LoonyToken token)
+        public Declaration Parse(LoonyParser parser, LoonyToken token)
         {
             var start = token;
 
             var name = parser.Take(LoonyTokenType.Identifier);
-            var parameters = new List<FuncExpression.Parameter>();
+            var parameters = new List<FuncDeclaration.Parameter>();
             TypeBase returnType = null;
 
             parser.Take(LoonyTokenType.LeftParen);
@@ -24,7 +24,7 @@ namespace LoonyC.Compiler.Parselets.Declarations
                     parser.Take(LoonyTokenType.Colon);
                     var paramType = parser.ParseType();
 
-                    parameters.Add(new FuncExpression.Parameter(paramName, paramType));
+                    parameters.Add(new FuncDeclaration.Parameter(paramName, paramType));
                 } while (parser.MatchAndTake(LoonyTokenType.Comma));
 
                 parser.Take(LoonyTokenType.RightParen);
@@ -37,7 +37,7 @@ namespace LoonyC.Compiler.Parselets.Declarations
 
             var end = parser.Previous;
 
-            return new FuncExpression(start, end, name, parameters, returnType, body);
+            return new FuncDeclaration(start, end, name, parameters, returnType, body);
         }
     }
 }

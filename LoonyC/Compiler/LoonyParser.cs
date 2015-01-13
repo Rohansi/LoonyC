@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using LoonyC.Compiler.Expressions.Declarations;
+using LoonyC.Compiler.Ast;
+using LoonyC.Compiler.Ast.Declarations;
+using LoonyC.Compiler.Ast.Expressions;
+using LoonyC.Compiler.Ast.Statements;
 using LoonyC.Compiler.Parselets;
 using LoonyC.Compiler.Parselets.Declarations;
 using LoonyC.Compiler.Parselets.Statements;
 using LoonyC.Compiler.Types;
-using LoonyC.Compiler.Expressions;
-using LoonyC.Compiler.Expressions.Statements;
 
 namespace LoonyC.Compiler
 {
@@ -52,29 +53,27 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Parse a statement into an expression tree.
         /// </summary>
-        public Expression ParseStatement(bool takeTrailingSemicolon = true)
+        public Statement ParseStatement(bool takeTrailingSemicolon = true)
         {
             var token = Peek();
 
             IStatementParselet statementParselet;
             _statementParselets.TryGetValue(token.Type, out statementParselet);
 
-            Expression result;
-
             if (statementParselet == null)
             {
-                result = ParseExpession();
+                var expr = ParseExpession();
 
                 if (takeTrailingSemicolon)
                     Take(LoonyTokenType.Semicolon);
 
-                return result;
+                return new NakedStatement(expr);
             }
 
             token = Take();
 
             bool hasTrailingSemicolon;
-            result = statementParselet.Parse(this, token, out hasTrailingSemicolon);
+            var result = statementParselet.Parse(this, token, out hasTrailingSemicolon);
 
             if (takeTrailingSemicolon && hasTrailingSemicolon)
                 Take(LoonyTokenType.Semicolon);
@@ -86,11 +85,11 @@ namespace LoonyC.Compiler
         /// Parse a block of code into an expression tree. Blocks can either be a single statement or 
         /// multiple surrounded by braces.
         /// </summary>
-        public BlockExpression ParseBlock(bool allowSingle = true)
+        public BlockStatement ParseBlock(bool allowSingle = true)
         {
             LoonyToken start;
             LoonyToken end;
-            var statements = new List<Expression>();
+            var statements = new List<Statement>();
 
             if (allowSingle && !Match(LoonyTokenType.LeftBrace))
             {
@@ -100,7 +99,7 @@ namespace LoonyC.Compiler
 
                 end = Previous;
 
-                return new BlockExpression(start, end, statements);
+                return new BlockStatement(start, end, statements);
             }
 
             start = Take(LoonyTokenType.LeftBrace);
@@ -112,17 +111,15 @@ namespace LoonyC.Compiler
 
             end = Take(LoonyTokenType.RightBrace);
 
-            return new BlockExpression(start, end, statements);
+            return new BlockStatement(start, end, statements);
         }
 
         /// <summary>
         /// Parses declarations until there are no more tokens available.
         /// </summary>
-        public DocumentExpression ParseAll()
+        public Document ParseAll()
         {
-            var start = Peek();
-
-            var declarations = new List<IDeclarationExpression>();
+            var declarations = new List<Declaration>();
 
             while (!Match(LoonyTokenType.Eof))
             {
@@ -135,9 +132,7 @@ namespace LoonyC.Compiler
                 declarations.Add(declarationParselet.Parse(this, token));
             }
 
-            var end = Previous;
-
-            return new DocumentExpression(start, end, declarations);
+            return new Document(declarations);
         }
 
         /// <summary>

@@ -1,9 +1,9 @@
 ﻿using System;
 using LoonyC.Compiler;
 using LoonyC.Compiler.Assembly;
+using LoonyC.Compiler.Ast;
 using LoonyC.Compiler.CodeGenerator;
 using LoonyC.Compiler.CodeGenerator.Transforms;
-using LoonyC.Compiler.Expressions;
 
 namespace LoonyC
 {
@@ -30,12 +30,12 @@ namespace LoonyC
             var expr = parser.ParseExpession();
 
             Console.WriteLine("-- AST --");
-            var printer = new ExpressionPrintVisitor(Console.Out);
+            var printer = new AstPrintVisitor(Console.Out);
             expr.Accept(printer);
             Console.WriteLine();
             Console.WriteLine();
 
-            var simplify = new ExpressionSimplifyTransform();
+            var simplify = new AstSimplifyTransform();
             expr = expr.Accept(simplify);
 
             Console.WriteLine("-- Simplified AST --");
@@ -45,7 +45,7 @@ namespace LoonyC
 
             Console.WriteLine("-- Assembly --");
             var assembler = new Assembler();
-            var compiler = new ExpressionCompileVisitor(assembler);
+            var compiler = new AstCompileVisitor(assembler);
             expr.Accept(compiler);
 
             assembler.Compile(Console.Out);

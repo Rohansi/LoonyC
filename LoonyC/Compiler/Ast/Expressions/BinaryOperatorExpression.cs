@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace LoonyC.Compiler.Expressions
+namespace LoonyC.Compiler.Ast.Expressions
 {
     class BinaryOperatorExpression : Expression
     {
@@ -17,17 +16,9 @@ namespace LoonyC.Compiler.Expressions
             Right = right;
         }
 
-        public override T Accept<T>(IExpressionVisitor<T> visitor)
+        public override TExpr Accept<TDoc, TDecl, TStmt, TExpr>(IAstVisitor<TDoc, TDecl, TStmt, TExpr> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void SetParent(Expression parent)
-        {
-            base.SetParent(parent);
-
-            Left.SetParent(this);
-            Right.SetParent(this);
         }
 
         private static Dictionary<LoonyTokenType, LoonyTokenType> _assignMap;

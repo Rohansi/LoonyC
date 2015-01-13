@@ -1,4 +1,4 @@
-﻿namespace LoonyC.Compiler.Expressions
+﻿namespace LoonyC.Compiler.Ast.Expressions
 {
     class NumberExpression : Expression
     {
@@ -10,7 +10,7 @@
             Value = value;
         }
 
-        public override T Accept<T>(IExpressionVisitor<T> visitor)
+        public override TExpr Accept<TDoc, TDecl, TStmt, TExpr>(IAstVisitor<TDoc, TDecl, TStmt, TExpr> visitor)
         {
             return visitor.Visit(this);
         }

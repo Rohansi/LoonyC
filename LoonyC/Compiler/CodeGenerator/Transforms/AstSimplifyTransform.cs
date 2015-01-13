@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.Ast;
+using LoonyC.Compiler.Ast.Expressions;
 
 namespace LoonyC.Compiler.CodeGenerator.Transforms
 {
-    class ExpressionSimplifyTransform : ExpressionTransformVisitor
+    class AstSimplifyTransform : AstTransformVisitor
     {
         #region BinaryOperator
 

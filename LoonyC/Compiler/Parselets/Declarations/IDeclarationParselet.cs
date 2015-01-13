@@ -1,9 +1,9 @@
-﻿using LoonyC.Compiler.Expressions.Declarations;
+﻿using LoonyC.Compiler.Ast.Declarations;
 
 namespace LoonyC.Compiler.Parselets.Declarations
 {
     interface IDeclarationParselet
     {
-        IDeclarationExpression Parse(LoonyParser parser, LoonyToken token);
+        Declaration Parse(LoonyParser parser, LoonyToken token);
     }
 }

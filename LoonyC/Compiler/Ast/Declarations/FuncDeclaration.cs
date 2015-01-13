@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using LoonyC.Compiler.Expressions.Statements;
+using LoonyC.Compiler.Ast.Statements;
 using LoonyC.Compiler.Types;
 
-namespace LoonyC.Compiler.Expressions.Declarations
+namespace LoonyC.Compiler.Ast.Declarations
 {
-    class FuncExpression : Expression, IDeclarationExpression
+    class FuncDeclaration : Declaration
     {
         public class Parameter
         {
@@ -23,9 +23,9 @@ namespace LoonyC.Compiler.Expressions.Declarations
         public LoonyToken Name { get; private set; }
         public ReadOnlyCollection<Parameter> Parameters { get; private set; }
         public TypeBase ReturnType { get; private set; }
-        public BlockExpression Body { get; private set; }
+        public BlockStatement Body { get; private set; }
 
-        public FuncExpression(LoonyToken start, LoonyToken end, LoonyToken name, IEnumerable<Parameter> parameters, TypeBase returnType, BlockExpression body)
+        public FuncDeclaration(LoonyToken start, LoonyToken end, LoonyToken name, IEnumerable<Parameter> parameters, TypeBase returnType, BlockStatement body)
             : base(start, end)
         {
             Name = name;
@@ -34,14 +34,9 @@ namespace LoonyC.Compiler.Expressions.Declarations
             Body = body;
         }
 
-        public override T Accept<T>(IExpressionVisitor<T> visitor)
+        public override TDecl Accept<TDoc, TDecl, TStmt, TExpr>(IAstVisitor<TDoc, TDecl, TStmt, TExpr> visitor)
         {
             return visitor.Visit(this);
-        }
-
-        public override void SetParent(Expression parent)
-        {
-            Body.SetParent(this);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using LoonyC.Compiler.Expressions;
+﻿using LoonyC.Compiler.Ast.Statements;
 
 namespace LoonyC.Compiler.Parselets.Statements
 {
     interface IStatementParselet
     {
-        Expression Parse(LoonyParser parser, LoonyToken token, out bool trailingSemicolon);
+        Statement Parse(LoonyParser parser, LoonyToken token, out bool trailingSemicolon);
     }
 }

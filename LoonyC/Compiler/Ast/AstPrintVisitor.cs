@@ -1,22 +1,22 @@
 ﻿using System;
 using System.IO;
-using LoonyC.Compiler.Expressions;
-using LoonyC.Compiler.Expressions.Declarations;
-using LoonyC.Compiler.Expressions.Statements;
+using LoonyC.Compiler.Ast.Expressions;
+using LoonyC.Compiler.Ast.Declarations;
+using LoonyC.Compiler.Ast.Statements;
 using LoonyC.Shared;
 
-namespace LoonyC.Compiler
+namespace LoonyC.Compiler.Ast
 {
-    class ExpressionPrintVisitor : ExpressionVisitor<int>
+    class AstPrintVisitor : AstVisitor<int, int, int, int>
     {
         private readonly IndentTextWriter _writer;
 
-        public ExpressionPrintVisitor(TextWriter writer)
+        public AstPrintVisitor(TextWriter writer)
         {
             _writer = new IndentTextWriter(writer);
         }
 
-        public override int Visit(FuncExpression expression)
+        public override int Visit(FuncDeclaration expression)
         {
             _writer.Write("func ");
             _writer.Write(expression.Name.Contents);
@@ -48,12 +48,18 @@ namespace LoonyC.Compiler
             return 0;
         }
 
-        public override int Visit(StructExpression expression)
+        public override int Visit(StructDeclaration expression)
         {
             throw new NotImplementedException();
         }
 
-        public override int Visit(BlockExpression expression)
+        public override int Visit(NakedStatement expression)
+        {
+            expression.Expression.Accept(this);
+            return 0;
+        }
+
+        public override int Visit(BlockStatement expression)
         {
             _writer.WriteLine('{');
             _writer.Indent++;
@@ -61,10 +67,6 @@ namespace LoonyC.Compiler
             foreach (var statement in expression.Statements)
             {
                 statement.Accept(this);
-
-                if (!(statement is IStatementExpression))
-                    _writer.Write(';');
-
                 _writer.WriteLine();
             }
 
@@ -92,7 +94,6 @@ namespace LoonyC.Compiler
         public override int Visit(NumberExpression expression)
         {
             _writer.Write(expression.Value);
-
             return 0;
         }
     }

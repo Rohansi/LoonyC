@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using LoonyC.Compiler.Assembly;
-using LoonyC.Compiler.Expressions;
+using LoonyC.Compiler.Ast;
+using LoonyC.Compiler.Ast.Expressions;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.CodeGenerator
 {
-    class ExpressionCompileVisitor : ExpressionVisitor<FrameResource>
+    class AstCompileVisitor : AstVisitor<int, int, int, FrameResource>
     {
         private AssemblerContext _context;
         private Frame _frame;
 
-        public ExpressionCompileVisitor(Assembler assembler)
+        public AstCompileVisitor(Assembler assembler)
         {
             _context = assembler.CreateContext();
             _frame = new Frame();

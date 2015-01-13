@@ -1,13 +1,11 @@
 ﻿using System;
 
-namespace LoonyC.Compiler.Expressions
+namespace LoonyC.Compiler.Ast.Expressions
 {
     abstract class Expression
     {
         public readonly LoonyToken Start;
         public readonly LoonyToken End;
-
-        public Expression Parent { get; private set; }
 
         protected Expression(LoonyToken start, LoonyToken end = null)
         {
@@ -18,11 +16,6 @@ namespace LoonyC.Compiler.Expressions
             End = end ?? start;
         }
 
-        public abstract T Accept<T>(IExpressionVisitor<T> visitor);
-
-        public virtual void SetParent(Expression parent)
-        {
-            Parent = parent;
-        }
+        public abstract TExpr Accept<TDoc, TDecl, TStmt, TExpr>(IAstVisitor<TDoc, TDecl, TStmt, TExpr> visitor);
     }
 }
