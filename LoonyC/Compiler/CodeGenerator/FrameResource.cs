@@ -40,7 +40,7 @@ namespace LoonyC.Compiler.CodeGenerator
             {
                 var typePrim = type as PrimitiveType;
                 if (typePrim == null)
-                    throw new Exception(); // TODO
+                    throw new ArgumentException("Type must be a primitive.", "type");
 
                 switch (typePrim.Type)
                 {
@@ -54,7 +54,7 @@ namespace LoonyC.Compiler.CodeGenerator
                         _type = OperandValueType.Byte;
                         break;
                     default:
-                        throw new Exception();
+                        throw new NotSupportedException();
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace LoonyC.Compiler.CodeGenerator
         public override void Dispose()
         {
             if (Disposed)
-                throw new Exception(); // TODO
+                throw new ObjectDisposedException("RegisterFrameResource");
 
             Frame.Free(this);
             Disposed = true;
@@ -78,23 +78,56 @@ namespace LoonyC.Compiler.CodeGenerator
     {
         public readonly int Offset;
         public readonly int Size;
+        private readonly OperandValueType? _type;
 
         public StackFrameResource(Frame frame, TypeBase type, int offset, int size)
             : base(frame, type)
         {
             Offset = offset;
             Size = size;
+
+            if (type is PointerType)
+            {
+                _type = OperandValueType.Dword;
+            }
+            else
+            {
+                var typePrim = type as PrimitiveType;
+                if (typePrim == null)
+                    return;
+
+                switch (typePrim.Type)
+                {
+                    case Primitive.Int:
+                        _type = OperandValueType.Dword;
+                        break;
+                    case Primitive.Short:
+                        _type = OperandValueType.Word;
+                        break;
+                    case Primitive.Char:
+                        _type = OperandValueType.Byte;
+                        break;
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
         }
 
         public override Operand Operand
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (!_type.HasValue)
+                    throw new InvalidOperationException();
+
+                return new FrameOperand(_type.Value, -4 - Size - Offset);
+            }
         }
 
         public override void Dispose()
         {
             if (Disposed)
-                throw new Exception(); // TODO
+                throw new ObjectDisposedException("StackFrameResource");
 
             Frame.Free(this);
             Disposed = true;

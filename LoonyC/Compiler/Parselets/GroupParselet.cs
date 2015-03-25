@@ -6,7 +6,7 @@ namespace LoonyC.Compiler.Parselets
     {
         public Expression Parse(LoonyParser parser, LoonyToken token)
         {
-            var expression = parser.ParseExpession();
+            var expression = parser.ParseExpression();
             parser.Take(LoonyTokenType.RightParen);
             return expression;
         }

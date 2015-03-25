@@ -55,16 +55,6 @@ namespace LoonyC.Compiler.CodeGenerator.Transforms
                 }
             }
 
-            // 0 * e || e * 0
-            if (expression.Operation == LoonyTokenType.Multiply)
-            {
-                if ((leftNum != null && leftNum.Value == 0) ||
-                    (rightNum != null && rightNum.Value == 0))
-                {
-                    return new NumberExpression(expression.Start, 0);
-                }
-            }
-
             // 0 + e || e + 0
             if (expression.Operation == LoonyTokenType.Add)
             {

@@ -22,7 +22,7 @@ namespace LoonyC.Compiler
         /// <summary>
         /// Parse an expression into an expression tree. You can think of expressions as sub-statements.
         /// </summary>
-        public Expression ParseExpession(int precendence = 0)
+        public Expression ParseExpression(int precendence = 0)
         {
             var token = Take();
 
@@ -62,7 +62,7 @@ namespace LoonyC.Compiler
 
             if (statementParselet == null)
             {
-                var expr = ParseExpession();
+                var expr = ParseExpression();
 
                 if (takeTrailingSemicolon)
                     Take(LoonyTokenType.Semicolon);

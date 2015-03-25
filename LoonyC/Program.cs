@@ -27,7 +27,7 @@ namespace LoonyC
             var lexer = new LoonyLexer(source);
             var parser = new LoonyParser(lexer);
 
-            var expr = parser.ParseExpession();
+            var expr = parser.ParseExpression();
 
             Console.WriteLine("-- AST --");
             var printer = new AstPrintVisitor(Console.Out);

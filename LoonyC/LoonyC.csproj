@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Compiler\Assembly\Assembler.cs" />
     <Compile Include="Compiler\Assembly\AssemblerContext.cs" />
+    <Compile Include="Compiler\Assembly\FrameOperand.cs" />
     <Compile Include="Compiler\Assembly\ImmediateOperand.cs" />
     <Compile Include="Compiler\Assembly\Instruction.cs" />
     <Compile Include="Compiler\Assembly\LabelOperand.cs" />
