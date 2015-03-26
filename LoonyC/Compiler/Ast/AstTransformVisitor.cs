@@ -16,11 +16,6 @@ namespace LoonyC.Compiler.Ast
             return new Document(declarations);
         }
 
-        public Declaration Visit(StructDeclaration declaration)
-        {
-            return declaration;
-        }
-
         public Declaration Visit(FuncDeclaration declaration)
         {
             return new FuncDeclaration(
@@ -32,15 +27,26 @@ namespace LoonyC.Compiler.Ast
                 (BlockStatement)declaration.Body.Accept(this));
         }
 
-        public Statement Visit(NakedStatement statement)
+        public Declaration Visit(StructDeclaration declaration)
         {
-            return new NakedStatement(statement.Expression.Accept(this));
+            return declaration;
         }
 
         public Statement Visit(BlockStatement statement)
         {
             var statements = statement.Statements.Select(s => s.Accept(this));
             return new BlockStatement(statement.Start, statement.End, statements);
+        }
+
+        public Statement Visit(NakedStatement statement)
+        {
+            return new NakedStatement(statement.Expression.Accept(this));
+        }
+
+        public Statement Visit(ReturnStatement statement)
+        {
+            var value = statement.Value != null ? statement.Value.Accept(this) : null;
+            return new ReturnStatement(statement.Start, statement.End, value);
         }
 
         public virtual Expression Visit(BinaryOperatorExpression expression)

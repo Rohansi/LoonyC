@@ -21,6 +21,8 @@ namespace LoonyC.Compiler
 
             RegisterDeclaration(LoonyTokenType.Func, new FuncParselet());
 
+            RegisterStatement(LoonyTokenType.Return, new ReturnParselet());
+
             // leaves
             RegisterPrefix(LoonyTokenType.Number, new NumberParselet());
 

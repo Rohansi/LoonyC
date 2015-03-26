@@ -16,14 +16,14 @@ namespace LoonyC.Compiler.Ast
             _writer = new IndentTextWriter(writer);
         }
 
-        public override int Visit(FuncDeclaration expression)
+        public override int Visit(FuncDeclaration declaration)
         {
             _writer.Write("func ");
-            _writer.Write(expression.Name.Contents);
+            _writer.Write(declaration.Name.Contents);
             _writer.Write('(');
 
             var sep = "";
-            foreach (var param in expression.Parameters)
+            foreach (var param in declaration.Parameters)
             {
                 _writer.Write(sep);
                 sep = ", ";
@@ -35,43 +35,52 @@ namespace LoonyC.Compiler.Ast
 
             _writer.Write(')');
 
-            if (expression.ReturnType != null)
+            if (declaration.ReturnType != null)
             {
                 _writer.Write(": ");
-                _writer.Write(expression.ReturnType);
+                _writer.Write(declaration.ReturnType);
             }
 
             _writer.WriteLine();
 
-            expression.Body.Accept(this);
+            declaration.Body.Accept(this);
 
             return 0;
         }
 
-        public override int Visit(StructDeclaration expression)
+        public override int Visit(StructDeclaration declaration)
         {
             throw new NotImplementedException();
         }
 
-        public override int Visit(NakedStatement expression)
-        {
-            expression.Expression.Accept(this);
-            return 0;
-        }
-
-        public override int Visit(BlockStatement expression)
+        public override int Visit(BlockStatement statement)
         {
             _writer.WriteLine('{');
             _writer.Indent++;
 
-            foreach (var statement in expression.Statements)
+            foreach (var subStatement in statement.Statements)
             {
-                statement.Accept(this);
+                subStatement.Accept(this);
                 _writer.WriteLine();
             }
 
             _writer.Indent--;
             _writer.WriteLine('}');
+
+            return 0;
+        }
+
+        public override int Visit(NakedStatement statement)
+        {
+            statement.Expression.Accept(this);
+            return 0;
+        }
+
+        public override int Visit(ReturnStatement statement)
+        {
+            _writer.Write("return ");
+            statement.Value.Accept(this);
+            _writer.Write(";");
 
             return 0;
         }

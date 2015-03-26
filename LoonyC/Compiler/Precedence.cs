@@ -2,6 +2,7 @@
 {
     enum Precedence
     {
+        Invalid,
         Assignment,
         Ternary,
         LogicalOr,

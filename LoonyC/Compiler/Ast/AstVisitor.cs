@@ -16,14 +16,24 @@ namespace LoonyC.Compiler.Ast
             return default(TDoc);
         }
 
+        public virtual TDecl Visit(FuncDeclaration declaration)
+        {
+            return default(TDecl);
+        }
+
         public virtual TDecl Visit(StructDeclaration declaration)
         {
             return default(TDecl);
         }
 
-        public virtual TDecl Visit(FuncDeclaration declaration)
+        public virtual TStmt Visit(BlockStatement statement)
         {
-            return default(TDecl);
+            foreach (var e in statement.Statements)
+            {
+                e.Accept(this);
+            }
+
+            return default(TStmt);
         }
 
         public virtual TStmt Visit(NakedStatement statement)
@@ -33,12 +43,9 @@ namespace LoonyC.Compiler.Ast
             return default(TStmt);
         }
 
-        public virtual TStmt Visit(BlockStatement statement)
+        public virtual TStmt Visit(ReturnStatement statement)
         {
-            foreach (var e in statement.Statements)
-            {
-                e.Accept(this);
-            }
+            statement.Value.Accept(this);
 
             return default(TStmt);
         }

@@ -120,7 +120,7 @@ namespace LoonyC.Compiler.CodeGenerator
                 if (!_type.HasValue)
                     throw new InvalidOperationException();
 
-                return new FrameOperand(_type.Value, -4 - Size - Offset);
+                return new FrameOperand(_type.Value, -Size - Offset);
             }
         }
 

@@ -1,23 +1,105 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LoonyC.Compiler.Assembly;
 using LoonyC.Compiler.Ast;
+using LoonyC.Compiler.Ast.Declarations;
 using LoonyC.Compiler.Ast.Expressions;
+using LoonyC.Compiler.Ast.Statements;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.CodeGenerator
 {
-    class AstCompileVisitor : AstVisitor<int, int, int, FrameResource>
+    class AstCompileVisitor : IAstVisitor<int, int, int, FrameResource>
     {
         private AssemblerContext _context;
         private Frame _frame;
+        private Scope _scope;
 
         public AstCompileVisitor(Assembler assembler)
         {
             _context = assembler.CreateContext();
-            _frame = new Frame();
         }
 
-        public override FrameResource Visit(NumberExpression expression)
+        public int Visit(Document document)
+        {
+            foreach (var declaraction in document.Declarations)
+            {
+                declaraction.Accept(this);
+            }
+
+            return 0;
+        }
+
+        public int Visit(FuncDeclaration declaration)
+        {
+            _frame = new Frame();
+            _scope = new Scope(_frame, null);
+
+            // TODO: emit func type
+            _context.Emit(new LabelInstruction(declaration.Name.Contents));
+
+            // TODO: emit prologue
+
+            declaration.Body.Accept(this);
+
+            // TODO: emit epilogue
+
+            _frame = null;
+            _scope = null;
+
+            return 0;
+        }
+
+        public int Visit(StructDeclaration declaration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Visit(BlockStatement statement)
+        {
+            _scope = new Scope(_frame, _scope);
+
+            foreach (var subStatement in statement.Statements)
+            {
+                subStatement.Accept(this);
+            }
+
+            _scope = _scope.Previous;
+
+            return 0;
+        }
+
+        public int Visit(NakedStatement statement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Visit(ReturnStatement statement)
+        {
+            if (statement.Value == null)
+            {
+                _context.Emit(new CommentInstruction("TODO: jmp .return"));
+                return 0;
+            }
+
+            var valueNumber = statement.Value as NumberExpression;
+            if (valueNumber != null)
+            {
+                _context.Emit(new Instruction(Opcode.Mov, new RegisterOperand(Register.R0), new ImmediateOperand(valueNumber.Value)));
+                _context.Emit(new CommentInstruction("TODO: jmp .return"));
+
+                return 0;
+            }
+
+            var value = statement.Value.Accept(this);
+            _context.Emit(new Instruction(Opcode.Mov, new RegisterOperand(Register.R0), value.Operand));
+            _context.Emit(new CommentInstruction("TODO: jmp .return"));
+            value.Dispose();
+
+            return 0;
+        }
+
+        public FrameResource Visit(NumberExpression expression)
         {
             var res = _frame.Allocate(new PrimitiveType(Primitive.Int));
 
@@ -26,7 +108,7 @@ namespace LoonyC.Compiler.CodeGenerator
             return res;
         }
 
-        public override FrameResource Visit(BinaryOperatorExpression expression)
+        public FrameResource Visit(BinaryOperatorExpression expression)
         {
             var left = expression.Left;
             var right = expression.Right;

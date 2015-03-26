@@ -45,6 +45,7 @@
     <Compile Include="Compiler\Assembly\LabelOperand.cs" />
     <Compile Include="Compiler\Assembly\Operand.cs" />
     <Compile Include="Compiler\Assembly\RegisterOperand.cs" />
+    <Compile Include="Compiler\Ast\Statements\ReturnStatement.cs" />
     <Compile Include="Compiler\CodeGenerator\AstCompileVisitor.cs" />
     <Compile Include="Compiler\CodeGenerator\Transforms\AstSimplifyTransform.cs" />
     <Compile Include="Compiler\Ast\AstTransformVisitor.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Compiler\Parselets\Declarations\IDeclarationParselet.cs" />
     <Compile Include="Compiler\Parselets\NumberParselet.cs" />
     <Compile Include="Compiler\CodeGenerator\Scope.cs" />
+    <Compile Include="Compiler\Parselets\Statements\ReturnParselet.cs" />
     <Compile Include="Compiler\Types\AnyType.cs" />
     <Compile Include="Compiler\Types\ArrayType.cs" />
     <Compile Include="Compiler\Types\FuncType.cs" />

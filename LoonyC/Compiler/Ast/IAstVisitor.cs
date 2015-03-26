@@ -13,6 +13,7 @@ namespace LoonyC.Compiler.Ast
 
         TStmt Visit(NakedStatement statement);
         TStmt Visit(BlockStatement statement);
+        TStmt Visit(ReturnStatement statement);
 
         TExpr Visit(BinaryOperatorExpression expression);
         TExpr Visit(NumberExpression expression);

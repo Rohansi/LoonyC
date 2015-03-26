@@ -20,9 +20,9 @@ namespace LoonyC.Compiler.Assembly
 
     class Instruction
     {
-        public readonly Opcode Opcode;
-        public readonly Operand Left;
-        public readonly Operand Right;
+        public Opcode Opcode { get; private set; }
+        public Operand Left { get; private set; }
+        public Operand Right { get; private set; }
 
         public int? Offset;
 
@@ -192,7 +192,7 @@ namespace LoonyC.Compiler.Assembly
 
     class LabelInstruction : Instruction
     {
-        public readonly string Name;
+        public string Name { get; private set; }
 
         public LabelInstruction(string name)
             : base(Opcode.Count)
@@ -213,6 +213,32 @@ namespace LoonyC.Compiler.Assembly
         public override string ToString()
         {
             return string.Format("{0}:", Name);
+        }
+    }
+
+    class CommentInstruction : Instruction
+    {
+        public string Value { get; private set; }
+
+        public CommentInstruction(string value)
+            : base(Opcode.Count)
+        {
+            Value = value;
+        }
+
+        public override int Length
+        {
+            get { return 0; }
+        }
+
+        public override void Write(BinaryWriter writer)
+        {
+            
+        }
+
+        public override string ToString()
+        {
+            return string.Format("; {0}", Value);
         }
     }
 }
