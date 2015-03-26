@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using LoonyC.Compiler.Assembly.Instructions;
 
-namespace LoonyC.Compiler.Assembly
+namespace LoonyC.Compiler.Assembly.Operands
 {
     class LabelOperand : Operand
     {
@@ -28,9 +29,9 @@ namespace LoonyC.Compiler.Assembly
         public override string ToString()
         {
             if (!_label.Offset.HasValue)
-                return "<label not bound>";
+                return string.Format("<`{0}` not bound>", _label.Name);
 
-            return string.Format("{0} /* {1} */", _label.Offset.Value, _label.Name);
+            return _label.Name;
         }
     }
 }

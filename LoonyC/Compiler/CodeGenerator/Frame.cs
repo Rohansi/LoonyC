@@ -31,6 +31,23 @@ namespace LoonyC.Compiler.CodeGenerator
             _stackAllocations = new List<bool>();
         }
 
+        public IEnumerable<Register> DirtyRegisters
+        {
+            get
+            {
+                for (var i = 0; i < _dirtyRegisters.Count; i++)
+                {
+                    if (_dirtyRegisters[i])
+                        yield return (Register)i;
+                }
+            }
+        }
+
+        public int RequiredStackSpace
+        {
+            get { return _stackAllocations.Count; }
+        }
+
         public FrameResource Allocate(TypeBase type, bool canUseRegister = true)
         {
             if (canUseRegister)
@@ -40,11 +57,8 @@ namespace LoonyC.Compiler.CodeGenerator
                     return new RegisterFrameResource(this, type, register.Value);
             }
 
-            var offset = TryAllocateStack(type.Size);
-            if (!offset.HasValue)
-                throw new Exception(); // TODO
-
-            return new StackFrameResource(this, type, offset.Value, type.Size);
+            var offset = AllocateStack(type.Size);
+            return new StackFrameResource(this, type, offset, type.Size);
         }
 
         public void Free(RegisterFrameResource register)
@@ -60,8 +74,11 @@ namespace LoonyC.Compiler.CodeGenerator
             }
         }
 
-        private int? TryAllocateStack(int size)
+        private int AllocateStack(int size)
         {
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException("size");
+
             for (var i = 0; i < _stackAllocations.Count - size; i++)
             {
                 var found = false;

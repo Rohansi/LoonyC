@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LoonyC.Compiler.Assembly.Instructions;
 
 namespace LoonyC.Compiler.Assembly
 {

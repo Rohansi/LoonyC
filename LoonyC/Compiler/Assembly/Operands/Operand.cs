@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace LoonyC.Compiler.Assembly
+namespace LoonyC.Compiler.Assembly.Operands
 {
     enum OperandType
     {

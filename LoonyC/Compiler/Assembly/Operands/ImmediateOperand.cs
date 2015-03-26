@@ -1,4 +1,4 @@
-﻿namespace LoonyC.Compiler.Assembly
+﻿namespace LoonyC.Compiler.Assembly.Operands
 {
     class ImmediateOperand : AutoSizedOperand
     {

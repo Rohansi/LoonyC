@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using LoonyC.Compiler.Assembly.Instructions;
 
 namespace LoonyC.Compiler.Assembly
 {
@@ -32,7 +33,10 @@ namespace LoonyC.Compiler.Assembly
             {
                 foreach (var instruction in AllInstructions())
                 {
-                    writer.WriteLine(instruction);
+                    var instructionStr = instruction.ToString();
+
+                    if (!string.IsNullOrEmpty(instructionStr))
+                        writer.WriteLine(instructionStr);
                 }
             }
 

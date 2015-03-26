@@ -1,5 +1,6 @@
 ﻿using System;
 using LoonyC.Compiler.Assembly;
+using LoonyC.Compiler.Assembly.Operands;
 using LoonyC.Compiler.Types;
 
 namespace LoonyC.Compiler.CodeGenerator

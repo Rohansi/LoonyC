@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using LoonyC.Compiler.Assembly.Operands;
 
-namespace LoonyC.Compiler.Assembly
+namespace LoonyC.Compiler.Assembly.Instructions
 {
-    public enum Opcode
-    {
-        Mov, Add, Sub, Mul, Div, Rem, Inc, Dec, Not, And, Or,
-        Xor, Shl, Shr, Push, Pop, Jmp, Call, Ret, Cmp, Jz, Jnz,
-        Je, Jne, Ja, Jae, Jb, Jbe, Rand, Int, Iret, Ivt, Abs,
-        Retn, Xchg, Cmpxchg, Pusha, Popa, Sti, Cli, Neg, Count
-    }
-
-    public enum Register
-    {
-        R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, BP, SP, IP, Count
-    }
-
     class Instruction
     {
         public Opcode Opcode { get; private set; }
@@ -98,7 +86,7 @@ namespace LoonyC.Compiler.Assembly
 
                 flags |= (int)Left.ValueType << 4;
             }
-            
+
             if (Right != null)
             {
                 if (Right.IsPointer)
@@ -143,6 +131,7 @@ namespace LoonyC.Compiler.Assembly
         }
 
         #region OperandCounts
+
         public static readonly Dictionary<Opcode, int> OperandCounts = new Dictionary<Opcode, int>
         {
             { Opcode.Mov,     2 },
@@ -187,58 +176,7 @@ namespace LoonyC.Compiler.Assembly
             { Opcode.Cli,     0 },
             { Opcode.Neg,     1 }
         };
+
         #endregion
-    }
-
-    class LabelInstruction : Instruction
-    {
-        public string Name { get; private set; }
-
-        public LabelInstruction(string name)
-            : base(Opcode.Count)
-        {
-            Name = name;
-        }
-
-        public override int Length
-        {
-            get { return 0; }
-        }
-
-        public override void Write(BinaryWriter writer)
-        {
-            
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}:", Name);
-        }
-    }
-
-    class CommentInstruction : Instruction
-    {
-        public string Value { get; private set; }
-
-        public CommentInstruction(string value)
-            : base(Opcode.Count)
-        {
-            Value = value;
-        }
-
-        public override int Length
-        {
-            get { return 0; }
-        }
-
-        public override void Write(BinaryWriter writer)
-        {
-            
-        }
-
-        public override string ToString()
-        {
-            return string.Format("; {0}", Value);
-        }
     }
 }
