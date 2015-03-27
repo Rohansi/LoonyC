@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="Compiler\Assembly\Assembler.cs" />
     <Compile Include="Compiler\Assembly\AssemblerContext.cs" />
+    <Compile Include="Compiler\Assembly\Instructions\DeferredInstruction.cs" />
+    <Compile Include="Compiler\Assembly\Instructions\MultiInstruction.cs" />
     <Compile Include="Compiler\Assembly\Operands\DeferredImmediateOperand.cs" />
     <Compile Include="Compiler\Assembly\Operands\FrameOperand.cs" />
     <Compile Include="Compiler\Assembly\Operands\ImmediateOperand.cs" />

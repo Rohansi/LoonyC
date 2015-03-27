@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LoonyC.Compiler.Assembly;
 using LoonyC.Compiler.Assembly.Instructions;
 using LoonyC.Compiler.Assembly.Operands;
@@ -38,19 +39,11 @@ namespace LoonyC.Compiler.CodeGenerator
             _frame = new Frame();
             _scope = new Scope(_frame, null);
 
-            var frame = _frame; // copy to a local because we need to capture it
-
             // TODO: emit func type
             _context.Emit(new LabelInstruction(declaration.Name.Contents));
 
             // prologue
-            _context.Emit(new Instruction(Opcode.Push, new RegisterOperand(Register.BP)));
-            _context.Emit(new Instruction(Opcode.Mov, new RegisterOperand(Register.BP), new RegisterOperand(Register.SP)));
-
-            var stackAlloc = new Instruction(Opcode.Sub, new RegisterOperand(Register.SP), new DeferredImmediateOperand(() => frame.RequiredStackSpace));
-            _context.Emit(new ConditionalInstruction(stackAlloc, () => frame.RequiredStackSpace > 0));
-
-            _context.Emit(new Instruction(Opcode.Pusha)); // TODO: only push dirty registers
+            EmitFunctionPart(true);
 
             _return = new LabelInstruction(".return");
 
@@ -59,13 +52,8 @@ namespace LoonyC.Compiler.CodeGenerator
 
             // epilogue
             _context.Emit(_return);
+            EmitFunctionPart(false);
 
-            _context.Emit(new Instruction(Opcode.Popa)); // TODO: only pop dirty registers
-
-            var stackFree = new Instruction(Opcode.Add, new RegisterOperand(Register.SP), new DeferredImmediateOperand(() => frame.RequiredStackSpace));
-            _context.Emit(new ConditionalInstruction(stackFree, () => frame.RequiredStackSpace > 0));
-
-            _context.Emit(new Instruction(Opcode.Pop, new RegisterOperand(Register.BP)));
             _context.Emit(new Instruction(Opcode.Retn, new ImmediateOperand(declaration.Parameters.Count * 4)));
 
             _frame = null;
@@ -138,7 +126,7 @@ namespace LoonyC.Compiler.CodeGenerator
             var left = expression.Left;
             var right = expression.Right;
 
-            if (_reverseBinOps.Contains(expression.Operation) && left is NumberExpression && !(right is NumberExpression))
+            if (_reversableBinOps.Contains(expression.Operation) && left is NumberExpression && !(right is NumberExpression))
             {
                 var temp = left;
                 left = right;
@@ -163,6 +151,55 @@ namespace LoonyC.Compiler.CodeGenerator
             return leftRes;
         }
 
+        private void EmitFunctionPart(bool prologue)
+        {
+            var frame = _frame; // copy to a local because we need to capture it
+
+            if (prologue)
+            {
+                _context.Emit(new Instruction(Opcode.Push, new RegisterOperand(Register.BP)));
+                _context.Emit(new Instruction(Opcode.Mov, new RegisterOperand(Register.BP), new RegisterOperand(Register.SP)));
+
+                var stackAlloc = new Instruction(Opcode.Sub, new RegisterOperand(Register.SP), new DeferredImmediateOperand(() => frame.RequiredStackSpace));
+                _context.Emit(new ConditionalInstruction(stackAlloc, () => frame.RequiredStackSpace > 0));
+
+                _context.Emit(new DeferredInstruction(() =>
+                {
+                    var count = frame.DirtyRegisters.Count();
+
+                    if (count == 0)
+                        return new ConditionalInstruction(null, () => false);
+
+                    if (count > 3)
+                        return new Instruction(Opcode.Pusha);
+
+                    return new MultiInstruction(frame.DirtyRegisters.Select(r => new Instruction(Opcode.Push, new RegisterOperand(r))));
+                }));
+            }
+            else
+            {
+                _context.Emit(new DeferredInstruction(() =>
+                {
+                    var count = frame.DirtyRegisters.Count();
+
+                    if (count == 0)
+                        return new ConditionalInstruction(null, () => false);
+
+                    if (count > 3)
+                        return new Instruction(Opcode.Popa);
+
+                    return new MultiInstruction(frame.DirtyRegisters.Reverse().Select(r => new Instruction(Opcode.Pop, new RegisterOperand(r))));
+                }));
+
+                var stackFree = new Instruction(Opcode.Add, new RegisterOperand(Register.SP), new DeferredImmediateOperand(() => frame.RequiredStackSpace));
+                _context.Emit(new ConditionalInstruction(stackFree, () => frame.RequiredStackSpace > 0));
+
+                _context.Emit(new Instruction(Opcode.Pop, new RegisterOperand(Register.BP)));
+            }
+        }
+
+        #region Operator Tables
+
         private static Dictionary<LoonyTokenType, Opcode> _binOps = new Dictionary<LoonyTokenType, Opcode>
         {
             { LoonyTokenType.Add, Opcode.Add },
@@ -178,9 +215,11 @@ namespace LoonyC.Compiler.CodeGenerator
             { LoonyTokenType.BitwiseShiftRight, Opcode.Shr },
         };
 
-        private static HashSet<LoonyTokenType> _reverseBinOps = new HashSet<LoonyTokenType>
+        private static HashSet<LoonyTokenType> _reversableBinOps = new HashSet<LoonyTokenType>
         {
             LoonyTokenType.Add, LoonyTokenType.Multiply
-        }; 
+        };
+
+        #endregion
     }
 }
