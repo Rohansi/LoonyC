@@ -6,9 +6,9 @@ namespace LoonyC.Compiler.Ast
 {
     abstract class AstVisitor<TDoc, TDecl, TStmt, TExpr> : IAstVisitor<TDoc, TDecl, TStmt, TExpr>
     {
-        public virtual TDoc Visit(Document declaration)
+        public virtual TDoc Visit(Document document)
         {
-            foreach (var e in declaration.Declarations)
+            foreach (var e in document.Declarations)
             {
                 e.Accept(this);
             }

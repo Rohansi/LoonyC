@@ -81,6 +81,7 @@
     <Compile Include="Compiler\Parselets\Statements\ReturnParselet.cs" />
     <Compile Include="Compiler\Types\AnyType.cs" />
     <Compile Include="Compiler\Types\ArrayType.cs" />
+    <Compile Include="Compiler\Types\BoolType.cs" />
     <Compile Include="Compiler\Types\FuncType.cs" />
     <Compile Include="Compiler\Types\PointerType.cs" />
     <Compile Include="Compiler\Types\PrimitiveType.cs" />

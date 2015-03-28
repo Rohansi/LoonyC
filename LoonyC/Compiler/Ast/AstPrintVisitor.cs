@@ -7,7 +7,7 @@ using LoonyC.Shared;
 
 namespace LoonyC.Compiler.Ast
 {
-    class AstPrintVisitor : AstVisitor<int, int, int, int>
+    class AstPrintVisitor : IAstVisitor<int, int, int, int>
     {
         private readonly IndentTextWriter _writer;
 
@@ -16,7 +16,17 @@ namespace LoonyC.Compiler.Ast
             _writer = new IndentTextWriter(writer);
         }
 
-        public override int Visit(FuncDeclaration declaration)
+        public int Visit(Document document)
+        {
+            foreach (var e in document.Declarations)
+            {
+                e.Accept(this);
+            }
+
+            return 0;
+        }
+
+        public int Visit(FuncDeclaration declaration)
         {
             _writer.Write("func ");
             _writer.Write(declaration.Name.Contents);
@@ -48,12 +58,12 @@ namespace LoonyC.Compiler.Ast
             return 0;
         }
 
-        public override int Visit(StructDeclaration declaration)
+        public int Visit(StructDeclaration declaration)
         {
             throw new NotImplementedException();
         }
 
-        public override int Visit(BlockStatement statement)
+        public int Visit(BlockStatement statement)
         {
             _writer.WriteLine('{');
             _writer.Indent++;
@@ -70,13 +80,13 @@ namespace LoonyC.Compiler.Ast
             return 0;
         }
 
-        public override int Visit(NakedStatement statement)
+        public int Visit(NakedStatement statement)
         {
             statement.Expression.Accept(this);
             return 0;
         }
 
-        public override int Visit(ReturnStatement statement)
+        public int Visit(ReturnStatement statement)
         {
             _writer.Write("return ");
             statement.Value.Accept(this);
@@ -85,7 +95,7 @@ namespace LoonyC.Compiler.Ast
             return 0;
         }
 
-        public override int Visit(BinaryOperatorExpression expression)
+        public int Visit(BinaryOperatorExpression expression)
         {
             _writer.Write('(');
             expression.Left.Accept(this);
@@ -100,7 +110,7 @@ namespace LoonyC.Compiler.Ast
             return 0;
         }
 
-        public override int Visit(NumberExpression expression)
+        public int Visit(NumberExpression expression)
         {
             _writer.Write(expression.Value);
             return 0;

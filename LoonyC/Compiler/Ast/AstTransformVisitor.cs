@@ -7,9 +7,9 @@ namespace LoonyC.Compiler.Ast
 {
     abstract class AstTransformVisitor : IAstVisitor<Document, Declaration, Statement, Expression>
     {
-        public Document Visit(Document declaration)
+        public Document Visit(Document document)
         {
-            var declarations = declaration
+            var declarations = document
                 .Declarations
                 .Select(d => d.Accept(this));
 

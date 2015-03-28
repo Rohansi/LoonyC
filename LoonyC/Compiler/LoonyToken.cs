@@ -15,9 +15,10 @@ namespace LoonyC.Compiler
         False,
 
         Any,
-        Int,
-        Short,
+        Bool,
         Char,
+        Short,
+        Int,
 
         Var,
         Return,

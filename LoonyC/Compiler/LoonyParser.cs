@@ -191,14 +191,17 @@ namespace LoonyC.Compiler
                 return new FuncType(parameterTypes, returnType, isConstant);
             }
 
-            if (MatchAndTake(LoonyTokenType.Int))
-                return new PrimitiveType(Primitive.Int, isConstant);
+            if (MatchAndTake(LoonyTokenType.Bool))
+                return new BoolType(isConstant);
+
+            if (MatchAndTake(LoonyTokenType.Char))
+                return new PrimitiveType(Primitive.Char, isConstant);
 
             if (MatchAndTake(LoonyTokenType.Short))
                 return new PrimitiveType(Primitive.Short, isConstant);
 
-            if (MatchAndTake(LoonyTokenType.Char))
-                return new PrimitiveType(Primitive.Char, isConstant);
+            if (MatchAndTake(LoonyTokenType.Int))
+                return new PrimitiveType(Primitive.Int, isConstant);
 
             if (Match(LoonyTokenType.Identifier))
             {

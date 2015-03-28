@@ -27,9 +27,10 @@ namespace LoonyC.Compiler.Types
             }
         }
 
-        public readonly Primitive Type;
+        public Primitive Type { get; private set; }
 
-        public PrimitiveType(Primitive type, bool constant = false) : base(constant)
+        public PrimitiveType(Primitive type, bool constant = false)
+            : base(constant)
         {
             Type = type;
         }
@@ -80,12 +81,12 @@ namespace LoonyC.Compiler.Types
         {
             switch (Type)
             {
-                case Primitive.Int:
-                    return "int";
-                case Primitive.Short:
-                    return "short";
                 case Primitive.Char:
                     return "char";
+                case Primitive.Short:
+                    return "short";
+                case Primitive.Int:
+                    return "int";
                 default:
                     throw new NotSupportedException();
             }

@@ -56,6 +56,16 @@ namespace LoonyC.Tests
         #region Equality
 
         [Test]
+        public void EqualityBool()
+        {
+            AssertEqual(new BoolType(),
+                        new BoolType());
+
+            AssertNotEqual(new BoolType(),
+                           new PrimitiveType(Primitive.Char));
+        }
+
+        [Test]
         public void EqualityPrimitive()
         {
             AssertEqual(new PrimitiveType(Primitive.Char),
@@ -223,6 +233,12 @@ namespace LoonyC.Tests
         #region Parsing
 
         [Test]
+        public void ParseBool()
+        {
+            AssertParseEqual("bool", new BoolType());
+        }
+
+        [Test]
         public void ParsePrimitives()
         {
             AssertParseEqual("char", new PrimitiveType(Primitive.Char));
@@ -306,6 +322,15 @@ namespace LoonyC.Tests
         #endregion
 
         #region Assignable
+
+        [Test]
+        public void AssignableBool()
+        {
+            AssertAssignable("bool", "bool");
+
+            AssertNotAssignable("bool", "int");
+            AssertNotAssignable("int", "bool");
+        }
 
         [Test]
         public void AssignablePrimitive()
@@ -418,6 +443,12 @@ namespace LoonyC.Tests
         #region Similarity
 
         [Test]
+        public void SimilarityBool()
+        {
+            AssertBetterMatch("bool", "int", "bool");
+        }
+
+        [Test]
         public void SimilarityPrimitive()
         {
             AssertBetterMatch("int", "short", "int");
@@ -510,6 +541,8 @@ namespace LoonyC.Tests
         [Test]
         public void TypeToString()
         {
+            AssertToString("bool");
+
             AssertToString("char");
             AssertToString("short");
             AssertToString("int");

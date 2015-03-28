@@ -75,9 +75,10 @@ namespace LoonyC.Compiler
                 { "false", LoonyTokenType.False },
 
                 { "any", LoonyTokenType.Any },
-                { "int", LoonyTokenType.Int },
-                { "short", LoonyTokenType.Short },
+                { "bool", LoonyTokenType.Bool },
                 { "char", LoonyTokenType.Char },
+                { "short", LoonyTokenType.Short },
+                { "int", LoonyTokenType.Int },
                 
                 { "var", LoonyTokenType.Var },
                 { "return", LoonyTokenType.Return },
