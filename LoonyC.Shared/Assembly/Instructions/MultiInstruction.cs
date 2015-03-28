@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class MultiInstruction : Instruction
+    public class MultiInstruction : Instruction
     {
         private readonly List<Instruction> _instructions;
 

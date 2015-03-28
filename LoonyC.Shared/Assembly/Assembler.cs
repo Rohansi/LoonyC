@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using LoonyC.Compiler.Assembly.Instructions;
+using LoonyC.Shared.Assembly.Instructions;
 
-namespace LoonyC.Compiler.Assembly
+namespace LoonyC.Shared.Assembly
 {
-    class Assembler
+    public class Assembler
     {
         private readonly List<AssemblerContext> _contexts;
         private ReadOnlyCollection<Instruction> _instructions;

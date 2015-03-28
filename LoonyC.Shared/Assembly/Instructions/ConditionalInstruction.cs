@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class ConditionalInstruction : Instruction
+    public class ConditionalInstruction : Instruction
     {
         private readonly Func<bool> _condition;
 

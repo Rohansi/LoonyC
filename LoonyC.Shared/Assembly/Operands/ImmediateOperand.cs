@@ -1,6 +1,6 @@
-﻿namespace LoonyC.Compiler.Assembly.Operands
+﻿namespace LoonyC.Shared.Assembly.Operands
 {
-    class ImmediateOperand : AutoSizedOperand
+    public class ImmediateOperand : AutoSizedOperand
     {
         public ImmediateOperand(int value)
             : base(OperandType.ImmD, payload: value)

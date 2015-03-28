@@ -40,6 +40,22 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assembly\Assembler.cs" />
+    <Compile Include="Assembly\AssemblerContext.cs" />
+    <Compile Include="Assembly\Instructions\CommentInstruction.cs" />
+    <Compile Include="Assembly\Instructions\ConditionalInstruction.cs" />
+    <Compile Include="Assembly\Instructions\DeferredInstruction.cs" />
+    <Compile Include="Assembly\Instructions\Instruction.cs" />
+    <Compile Include="Assembly\Instructions\LabelInstruction.cs" />
+    <Compile Include="Assembly\Instructions\MultiInstruction.cs" />
+    <Compile Include="Assembly\Opcode.cs" />
+    <Compile Include="Assembly\Operands\DeferredImmediateOperand.cs" />
+    <Compile Include="Assembly\Operands\FrameOperand.cs" />
+    <Compile Include="Assembly\Operands\ImmediateOperand.cs" />
+    <Compile Include="Assembly\Operands\LabelOperand.cs" />
+    <Compile Include="Assembly\Operands\Operand.cs" />
+    <Compile Include="Assembly\Operands\RegisterOperand.cs" />
+    <Compile Include="Assembly\Register.cs" />
     <Compile Include="CoreAnnotations.cs" />
     <Compile Include="GenericComparer.cs" />
     <Compile Include="IndentTextWriter.cs" />

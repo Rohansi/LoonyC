@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class DeferredInstruction : Instruction
+    public class DeferredInstruction : Instruction
     {
         private readonly Lazy<Instruction> _instruction;
 

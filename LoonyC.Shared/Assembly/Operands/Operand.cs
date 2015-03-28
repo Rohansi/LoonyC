@@ -2,19 +2,19 @@
 using System.IO;
 using System.Text;
 
-namespace LoonyC.Compiler.Assembly.Operands
+namespace LoonyC.Shared.Assembly.Operands
 {
-    enum OperandType
+    public enum OperandType
     {
         R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, BP, SP, IP, ImmB, ImmW, ImmD
     }
 
-    enum OperandValueType
+    public enum OperandValueType
     {
         Byte, Word, Dword
     }
 
-    abstract class Operand
+    public abstract class Operand
     {
         public OperandType Type { get; protected set; }
 
@@ -116,7 +116,7 @@ namespace LoonyC.Compiler.Assembly.Operands
         }
     }
 
-    abstract class AutoSizedOperand : Operand
+    public abstract class AutoSizedOperand : Operand
     {
         protected AutoSizedOperand(OperandType type,
                                    OperandValueType valueType = OperandValueType.Dword,

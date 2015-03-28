@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class CommentInstruction : Instruction
+    public class CommentInstruction : Instruction
     {
         public string Value { get; private set; }
 

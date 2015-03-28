@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using LoonyC.Compiler.Assembly.Operands;
+using LoonyC.Shared.Assembly.Operands;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class Instruction
+    public class Instruction
     {
         public Opcode Opcode { get; private set; }
         public Operand Left { get; private set; }

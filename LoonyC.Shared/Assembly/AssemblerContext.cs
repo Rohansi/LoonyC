@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using LoonyC.Compiler.Assembly.Instructions;
+using LoonyC.Shared.Assembly.Instructions;
 
-namespace LoonyC.Compiler.Assembly
+namespace LoonyC.Shared.Assembly
 {
-    class AssemblerContext
+    public class AssemblerContext
     {
         private readonly List<Instruction> _instructions;
 

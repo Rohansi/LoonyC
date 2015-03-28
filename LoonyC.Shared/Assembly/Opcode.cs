@@ -1,4 +1,4 @@
-﻿namespace LoonyC.Compiler.Assembly
+﻿namespace LoonyC.Shared.Assembly
 {
     public enum Opcode
     {

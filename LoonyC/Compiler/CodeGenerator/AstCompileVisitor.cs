@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LoonyC.Compiler.Assembly;
-using LoonyC.Compiler.Assembly.Instructions;
-using LoonyC.Compiler.Assembly.Operands;
 using LoonyC.Compiler.Ast;
 using LoonyC.Compiler.Ast.Declarations;
 using LoonyC.Compiler.Ast.Expressions;
 using LoonyC.Compiler.Ast.Statements;
 using LoonyC.Compiler.Types;
+using LoonyC.Shared.Assembly;
+using LoonyC.Shared.Assembly.Instructions;
+using LoonyC.Shared.Assembly.Operands;
 
 namespace LoonyC.Compiler.CodeGenerator
 {

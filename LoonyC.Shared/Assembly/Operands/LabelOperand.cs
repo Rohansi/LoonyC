@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using LoonyC.Compiler.Assembly.Instructions;
+using LoonyC.Shared.Assembly.Instructions;
 
-namespace LoonyC.Compiler.Assembly.Operands
+namespace LoonyC.Shared.Assembly.Operands
 {
-    class LabelOperand : Operand
+    public class LabelOperand : Operand
     {
         private readonly LabelInstruction _label;
 

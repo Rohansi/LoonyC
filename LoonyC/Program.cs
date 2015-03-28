@@ -1,9 +1,9 @@
 ﻿using System;
 using LoonyC.Compiler;
-using LoonyC.Compiler.Assembly;
 using LoonyC.Compiler.Ast;
 using LoonyC.Compiler.CodeGenerator;
 using LoonyC.Compiler.CodeGenerator.Transforms;
+using LoonyC.Shared.Assembly;
 
 namespace LoonyC
 {

@@ -37,22 +37,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiler\Assembly\Assembler.cs" />
-    <Compile Include="Compiler\Assembly\AssemblerContext.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\DeferredInstruction.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\MultiInstruction.cs" />
-    <Compile Include="Compiler\Assembly\Operands\DeferredImmediateOperand.cs" />
-    <Compile Include="Compiler\Assembly\Operands\FrameOperand.cs" />
-    <Compile Include="Compiler\Assembly\Operands\ImmediateOperand.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\CommentInstruction.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\ConditionalInstruction.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\Instruction.cs" />
-    <Compile Include="Compiler\Assembly\Instructions\LabelInstruction.cs" />
-    <Compile Include="Compiler\Assembly\Operands\LabelOperand.cs" />
-    <Compile Include="Compiler\Assembly\Opcode.cs" />
-    <Compile Include="Compiler\Assembly\Operands\Operand.cs" />
-    <Compile Include="Compiler\Assembly\Register.cs" />
-    <Compile Include="Compiler\Assembly\Operands\RegisterOperand.cs" />
     <Compile Include="Compiler\Ast\Statements\ReturnStatement.cs" />
     <Compile Include="Compiler\CodeGenerator\AstCompileVisitor.cs" />
     <Compile Include="Compiler\CodeGenerator\Transforms\AstSimplifyTransform.cs" />

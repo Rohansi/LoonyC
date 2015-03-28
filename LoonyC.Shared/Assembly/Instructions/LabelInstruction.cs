@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LoonyC.Compiler.Assembly.Instructions
+namespace LoonyC.Shared.Assembly.Instructions
 {
-    class LabelInstruction : Instruction
+    public class LabelInstruction : Instruction
     {
         public string Name { get; private set; }
 

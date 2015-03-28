@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LoonyC.Compiler.Assembly.Operands
+namespace LoonyC.Shared.Assembly.Operands
 {
-    class DeferredImmediateOperand : ImmediateOperand
+    public class DeferredImmediateOperand : ImmediateOperand
     {
         private readonly Lazy<int> _value;
 

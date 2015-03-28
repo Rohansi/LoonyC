@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using LoonyC.Compiler.Assembly;
 using LoonyC.Compiler.Types;
+using LoonyC.Shared.Assembly;
 
 namespace LoonyC.Compiler.CodeGenerator
 {
