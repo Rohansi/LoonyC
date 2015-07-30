@@ -28,8 +28,7 @@ namespace LoonyC.Compiler.CodeGenerator
             if (IsDefined(name))
                 return false;
 
-            var canUseRegister = type is PrimitiveType || type is PointerType;
-            resource = Frame.Allocate(type, canUseRegister);
+            resource = Frame.Allocate(type, false);
 
             _identifiers.Add(name, resource);
             return true;

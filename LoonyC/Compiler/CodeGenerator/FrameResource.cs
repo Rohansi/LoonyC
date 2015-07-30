@@ -2,14 +2,15 @@
 using LoonyC.Compiler.Types;
 using LoonyC.Shared.Assembly;
 using LoonyC.Shared.Assembly.Operands;
-
+    
 namespace LoonyC.Compiler.CodeGenerator
 {
     abstract class FrameResource : IDisposable
     {
-        protected readonly Frame Frame;
-        protected readonly TypeBase Type;
         protected bool Disposed;
+
+        public Frame Frame { get; private set; }
+        public TypeBase Type { get; private set; }
 
         protected FrameResource(Frame frame, TypeBase type)
         {

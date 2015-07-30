@@ -14,6 +14,8 @@ namespace LoonyC.Compiler.CodeGenerator
 {
     class AstCompileVisitor : IAstVisitor<int, int, int, FrameResource>
     {
+        private AstTypeInferenceVisitor _inference;
+
         private AssemblerContext _context;
         private Frame _frame;
         private Scope _scope;
@@ -21,6 +23,7 @@ namespace LoonyC.Compiler.CodeGenerator
 
         public AstCompileVisitor(Assembler assembler)
         {
+            _inference = new AstTypeInferenceVisitor();
             _context = assembler.CreateContext();
         }
 
@@ -112,13 +115,26 @@ namespace LoonyC.Compiler.CodeGenerator
             return 0;
         }
 
-        public FrameResource Visit(NumberExpression expression)
+        public int Visit(VariableStatement statement)
         {
-            var res = _frame.Allocate(new PrimitiveType(Primitive.Int));
+            var type = statement.Type ?? statement.Initializer.Accept(_inference);
 
-            _context.Emit(new Instruction(Opcode.Mov, res.Operand, new ImmediateOperand(expression.Value)));
+            var typePrim = type as PrimitiveType;
+            if (statement.Type == null && typePrim != null && (typePrim.Type == Primitive.CharOrLarger || typePrim.Type == Primitive.ShortOrLarger))
+                type = new PrimitiveType(Primitive.Int);
 
-            return res;
+            FrameResource resource;
+            if (!_scope.TryDefine(statement.Name, type, out resource))
+                throw new Exception(); // TODO
+
+            if (statement.Initializer != null)
+            {
+                var initializerResource = statement.Initializer.Accept(this);
+                _context.Emit(new Instruction(Opcode.Mov, resource.Operand, initializerResource.Operand));
+                initializerResource.Dispose();
+            }
+
+            return 0;
         }
 
         public FrameResource Visit(BinaryOperatorExpression expression)
@@ -149,6 +165,26 @@ namespace LoonyC.Compiler.CodeGenerator
             rightRes.Dispose();
 
             return leftRes;
+        }
+
+        public FrameResource Visit(IdentifierExpression expression)
+        {
+            var resource = _scope.GetOrDefault(expression.Name);
+            if (resource == null)
+                throw new Exception(); // TODO
+
+            var copyResource = _frame.Allocate(resource.Type);
+            _context.Emit(new Instruction(Opcode.Mov, copyResource.Operand, resource.Operand));
+            return copyResource;
+        }
+
+        public FrameResource Visit(NumberExpression expression)
+        {
+            var res = _frame.Allocate(new PrimitiveType(Primitive.Int));
+
+            _context.Emit(new Instruction(Opcode.Mov, res.Operand, new ImmediateOperand(expression.Value)));
+
+            return res;
         }
 
         private void EmitFunctionPart(bool prologue)

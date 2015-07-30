@@ -14,8 +14,10 @@ namespace LoonyC.Compiler.Ast
         TStmt Visit(NakedStatement statement);
         TStmt Visit(BlockStatement statement);
         TStmt Visit(ReturnStatement statement);
+        TStmt Visit(VariableStatement statement);
 
         TExpr Visit(BinaryOperatorExpression expression);
+        TExpr Visit(IdentifierExpression expression);
         TExpr Visit(NumberExpression expression);
     }
 }

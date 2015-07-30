@@ -49,12 +49,23 @@ namespace LoonyC.Compiler.Ast
             return new ReturnStatement(statement.Start, statement.End, value);
         }
 
+        public Statement Visit(VariableStatement statement)
+        {
+            var initializer = statement.Initializer != null ? statement.Initializer.Accept(this) : null;
+            return new VariableStatement(statement.Start, statement.End, statement.Name, statement.Type, initializer);
+        }
+
         public virtual Expression Visit(BinaryOperatorExpression expression)
         {
             return new BinaryOperatorExpression(
                 expression.Start,
                 expression.Left.Accept(this),
                 expression.Right.Accept(this));
+        }
+
+        public Expression Visit(IdentifierExpression expression)
+        {
+            return expression;
         }
 
         public Expression Visit(NumberExpression expression)

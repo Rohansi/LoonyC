@@ -37,7 +37,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\Ast\AstTypeInferenceVisitor.cs" />
+    <Compile Include="Compiler\Ast\Expressions\IdentifierExpression.cs" />
     <Compile Include="Compiler\Ast\Statements\ReturnStatement.cs" />
+    <Compile Include="Compiler\Ast\Statements\VariableStatement.cs" />
     <Compile Include="Compiler\CodeGenerator\AstCompileVisitor.cs" />
     <Compile Include="Compiler\CodeGenerator\Transforms\AstSimplifyTransform.cs" />
     <Compile Include="Compiler\Ast\AstTransformVisitor.cs" />
@@ -60,9 +63,11 @@
     <Compile Include="Compiler\Parselets\Declarations\FuncParselet.cs" />
     <Compile Include="Compiler\Parselets\GroupParselet.cs" />
     <Compile Include="Compiler\Parselets\Declarations\IDeclarationParselet.cs" />
+    <Compile Include="Compiler\Parselets\IdentifierParselet.cs" />
     <Compile Include="Compiler\Parselets\NumberParselet.cs" />
     <Compile Include="Compiler\CodeGenerator\Scope.cs" />
     <Compile Include="Compiler\Parselets\Statements\ReturnParselet.cs" />
+    <Compile Include="Compiler\Parselets\Statements\VariableParselet.cs" />
     <Compile Include="Compiler\Types\AnyType.cs" />
     <Compile Include="Compiler\Types\ArrayType.cs" />
     <Compile Include="Compiler\Types\BoolType.cs" />

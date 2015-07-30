@@ -19,11 +19,15 @@ namespace LoonyC.Compiler
             _prefixParselets = new Dictionary<LoonyTokenType, IPrefixParselet>();
             _infixParselets = new Dictionary<LoonyTokenType, IInfixParselet>();
 
+            // declarations
             RegisterDeclaration(LoonyTokenType.Func, new FuncParselet());
 
+            // statements
             RegisterStatement(LoonyTokenType.Return, new ReturnParselet());
+            RegisterStatement(LoonyTokenType.Var, new VariableParselet());
 
             // leaves
+            RegisterPrefix(LoonyTokenType.Identifier, new IdentifierParselet());
             RegisterPrefix(LoonyTokenType.Number, new NumberParselet());
 
             // math

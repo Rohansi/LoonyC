@@ -50,11 +50,23 @@ namespace LoonyC.Compiler.Ast
             return default(TStmt);
         }
 
+        public virtual TStmt Visit(VariableStatement statement)
+        {
+            statement.Initializer.Accept(this);
+
+            return default(TStmt);
+        }
+
         public virtual TExpr Visit(BinaryOperatorExpression expression)
         {
             expression.Left.Accept(this);
             expression.Right.Accept(this);
             
+            return default(TExpr);
+        }
+
+        public virtual TExpr Visit(IdentifierExpression expression)
+        {
             return default(TExpr);
         }
 

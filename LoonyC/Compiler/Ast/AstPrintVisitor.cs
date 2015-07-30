@@ -95,6 +95,28 @@ namespace LoonyC.Compiler.Ast
             return 0;
         }
 
+        public int Visit(VariableStatement statement)
+        {
+            _writer.Write("var ");
+            _writer.Write(statement.Name);
+
+            if (statement.Type != null)
+            {
+                _writer.Write(": ");
+                _writer.Write(statement.Type);
+            }
+
+            if (statement.Initializer != null)
+            {
+                _writer.Write(" = ");
+                statement.Initializer.Accept(this);
+            }
+
+            _writer.Write(";");
+
+            return 0;
+        }
+
         public int Visit(BinaryOperatorExpression expression)
         {
             _writer.Write('(');
@@ -107,6 +129,12 @@ namespace LoonyC.Compiler.Ast
             expression.Right.Accept(this);
             _writer.Write(')');
 
+            return 0;
+        }
+
+        public int Visit(IdentifierExpression expression)
+        {
+            _writer.Write(expression.Name);
             return 0;
         }
 

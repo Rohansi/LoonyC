@@ -4,7 +4,7 @@ namespace LoonyC.Compiler.Types
 {
     enum Primitive
     {
-        Char, Short, Int
+        CharOrLarger, Char, ShortOrLarger, Short, Int
     }
 
     class PrimitiveType : TypeBase
@@ -59,7 +59,7 @@ namespace LoonyC.Compiler.Types
             if (otherPrim == null)
                 return false;
 
-            return Type == otherPrim.Type || (depth == 0 && other.Size >= Size);
+            return Type == otherPrim.Type || (depth == 0 && otherPrim.Type >= Type);
         }
 
         public override int CompareTo(TypeBase other)

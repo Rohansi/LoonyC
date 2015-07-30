@@ -14,7 +14,8 @@ namespace LoonyC
             const string source = @"
                 func main(argc: int, argv: **char): int
                 {
-                    return 10 + (20 * 30 ^ 40 * 50);
+                    var x = 10 + (20 * 30 ^ 40 * 50);
+                    return x * 3 + 1;
                 }
             ";
 
