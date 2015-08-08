@@ -4,7 +4,7 @@ namespace LoonyC.Compiler.Types
 {
     class AnyType : TypeBase
     {
-        public override int Size { get { return 1; } }
+        public override int Size => 1;
 
         public AnyType(bool constant = false) : base(constant)
         {

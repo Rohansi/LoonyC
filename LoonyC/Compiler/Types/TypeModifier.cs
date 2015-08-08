@@ -4,12 +4,12 @@ namespace LoonyC.Compiler.Types
 {
     abstract class TypeModifier : TypeBase
     {
-        public TypeBase InnerType { get; private set; }
+        public TypeBase InnerType { get; }
 
         protected TypeModifier(TypeBase innerType, bool constant = false) : base(constant)
         {
             if (innerType == null)
-                throw new ArgumentNullException("innerType");
+                throw new ArgumentNullException(nameof(innerType));
 
             InnerType = innerType;
         }

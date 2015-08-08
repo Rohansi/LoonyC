@@ -6,18 +6,18 @@ namespace LoonyC.Compiler.Ast.Statements
 {
     class VariableStatement : Statement
     {
-        public string Name { get; private set; }
-        public TypeBase Type { get; private set; }
-        public Expression Initializer { get; private set; }
+        public string Name { get; }
+        public TypeBase Type { get; }
+        public Expression Initializer { get; }
 
         public VariableStatement(LoonyToken start, LoonyToken end, string name, TypeBase type, Expression initializer)
             : base(start, end)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             if (type == null && initializer == null)
-                throw new ArgumentNullException("initializer", "initializer can't be null when no type is specified");
+                throw new ArgumentNullException(nameof(initializer), "initializer can't be null when no type is specified");
                 
             Name = name;
             Type = type;

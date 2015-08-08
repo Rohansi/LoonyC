@@ -2,7 +2,7 @@
 {
     class PointerType : TypeModifier
     {
-        public override int Size { get { return 4; } }
+        public override int Size => 4;
 
         public PointerType(TypeBase innerType, bool constant = false) : base(innerType, constant)
         {

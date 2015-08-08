@@ -13,7 +13,7 @@ namespace LoonyC.Compiler
         
         [StringFormatMethod("format")]
         internal CompilerException(LoonyToken token, string format, params object[] args)
-            : base(string.Format("{0}({1}): {2}", token.FileName ?? "null", token.RangeString, string.Format(format, args)))
+            : base($"{token.FileName ?? "null"}({token.RangeString}): {string.Format(format, args)}")
         {
 
         }

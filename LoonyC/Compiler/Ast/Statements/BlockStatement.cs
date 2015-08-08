@@ -7,13 +7,13 @@ namespace LoonyC.Compiler.Ast.Statements
 {
     class BlockStatement : Statement
     {
-        public ReadOnlyCollection<Statement> Statements { get; private set; }
+        public ReadOnlyCollection<Statement> Statements { get; }
 
         public BlockStatement(LoonyToken start, LoonyToken end, IEnumerable<Statement> statements)
             : base(start, end)
         {
             if (statements == null)
-                throw new ArgumentNullException("statements");
+                throw new ArgumentNullException(nameof(statements));
 
             Statements = statements.ToList().AsReadOnly();
         }

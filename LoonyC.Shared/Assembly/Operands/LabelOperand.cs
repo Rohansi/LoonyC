@@ -12,7 +12,7 @@ namespace LoonyC.Shared.Assembly.Operands
             : base(OperandType.ImmD)
         {
             if (label == null)
-                throw new ArgumentNullException("label");
+                throw new ArgumentNullException(nameof(label));
 
             _label = label;
         }
@@ -29,7 +29,7 @@ namespace LoonyC.Shared.Assembly.Operands
         public override string ToString()
         {
             if (!_label.Offset.HasValue)
-                return string.Format("<`{0}` not bound>", _label.Name);
+                return $"<`{_label.Name}` not bound>";
 
             return _label.Name;
         }

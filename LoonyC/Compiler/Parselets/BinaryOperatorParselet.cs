@@ -4,14 +4,13 @@ namespace LoonyC.Compiler.Parselets
 {
     class BinaryOperatorParselet : IInfixParselet
     {
-        private readonly int _precedence;
         private readonly bool _isRight;
 
-        public int Precedence { get { return _precedence; } }
+        public int Precedence { get; }
 
         public BinaryOperatorParselet(int precedence, bool isRight)
         {
-            _precedence = precedence;
+            Precedence = precedence;
             _isRight = isRight;
         }
 

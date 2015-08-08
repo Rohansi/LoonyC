@@ -8,18 +8,18 @@ namespace LoonyC.Compiler.Types
 {
     class FuncType : TypeBase
     {
-        public override int Size { get { return 4; } }
+        public override int Size => 4;
 
-        public ReadOnlyCollection<TypeBase> ParameterTypes { get; private set; }
-        public TypeBase ReturnType { get; private set; }
+        public ReadOnlyCollection<TypeBase> ParameterTypes { get; }
+        public TypeBase ReturnType { get; }
 
         public FuncType(IList<TypeBase> parameterTypes, TypeBase returnType, bool constant = false) : base(constant)
         {
             if (parameterTypes == null)
-                throw new ArgumentNullException("parameterTypes");
+                throw new ArgumentNullException(nameof(parameterTypes));
 
             if (parameterTypes.Any(p => p == null))
-                throw new ArgumentNullException("parameterTypes", "contains null entry");
+                throw new ArgumentNullException(nameof(parameterTypes), "contains null entry");
                 
             ParameterTypes = new ReadOnlyCollection<TypeBase>(parameterTypes);
             ReturnType = returnType;
@@ -67,7 +67,7 @@ namespace LoonyC.Compiler.Types
 
             sb.Append("func(");
 
-            string sep = "";
+            var sep = "";
 
             foreach (var param in ParameterTypes)
             {

@@ -9,7 +9,7 @@ namespace LoonyC.Compiler.CodeGenerator
     {
         protected bool Disposed;
 
-        public Frame Frame { get; private set; }
+        public Frame Frame { get; }
         public TypeBase Type { get; private set; }
 
         protected FrameResource(Frame frame, TypeBase type)
@@ -42,7 +42,7 @@ namespace LoonyC.Compiler.CodeGenerator
             {
                 var typePrim = type as PrimitiveType;
                 if (typePrim == null)
-                    throw new ArgumentException("Type must be a primitive.", "type");
+                    throw new ArgumentException("Type must be a primitive.", nameof(type));
 
                 switch (typePrim.Type)
                 {
@@ -61,15 +61,12 @@ namespace LoonyC.Compiler.CodeGenerator
             }
         }
 
-        public override Operand Operand
-        {
-            get { return new RegisterOperand(Register, _type); }
-        }
+        public override Operand Operand => new RegisterOperand(Register, _type);
 
         public override void Dispose()
         {
             if (Disposed)
-                throw new ObjectDisposedException("RegisterFrameResource");
+                throw new ObjectDisposedException(nameof(RegisterFrameResource));
 
             Frame.Free(this);
             Disposed = true;
@@ -129,7 +126,7 @@ namespace LoonyC.Compiler.CodeGenerator
         public override void Dispose()
         {
             if (Disposed)
-                throw new ObjectDisposedException("StackFrameResource");
+                throw new ObjectDisposedException(nameof(StackFrameResource));
 
             Frame.Free(this);
             Disposed = true;

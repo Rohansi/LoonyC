@@ -27,7 +27,7 @@ namespace LoonyC.Compiler.Types
             }
         }
 
-        public Primitive Type { get; private set; }
+        public Primitive Type { get; }
 
         public PrimitiveType(Primitive type, bool constant = false)
             : base(constant)

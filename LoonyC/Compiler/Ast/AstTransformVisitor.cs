@@ -45,13 +45,13 @@ namespace LoonyC.Compiler.Ast
 
         public Statement Visit(ReturnStatement statement)
         {
-            var value = statement.Value != null ? statement.Value.Accept(this) : null;
+            var value = statement.Value?.Accept(this);
             return new ReturnStatement(statement.Start, statement.End, value);
         }
 
         public Statement Visit(VariableStatement statement)
         {
-            var initializer = statement.Initializer != null ? statement.Initializer.Accept(this) : null;
+            var initializer = statement.Initializer?.Accept(this);
             return new VariableStatement(statement.Start, statement.End, statement.Name, statement.Type, initializer);
         }
 

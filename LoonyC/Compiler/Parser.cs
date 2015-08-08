@@ -73,7 +73,7 @@ namespace LoonyC.Compiler
         public LoonyToken Peek(int distance = 0)
         {
             if (distance < 0)
-                throw new ArgumentOutOfRangeException("distance", "distance can't be negative");
+                throw new ArgumentOutOfRangeException(nameof(distance), "distance can't be negative");
 
             while (_read.Count <= distance)
             {

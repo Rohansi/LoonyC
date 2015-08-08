@@ -18,7 +18,7 @@ namespace LoonyC.Shared.Lexer
         private List<char> _read;
         private int _index;
 
-        protected string FileName { get; private set; }
+        protected string FileName { get;  }
         protected int Line { get; private set; }
         protected int Column { get; private set; }
         protected int StartLine { get; private set; }
@@ -34,7 +34,7 @@ namespace LoonyC.Shared.Lexer
         protected Lexer(IEnumerable<char> source, string fileName = null)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
 
             FileName = fileName;
             _sourceEnumerable = source;
@@ -175,7 +175,7 @@ namespace LoonyC.Shared.Lexer
         protected string PeekString(int length)
         {
             if (length <= 0)
-                throw new ArgumentOutOfRangeException("length", "distance must be at least 1");
+                throw new ArgumentOutOfRangeException(nameof(length), "distance must be at least 1");
 
             var sb = new StringBuilder(length);
 
@@ -190,7 +190,7 @@ namespace LoonyC.Shared.Lexer
         protected char PeekChar(int distance = 0)
         {
             if (distance < 0)
-                throw new ArgumentOutOfRangeException("distance", "distance can't be negative");
+                throw new ArgumentOutOfRangeException(nameof(distance), "distance can't be negative");
 
             while (_read.Count <= distance)
             {

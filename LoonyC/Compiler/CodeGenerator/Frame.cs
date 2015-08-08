@@ -43,10 +43,7 @@ namespace LoonyC.Compiler.CodeGenerator
             }
         }
 
-        public int RequiredStackSpace
-        {
-            get { return _stackAllocations.Count; }
-        }
+        public int RequiredStackSpace => _stackAllocations.Count;
 
         public FrameResource Allocate(TypeBase type, bool canUseRegister = true)
         {
@@ -77,7 +74,7 @@ namespace LoonyC.Compiler.CodeGenerator
         private int AllocateStack(int size)
         {
             if (size <= 0)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             for (var i = 0; i < _stackAllocations.Count - size; i++)
             {

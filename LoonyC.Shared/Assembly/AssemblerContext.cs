@@ -12,10 +12,7 @@ namespace LoonyC.Shared.Assembly
             _instructions = new List<Instruction>();
         }
 
-        public IEnumerable<Instruction> Instructions
-        {
-            get { return _instructions; }
-        }
+        public IEnumerable<Instruction> Instructions => _instructions;
 
         public void Emit(Instruction instruction)
         {

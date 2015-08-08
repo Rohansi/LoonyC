@@ -13,10 +13,7 @@ namespace LoonyC.Shared.Assembly.Instructions
             _instruction = new Lazy<Instruction>(instruction);
         }
 
-        public override int Length
-        {
-            get { return _instruction.Value.Length; }
-        }
+        public override int Length => _instruction.Value.Length;
 
         public override void Write(BinaryWriter writer)
         {

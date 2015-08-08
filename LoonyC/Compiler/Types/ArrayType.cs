@@ -4,14 +4,14 @@ namespace LoonyC.Compiler.Types
 {
     class ArrayType : TypeModifier
     {
-        public override int Size { get { return Count * InnerType.Size; } }
+        public override int Size => Count * InnerType.Size;
         public readonly int Count;
 
         public ArrayType(TypeBase innerType, int count, bool constant = false)
             : base(innerType, constant)
         {
             if (count <= 0)
-                throw new ArgumentOutOfRangeException("count");
+                throw new ArgumentOutOfRangeException(nameof(count));
 
             Count = count;
         }
@@ -37,10 +37,7 @@ namespace LoonyC.Compiler.Types
                 return true;
 
             var otherArray = other as ArrayType;
-            if (otherArray == null)
-                return false;
-
-            return Count >= otherArray.Count;
+            return Count >= otherArray?.Count;
         }
 
         public override int CompareTo(TypeBase other)

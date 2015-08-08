@@ -10,7 +10,7 @@ namespace LoonyC.Compiler.Types
         public NamedType(string name, bool constant = false) : base(constant)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
         }

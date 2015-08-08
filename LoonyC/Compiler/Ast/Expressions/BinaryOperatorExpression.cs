@@ -4,9 +4,9 @@ namespace LoonyC.Compiler.Ast.Expressions
 {
     class BinaryOperatorExpression : Expression
     {
-        public LoonyTokenType Operation { get; private set; }
-        public Expression Left { get; private set; }
-        public Expression Right { get; private set; }
+        public LoonyTokenType Operation { get; }
+        public Expression Left { get; }
+        public Expression Right { get; }
 
         public BinaryOperatorExpression(LoonyToken token, Expression left, Expression right)
             : base(token)

@@ -4,7 +4,7 @@ namespace LoonyC.Compiler.Ast.Statements
 {
     class NakedStatement : Statement
     {
-        public Expression Expression { get; private set; }
+        public Expression Expression { get; }
 
         public NakedStatement(Expression expression)
             : base(expression.Start, expression.End)

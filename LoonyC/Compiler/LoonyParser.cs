@@ -218,7 +218,7 @@ namespace LoonyC.Compiler
             IInfixParselet infixParselet;
             _infixParselets.TryGetValue(Peek().Type, out infixParselet);
 
-            return infixParselet != null ? infixParselet.Precedence : 0;
+            return infixParselet?.Precedence ?? 0;
         }
     }
 }

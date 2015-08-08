@@ -4,7 +4,7 @@ namespace LoonyC.Compiler.Ast.Statements
 {
     class ReturnStatement : Statement
     {
-        public Expression Value { get; private set; }
+        public Expression Value { get; }
 
         public ReturnStatement(LoonyToken start, LoonyToken end, Expression value)
             : base(start, end)

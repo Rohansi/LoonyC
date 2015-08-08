@@ -8,9 +8,9 @@ namespace LoonyC.Shared.Assembly.Instructions
 {
     public class Instruction
     {
-        public Opcode Opcode { get; private set; }
-        public Operand Left { get; private set; }
-        public Operand Right { get; private set; }
+        public Opcode Opcode { get; }
+        public Operand Left { get; }
+        public Operand Right { get; }
 
         public int? Offset;
 
@@ -23,7 +23,7 @@ namespace LoonyC.Shared.Assembly.Instructions
             Offset = null;
 
             if (Right != null && Left == null)
-                throw new ArgumentNullException("left");
+                throw new ArgumentNullException(nameof(left));
 
             var count = 0;
             if (Left != null)
@@ -100,11 +100,8 @@ namespace LoonyC.Shared.Assembly.Instructions
 
             writer.Write((byte)flags);
 
-            if (Left != null)
-                Left.WritePayload(writer);
-
-            if (Right != null)
-                Right.WritePayload(writer);
+            Left?.WritePayload(writer);
+            Right?.WritePayload(writer);
         }
 
         public override string ToString()

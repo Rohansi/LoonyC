@@ -5,21 +5,18 @@ namespace LoonyC.Shared.Assembly.Instructions
 {
     public class LabelInstruction : Instruction
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public LabelInstruction(string name)
             : base(Opcode.Count)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
         }
 
-        public override int Length
-        {
-            get { return 0; }
-        }
+        public override int Length => 0;
 
         public override void Write(BinaryWriter writer)
         {
@@ -28,7 +25,7 @@ namespace LoonyC.Shared.Assembly.Instructions
 
         public override string ToString()
         {
-            return string.Format("{0}:", Name);
+            return $"{Name}:";
         }
     }
 

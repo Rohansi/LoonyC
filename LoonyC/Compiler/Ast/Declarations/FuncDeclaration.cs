@@ -10,8 +10,8 @@ namespace LoonyC.Compiler.Ast.Declarations
     {
         public class Parameter
         {
-            public readonly LoonyToken Name;
-            public readonly TypeBase Type;
+            public LoonyToken Name { get; }
+            public TypeBase Type { get; }
 
             public Parameter(LoonyToken name, TypeBase type)
             {
@@ -20,10 +20,10 @@ namespace LoonyC.Compiler.Ast.Declarations
             }
         }
 
-        public LoonyToken Name { get; private set; }
-        public ReadOnlyCollection<Parameter> Parameters { get; private set; }
-        public TypeBase ReturnType { get; private set; }
-        public BlockStatement Body { get; private set; }
+        public LoonyToken Name { get; }
+        public ReadOnlyCollection<Parameter> Parameters { get; }
+        public TypeBase ReturnType { get; }
+        public BlockStatement Body { get; }
 
         public FuncDeclaration(LoonyToken start, LoonyToken end, LoonyToken name, IEnumerable<Parameter> parameters, TypeBase returnType, BlockStatement body)
             : base(start, end)

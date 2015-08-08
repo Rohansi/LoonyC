@@ -2,7 +2,7 @@
 {
     class NumberExpression : Expression
     {
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public NumberExpression(LoonyToken token, int value)
             : base(token)

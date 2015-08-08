@@ -4,13 +4,13 @@ namespace LoonyC.Compiler.Ast.Statements
 {
     abstract class Statement
     {
-        public readonly LoonyToken Start;
-        public readonly LoonyToken End;
+        public LoonyToken Start { get; }
+        public LoonyToken End { get; }
 
         protected Statement(LoonyToken start, LoonyToken end = null)
         {
             if (start == null)
-                throw new ArgumentNullException("start");
+                throw new ArgumentNullException(nameof(start));
 
             Start = start;
             End = end ?? start;

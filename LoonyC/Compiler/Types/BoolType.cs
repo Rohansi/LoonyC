@@ -2,7 +2,7 @@
 {
     class BoolType : TypeBase
     {
-        public override int Size { get { return 1; } }
+        public override int Size => 1;
 
         public BoolType(bool constant = false)
             : base(constant)

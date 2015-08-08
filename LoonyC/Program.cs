@@ -2,14 +2,13 @@
 using LoonyC.Compiler;
 using LoonyC.Compiler.Ast;
 using LoonyC.Compiler.CodeGenerator;
-using LoonyC.Compiler.CodeGenerator.Transforms;
 using LoonyC.Shared.Assembly;
 
 namespace LoonyC
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             const string source = @"
                 func main(argc: int, argv: **char): int

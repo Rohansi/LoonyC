@@ -7,7 +7,7 @@ namespace LoonyC.Shared.Assembly.Instructions
     {
         private readonly Func<bool> _condition;
 
-        public Instruction Instruction { get; private set; }
+        public Instruction Instruction { get; }
 
         public ConditionalInstruction(Instruction instruction, Func<bool> condition)
             : base(instruction.Opcode, instruction.Left, instruction.Right)
@@ -16,10 +16,7 @@ namespace LoonyC.Shared.Assembly.Instructions
             _condition = condition;
         }
 
-        public override int Length
-        {
-            get { return _condition() ? Instruction.Length : 0; }
-        }
+        public override int Length => _condition() ? Instruction.Length : 0;
 
         public override void Write(BinaryWriter writer)
         {

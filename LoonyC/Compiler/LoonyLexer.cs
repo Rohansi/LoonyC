@@ -24,15 +24,12 @@ namespace LoonyC.Compiler
         private bool TryLexOperator(char ch, out LoonyToken token)
         {
             var opList = _operators.Lookup(ch);
-            if (opList != null)
-            {
-                var op = opList.FirstOrDefault(o => TakeIfNext(o.Item1));
+            var op = opList?.FirstOrDefault(o => TakeIfNext(o.Item1));
 
-                if (op != null)
-                {
-                    token = Token(op.Item2, op.Item1);
-                    return true;
-                }
+            if (op != null)
+            {
+                token = Token(op.Item2, op.Item1);
+                return true;
             }
 
             token = null;

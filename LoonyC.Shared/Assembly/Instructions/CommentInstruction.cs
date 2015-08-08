@@ -4,7 +4,7 @@ namespace LoonyC.Shared.Assembly.Instructions
 {
     public class CommentInstruction : Instruction
     {
-        public string Value { get; private set; }
+        public string Value { get; }
 
         public CommentInstruction(string value)
             : base(Opcode.Count)
@@ -12,10 +12,7 @@ namespace LoonyC.Shared.Assembly.Instructions
             Value = value;
         }
 
-        public override int Length
-        {
-            get { return 0; }
-        }
+        public override int Length => 0;
 
         public override void Write(BinaryWriter writer)
         {
@@ -24,7 +21,7 @@ namespace LoonyC.Shared.Assembly.Instructions
 
         public override string ToString()
         {
-            return string.Format("; {0}", Value);
+            return $"; {Value}";
         }
     }
 }

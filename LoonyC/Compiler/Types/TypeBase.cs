@@ -4,7 +4,7 @@ namespace LoonyC.Compiler.Types
 {
     abstract class TypeBase : IEquatable<TypeBase>, IComparable<TypeBase>
     {
-        public bool IsConstant { get; private set; }
+        public bool IsConstant { get; }
 
         protected TypeBase(bool constant)
         {

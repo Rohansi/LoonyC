@@ -4,13 +4,13 @@ namespace LoonyC.Compiler.Ast.Expressions
 {
     class IdentifierExpression : Expression
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public IdentifierExpression(LoonyToken token, string name)
             : base(token)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
         }
