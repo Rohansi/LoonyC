@@ -117,7 +117,8 @@ namespace LoonyC.Compiler.CodeGenerator
 
         public int Visit(VariableStatement statement)
         {
-            var type = statement.Type ?? statement.Initializer.Accept(_inference);
+            var initializerType = statement.Initializer?.Accept(_inference);
+            var type = statement.Type ?? initializerType;
 
             var typePrim = type as PrimitiveType;
             if (statement.Type == null && typePrim != null && (typePrim.Type == Primitive.CharOrLarger || typePrim.Type == Primitive.ShortOrLarger))
@@ -129,6 +130,9 @@ namespace LoonyC.Compiler.CodeGenerator
 
             if (statement.Initializer != null)
             {
+                if (initializerType != null && !initializerType.IsAssignableTo(type, checkConst: false))
+                    throw new Exception(); // TODO
+
                 var initializerResource = statement.Initializer.Accept(this);
                 _context.Emit(new Instruction(Opcode.Mov, resource.Operand, initializerResource.Operand));
                 initializerResource.Dispose();
