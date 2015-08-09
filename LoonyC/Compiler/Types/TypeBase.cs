@@ -2,17 +2,23 @@
 
 namespace LoonyC.Compiler.Types
 {
-    abstract class TypeBase : IEquatable<TypeBase>, IComparable<TypeBase>
+    abstract class TypeBase : IEquatable<TypeBase>
     {
-        public bool IsConstant { get; }
-
         protected TypeBase(bool constant)
         {
             IsConstant = constant;
         }
 
+        public bool IsConstant { get; }
+
+        /// <summary>
+        /// Gets the size of the type in bytes.
+        /// </summary>
         public abstract int Size { get; }
 
+        /// <summary>
+        /// Check if the type is equal to another type.
+        /// </summary>
         public virtual bool Equals(TypeBase other)
         {
             if (ReferenceEquals(other, null))
@@ -32,21 +38,9 @@ namespace LoonyC.Compiler.Types
             return true;
         }
 
-        /// <summary>
-        /// Compare two types for similarity. Higher is better.
-        /// Being similar does not necessarily make them compatible.
-        /// </summary>
-        public abstract int CompareTo(TypeBase other);
+        public abstract override string ToString();
 
-        public override string ToString()
-        {
-            throw new NotSupportedException();
-        }
-
-        public override int GetHashCode()
-        {
-            throw new NotSupportedException();
-        }
+        public abstract override int GetHashCode();
 
         public override bool Equals(object obj)
         {

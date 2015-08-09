@@ -40,21 +40,14 @@ namespace LoonyC.Compiler.Types
             return Count >= otherArray?.Count;
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            var otherArray = other as ArrayType;
-            if (otherArray == null || Count < otherArray.Count)
-                return 0;
-
-            return (Count == otherArray.Count ? 10 : 5) + InnerType.CompareTo(otherArray.InnerType);
-        }
-
         public override string ToString()
         {
-            return "[" + Count.ToString("D") + "]" + InnerType;
+            return (IsConstant ? "const " : null) + "[" + Count.ToString("D") + "]" + InnerType;
+        }
+
+        public override int GetHashCode()
+        {
+            return (InnerType.GetHashCode() * 251) + 7;
         }
     }
 }

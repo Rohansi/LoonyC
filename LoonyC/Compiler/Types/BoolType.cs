@@ -26,17 +26,14 @@
             return other is BoolType;
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            return other is BoolType ? 10 : 0;
-        }
-
         public override string ToString()
         {
-            return "bool";
+            return (IsConstant ? "const " : null) + "bool";
+        }
+
+        public override int GetHashCode()
+        {
+            return 1;
         }
     }
 }

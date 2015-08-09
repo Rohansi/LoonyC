@@ -62,34 +62,31 @@ namespace LoonyC.Compiler.Types
             return Type == otherPrim.Type || (depth == 0 && otherPrim.Type >= Type);
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            if (other is AnyType)
-                return 1;
-
-            var otherPrim = other as PrimitiveType;
-            if (otherPrim == null)
-                return 0;
-
-            return Type == otherPrim.Type ? 10 : 5;
-        }
-
         public override string ToString()
         {
+            string str;
+
             switch (Type)
             {
                 case Primitive.Char:
-                    return "char";
+                    str = "char";
+                    break;
                 case Primitive.Short:
-                    return "short";
+                    str = "short";
+                    break;
                 case Primitive.Int:
-                    return "int";
+                    str = "int";
+                    break;
                 default:
                     throw new NotSupportedException();
             }
+
+            return (IsConstant ? "const " : null) + str;
+        }
+
+        public override int GetHashCode()
+        {
+            return Type.GetHashCode();
         }
     }
 }

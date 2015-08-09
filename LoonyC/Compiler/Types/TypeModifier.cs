@@ -37,10 +37,5 @@ namespace LoonyC.Compiler.Types
 
             return InnerType.IsAssignableTo(otherMod.InnerType, depth + 1);
         }
-
-        public override string ToString()
-        {
-            throw new NotSupportedException();
-        }
     }
 }

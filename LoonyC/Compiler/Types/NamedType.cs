@@ -38,20 +38,14 @@ namespace LoonyC.Compiler.Types
             return Equals(other);
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            if (other is AnyType)
-                return 1;
-
-            return Equals(other) ? 10 : 0;
-        }
-
         public override string ToString()
         {
-            return Name;
+            return (IsConstant ? "const " : null) + Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
         }
     }
 }

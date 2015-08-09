@@ -25,21 +25,14 @@
             return other is PointerType;
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            var otherPointer = other as PointerType;
-            if (otherPointer == null)
-                return 0;
-
-            return 10 + InnerType.CompareTo(otherPointer.InnerType);
-        }
-
         public override string ToString()
         {
-            return "*" + InnerType;
+            return (IsConstant ? "const " : null) + "*" + InnerType;
+        }
+
+        public override int GetHashCode()
+        {
+            return (InnerType.GetHashCode() * 251) + 13;
         }
     }
 }

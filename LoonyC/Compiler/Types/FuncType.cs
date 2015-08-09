@@ -50,20 +50,12 @@ namespace LoonyC.Compiler.Types
             return Equals(other);
         }
 
-        public override int CompareTo(TypeBase other)
-        {
-            if (ReferenceEquals(other, null) || !ConstAssignableTo(other))
-                return 0;
-
-            if (other is AnyType)
-                return 1;
-
-            return Equals(other) ? 10 : 0;
-        }
-
         public override string ToString()
         {
             var sb = new StringBuilder(64);
+
+            if (IsConstant)
+                sb.Append("const ");
 
             sb.Append("func(");
 
@@ -85,6 +77,24 @@ namespace LoonyC.Compiler.Types
             }
 
             return sb.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 19;
+
+                if (ReturnType != null)
+                    hash = hash * 31 + ReturnType.GetHashCode();
+
+                foreach (var param in ParameterTypes)
+                {
+                    hash = hash * 31 + param.GetHashCode();
+                }
+
+                return hash;
+            }
         }
     }
 }
